@@ -9,7 +9,7 @@
 
 ### Integrantes del equipo
 
-* XXXX
+* Julian Velazquez ([velazquez22](https://github.com/velazquez22))
 * XXXX
 * Julian Morganella([lightmaster2](https://github.com/lightmaster2))
 * XXXX

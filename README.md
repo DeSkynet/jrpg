@@ -10,7 +10,7 @@
 ### Integrantes del equipo
 
 * Julian Velazquez ([velazquez22](https://github.com/velazquez22))
-* XXXX
+* William Ajaya ([williamleandro](https://github.com/williamleandro))
 * Julian Morganella([lightmaster2](https://github.com/lightmaster2))
 * XXXX
 

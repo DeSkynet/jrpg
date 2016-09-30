@@ -1,4 +1,4 @@
-# [Nombre del juego]
+﻿# [Nombre del juego]
 
 ## Sobre las personas
 
@@ -11,7 +11,7 @@
 
 * XXXX
 * XXXX
-* XXXX
+* Julian Morganella([lightmaster2](https://github.com/lightmaster2))
 * XXXX
 
 ## Sobre la tecnología

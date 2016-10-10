@@ -1,4 +1,4 @@
-﻿# [Nombre del juego]
+﻿# The Alliance
 
 ## Sobre las personas
 

@@ -1,5 +1,7 @@
 package personaje;
 
+import personaje.Casta;
+
 /**
  *  ---------- IDEA A DESARROLLAR (A REVISAR) ---------
  * QUE EN UNA CIERTA BATALLA, EL ROBOT PUEDA REVIVIR SOLO UNA VEZ CADA CIERTOS TURNOS.
@@ -13,9 +15,14 @@ public class Robot extends Personaje{
 		this.altura = 200;
 	}
 	
+	public Robot(Casta casta) {
+		this.altura = 200;
+		this.casta = casta;
+	}
+	
 	@Override
 	protected int calcularPuntosDeDefensa() {
-		return 5;
+		return 5 + this.casta.bonusDeDefensa();
 	}
 
 	@Override
@@ -25,7 +32,7 @@ public class Robot extends Personaje{
 
 	@Override
 	protected int calcularPuntosDeAtaque() {
-		return 20;
+		return 20 + this.casta.bonusDeAtaque();
 	}
 	
 

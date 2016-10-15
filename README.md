@@ -11,7 +11,7 @@
 
 * Julian Velazquez ([velazquez22](https://github.com/velazquez22))
 * William Ajaya ([williamleandro](https://github.com/williamleandro))
-* Julian Morganella ([lightmaster2](https://github.com/lightmaster2))
+* Julian Morganella ([JulyMorga](https://github.com/JulyMorga))
 * Julian Carroccio ([juliancarroccio](https://github.com/juliancarroccio))
 
 ## Sobre la tecnología

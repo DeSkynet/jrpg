@@ -19,6 +19,14 @@ import personaje.items.ConEspadaLaser;
 
 public class ItemsTest {
 	
+	//Historia de Usuario 05-Obtener Items
+	@Test
+	public void testConUnaEspadaExcalibur() {
+		Personaje arturo = new Humano();
+		
+		arturo = new ConEspadaExcalibur(arturo);
+		Assert.assertEquals(30, arturo.obtenerPuntosDeAtaque());
+	}
 	@Test
 	public void testConUnaEspadaLaser() {
 		Personaje luke = new Humano();

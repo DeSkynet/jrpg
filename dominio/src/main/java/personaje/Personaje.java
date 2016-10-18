@@ -12,7 +12,7 @@ public abstract class Personaje implements Atacable {
 	protected int salud = 100;
 	protected int altura;
 	protected String nombre;
-	public Casta casta;
+	public Casta casta = null;
 	
 	public final void atacar(Atacable atacado) {
 		if (puedeAtacar()) {
@@ -59,4 +59,14 @@ public abstract class Personaje implements Atacable {
 	public int getAltura() {
 		return this.altura;
 	}
+
+	public Casta getCasta() {
+		return casta;
+	}
+
+	public int getSalud() {
+		return salud;
+	}
+	
+	
 }

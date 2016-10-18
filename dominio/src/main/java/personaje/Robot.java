@@ -22,7 +22,10 @@ public class Robot extends Personaje{
 	
 	@Override
 	protected int calcularPuntosDeDefensa() {
-		return 5 + this.casta.bonusDeDefensa();
+		if(this.getCasta()== null)
+			return 5;
+		else
+			return 5 + this.casta.bonusDeDefensa();
 	}
 
 	@Override
@@ -32,7 +35,10 @@ public class Robot extends Personaje{
 
 	@Override
 	protected int calcularPuntosDeAtaque() {
-		return 20 + this.casta.bonusDeAtaque();
+		if(this.getCasta()== null)
+			return 20;
+		else
+			return 20 + this.casta.bonusDeAtaque();
 	}
 	
 

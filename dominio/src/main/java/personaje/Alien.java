@@ -1,5 +1,7 @@
 package personaje;
 
+
+
 import personaje.Casta;
 
 /**
@@ -21,7 +23,10 @@ public class Alien extends Personaje{
 	
 	@Override
 	protected int calcularPuntosDeDefensa() {
-		return 3 + this.casta.bonusDeDefensa();
+		if(this.getCasta()== null)
+			return 3;
+		else
+			return 3 + this.casta.bonusDeDefensa();
 	}
 
 	@Override
@@ -31,7 +36,10 @@ public class Alien extends Personaje{
 
 	@Override
 	protected int calcularPuntosDeAtaque() {
-		return 7 + this.casta.bonusDeAtaque();
+		if(this.getCasta() == null)
+			return 10;
+		else
+			return 10 + this.casta.bonusDeAtaque();
 	}
 	
 	protected void despuesDeAtacar() {

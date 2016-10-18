@@ -17,19 +17,17 @@
 
 # Criterios de Aceptación  
 
-**01**: dado un personaje, cuando se elije la raza humana mi ataque mi fuerza va a ser de 10.  
-**02**: dado un personaje Robot, cuando se elije la casta ladron su defenza va a ser de 7.  
-**03**: dado un personaje, cuando derroto a un oponente recibo 10 puntos de experiencia.  
-**04**: dado un personaje de nivel 1, cuando subo de nivel mis puntos de fuerza aumenta en 2 puntos. 
-**05**: dado un humano, cuando equipo una espada Excalibur mis puntos de ataque aumentan a 30;  
-**06**: dado un humano, cuando acepto una alianza con otro jugador entonces el otro jugador pelea a mi favor.  
-**07**: dado un robot, cuando derroto a un jugador con excalibur, entonces recibo su item.  
-**08**: dado un humano, cuando me alío con un otro humano, mis fuerza aumenta en 1 por cada humano aliado.  
-**09**: dado un robot, cuando muero en batalla, revivo con la mitad de energia.  
-**10**: dado un alien, cuando ataco a un enemigo, mi salud amenta un 10% del daño realizado.  
-**11**: dado un superheroe, cuando me ataca un enemigo, mi ataque aumenta en 1.  
-**12**: dado un personaje, cuando elijo la casta Ladron, mi destreza aumenta en 7.  
-**13**: dado un personaje, cuando elijo la casta Luchador, mi fuerza aumenta en 7.  
-**14**: dado un personaje, cuando elijo la casta Hechizero, mi inteligencia aumenta en 7.  
-
-
+**01-Elegir Raza**: Dado un personaje, cuando elijo la raza humana entonces mi fuerza va a ser de 10.  
+**02-Elegir Casta**: Dado un personaje Robot, cuando elijo la casta ladron entonces mi defenza va a ser de 7.  
+**03-Experiencia**: Dado un personaje, cuando derroto a un oponente, entonces recibo 10 puntos de experiencia.  
+**04-Subir de nivel**: Dado un personaje de nivel 1, cuando subo de nivel entonces mis puntos de fuerza aumenta en 2 puntos.  
+**05-Obtener Items**: Dado un humano, cuando equipo una espada Excalibur entonces mis puntos de ataque aumentan a 30;  
+**06-Alianzas**: Dado un humano, cuando acepto una alianza con otro jugador entonces el otro jugador pelea a mi favor.  
+**07-Recompensas**: Dado un robot, cuando derroto a un jugador con excalibur, entonces recibo su item.  
+**08-Habilidad Humano**: Dado un humano, cuando me alío con un otro humano, entonces mis fuerza aumenta en 1 por cada humano aliado.  
+**09-Habilidad Robot**: Dado un robot, cuando muero en batalla, entonces revivo con la mitad de energia.  
+**10-Habilidad Alien**: Dado un alien, cuando ataco a un enemigo, entonces mi salud amenta un 10% del daño realizado.  
+**11-Habilidad SuperHeore**: Dado un superheroe, cuando me ataca un enemigo, entonces mi ataque aumenta en 1.  
+**12-Bonificacion Ladron**: Dado un personaje, cuando elijo la casta Ladron, entonces mi destreza aumenta en 7.  
+**13-Bonificacion Luchador**: Dado un personaje, cuando elijo la casta Luchador, entonces mi fuerza aumenta en 7.  
+**14-Bonificacion Hechizero**: Dado un personaje, cuando elijo la casta Hechizero, entonces mi inteligencia aumenta en 7.  

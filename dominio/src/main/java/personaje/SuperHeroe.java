@@ -22,7 +22,10 @@ public class SuperHeroe extends Personaje{
 	
 	@Override
 	protected int calcularPuntosDeDefensa() {
-		return 4 + this.casta.bonusDeDefensa();
+		if(this.getCasta()== null)
+			return 4;
+		else
+			return 4 + this.casta.bonusDeDefensa();
 	}
 
 	@Override
@@ -32,7 +35,10 @@ public class SuperHeroe extends Personaje{
 
 	@Override
 	protected int calcularPuntosDeAtaque() {
-		return 20 + cantidadDeAtaquesRecibidos + this.casta.bonusDeAtaque();
+		if(this.getCasta()== null)
+			return 20 + cantidadDeAtaquesRecibidos;
+		else
+			return 20 + cantidadDeAtaquesRecibidos + this.casta.bonusDeAtaque();
 	}
 	
 	protected void despuesDeSerAtacado() {

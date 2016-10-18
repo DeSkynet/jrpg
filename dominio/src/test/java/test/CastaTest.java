@@ -7,6 +7,20 @@ import personaje.castas.Ladron;
 
 public class CastaTest {
 	
+	//Historia de Usuario 01-Elegir Raza
+	@Test
+	public void creoUnaRaza() {
+		Personaje aragorn = new Humano();
+		Assert.assertEquals(10, aragorn.obtenerPuntosDeAtaque());
+	}
+	
+	//Historia de Usuario 02-Elegir Casta
+	@Test
+	public void creoUnaCastaYVeoElCambioEnSusAtributos() {
+		Personaje bender = new Robot(new Ladron());
+		Assert.assertEquals(7, bender.obtenerPuntosDeDefensa());
+	}
+	
 	@Test
 	public void creoUnaCasta() {
 		Personaje aliBaba = new Humano(new Ladron());
@@ -36,4 +50,5 @@ public class CastaTest {
 		Personaje bender = new Robot(new Ladron());
 		Assert.assertEquals(5+2, bender.obtenerPuntosDeDefensa());
 	}
+	
 }

@@ -13,33 +13,31 @@ public class Robot extends Personaje{
 	
 	public Robot(){
 		this.altura = 200;
+		this.fuerza = 20;
+		this.destreza = 5;
+		this.inteligencia = 10;
 	}
 	
 	public Robot(Casta casta) {
 		this.altura = 200;
 		this.casta = casta;
+		this.fuerza = 20 + this.casta.bonusDeFuerza();
+		this.destreza = 5 + this.casta.bonusDeDestreza();
+		this.inteligencia = 10 + this.casta.bonusDeInteligencia();
 	}
 	
 	@Override
 	protected int calcularPuntosDeDefensa() {
-		if(this.getCasta()== null)
-			return 5;
-		else
-			return 5 + this.casta.bonusDeDefensa();
+		return this.destreza;
 	}
 
 	@Override
 	protected boolean puedeAtacar() {
-		return this.energia>=20;
+		return this.energia >= calcularPuntosDeAtaque();
 	}
 
 	@Override
 	protected int calcularPuntosDeAtaque() {
-		if(this.getCasta()== null)
-			return 20;
-		else
-			return 20 + this.casta.bonusDeAtaque();
+		return this.fuerza;
 	}
-	
-
 }

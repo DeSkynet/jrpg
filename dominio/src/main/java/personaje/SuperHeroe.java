@@ -16,14 +16,16 @@ public class SuperHeroe extends Personaje{
 		this.fuerza = 20;
 		this.destreza = 4;
 		this.inteligencia = 3;
+		this.nombre = "Default";
 	}
 	
-	public SuperHeroe(Casta casta) {
+	public SuperHeroe(Casta casta, String nombre) {
 		this.altura = 190;
 		this.casta = casta;
 		this.fuerza = 20 + this.casta.bonusDeFuerza();
 		this.destreza = 4 + this.casta.bonusDeDestreza();
 		this.inteligencia = 3 + this.casta.bonusDeInteligencia();
+		this.nombre=nombre;
 	}
 	
 	@Override

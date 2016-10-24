@@ -17,14 +17,16 @@ public class Alien extends Personaje{
 		this.fuerza = 10;
 		this.destreza = 3;
 		this.inteligencia = 8;
+		this.nombre = "Default";
 	}
 	
-	public Alien(Casta casta) {
+	public Alien(Casta casta,String nombre) {
 		this.altura = 120;
 		this.casta = casta;
 		this.fuerza = 10 + this.casta.bonusDeFuerza();
 		this.destreza = 3 + this.casta.bonusDeDestreza();
 		this.inteligencia = 8 + this.casta.bonusDeInteligencia();
+		this.nombre=nombre;
 	}
 	
 	@Override

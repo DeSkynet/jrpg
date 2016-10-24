@@ -16,14 +16,16 @@ public class Robot extends Personaje{
 		this.fuerza = 20;
 		this.destreza = 5;
 		this.inteligencia = 10;
+		this.nombre = "Default";
 	}
 	
-	public Robot(Casta casta) {
+	public Robot(Casta casta, String nombre) {
 		this.altura = 200;
 		this.casta = casta;
 		this.fuerza = 20 + this.casta.bonusDeFuerza();
 		this.destreza = 5 + this.casta.bonusDeDestreza();
 		this.inteligencia = 10 + this.casta.bonusDeInteligencia();
+		this.nombre=nombre;
 	}
 	
 	@Override

@@ -15,14 +15,16 @@ public class Humano extends Personaje{
 		this.fuerza = 10;
 		this.destreza = 0;
 		this.inteligencia = 5;
+		this.nombre = "Default";
 	}
 	
-	public Humano(Casta casta) {
+	public Humano(Casta casta,String nombre) {
 		this.altura = 180;
 		this.casta = casta;
 		this.fuerza = 10 + this.casta.bonusDeFuerza();
 		this.destreza = 0 + this.casta.bonusDeDestreza();
 		this.inteligencia = 5 + this.casta.bonusDeInteligencia();
+		this.nombre=nombre;
 	}
 
 	@Override

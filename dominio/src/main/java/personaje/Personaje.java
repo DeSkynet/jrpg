@@ -1,6 +1,7 @@
 package personaje;
 
 import interfaces.Atacable;
+import personaje.Alianza;
 
 public abstract class Personaje implements Atacable {
 	protected int experiencia;
@@ -13,6 +14,7 @@ public abstract class Personaje implements Atacable {
 	protected int altura;
 	protected String nombre;
 	public Casta casta = null;
+	public Alianza alianza = null;
 	
 	public final void atacar(Atacable atacado) {
 		if (puedeAtacar()) {
@@ -68,5 +70,28 @@ public abstract class Personaje implements Atacable {
 		return salud;
 	}
 	
+	///METODOS ALIANZA
+	public void crearAlianza(String nombreAlianza) {
+		this.alianza = new Alianza(nombreAlianza);
+		this.alianza.agregarAliado(this);
+	}
+	
+	public void aliar(Personaje per) {
+		if(per.alianza == null || this.alianza.cantidadDeAliados() < cantidadMaximaDeAliados) {
+			per.alianza = this.alianza;
+			this.alianza.agregarAliado(per);
+		} else 
+			System.out.println("NO PUEDE AGREGAR...");
+	}
+	
+	public void desaliar(Personaje per) {
+		if(this.alianza != null) {
+			this.alianza.eliminarAliado(per);
+			per.alianza = null;
+		}
+	}
+	
+	static final int cantidadMaximaDeAliados = 10;
+
 	
 }

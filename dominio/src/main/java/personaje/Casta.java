@@ -9,6 +9,7 @@ package personaje;
 public abstract class Casta {
 	
 	public abstract String getCasta();
-	public abstract int bonusDeDefensa();
-	public abstract int bonusDeAtaque();
+	public abstract int bonusDeDestreza();
+	public abstract int bonusDeFuerza();
+	public abstract int bonusDeInteligencia();
 }

@@ -9,35 +9,35 @@ import personaje.Casta;
  */
 
 public class Humano extends Personaje{
-	
+
 	public Humano() {
 		this.altura = 180;
+		this.fuerza = 10;
+		this.destreza = 0;
+		this.inteligencia = 5;
 	}
 	
 	public Humano(Casta casta) {
 		this.altura = 180;
 		this.casta = casta;
+		this.fuerza = 10 + this.casta.bonusDeFuerza();
+		this.destreza = 0 + this.casta.bonusDeDestreza();
+		this.inteligencia = 5 + this.casta.bonusDeInteligencia();
 	}
 
 	@Override
 	protected int calcularPuntosDeDefensa() {
-		if(this.getCasta()== null)
-			return 0;
-		else
-			return 0 + this.casta.bonusDeDefensa();
+			return this.destreza;
 	}
 
 	@Override
 	protected boolean puedeAtacar() {
-		return this.energia>=10;
+		return this.energia >= calcularPuntosDeAtaque();
 	}
 
 	@Override
 	protected int calcularPuntosDeAtaque() {
-		if(this.getCasta()== null)
-			return 10;
-		else
-			return 10 + this.casta.bonusDeAtaque();
+			return this.fuerza ;
 	}
 
 }

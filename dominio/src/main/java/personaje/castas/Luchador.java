@@ -10,13 +10,18 @@ public class Luchador extends Casta{
 	}
 
 	@Override
-	public int bonusDeDefensa() {
+	public int bonusDeDestreza() {
 		return 1;
 	}
 
 	@Override
-	public int bonusDeAtaque() {
+	public int bonusDeFuerza() {
 		return 10;
+	}
+	
+	@Override
+	public int bonusDeInteligencia(){
+		return 5;
 	}
 
 }

@@ -7,7 +7,7 @@ import personaje.*;
 
 public class HabilidadesTest {
 	
-	//Historia de ususario 10-Habilidad Alien
+	//Historia de ususario 10 - Habilidad Alien
 	@Test
 	public void habilidadAlien() {
 		Personaje kodos = new Alien();

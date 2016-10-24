@@ -11,13 +11,18 @@ public class Ladron extends Casta{
 	}
 
 	@Override
-	public int bonusDeDefensa() {
+	public int bonusDeDestreza() {
 		return 2;
 	}
 
 	@Override
-	public int bonusDeAtaque() {
+	public int bonusDeFuerza() {
 		return 5;
+	}
+	
+	@Override
+	public int bonusDeInteligencia(){
+		return 8;
 	}
 	
 }

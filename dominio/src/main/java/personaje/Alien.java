@@ -14,32 +14,32 @@ public class Alien extends Personaje{
 	
 	public Alien() {
 		this.altura = 120;
+		this.fuerza = 10;
+		this.destreza = 3;
+		this.inteligencia = 8;
 	}
 	
 	public Alien(Casta casta) {
 		this.altura = 120;
 		this.casta = casta;
+		this.fuerza = 10 + this.casta.bonusDeFuerza();
+		this.destreza = 3 + this.casta.bonusDeDestreza();
+		this.inteligencia = 8 + this.casta.bonusDeInteligencia();
 	}
 	
 	@Override
 	protected int calcularPuntosDeDefensa() {
-		if(this.getCasta()== null)
-			return 3;
-		else
-			return 3 + this.casta.bonusDeDefensa();
+		return this.destreza;
 	}
 
 	@Override
 	protected boolean puedeAtacar() {
-		return this.energia>=13;
+		return this.energia >= calcularPuntosDeAtaque();
 	}
 
 	@Override
 	protected int calcularPuntosDeAtaque() {
-		if(this.getCasta() == null)
-			return 10;
-		else
-			return 10 + this.casta.bonusDeAtaque();
+		return this.fuerza;
 	}
 	
 	protected void despuesDeAtacar() {

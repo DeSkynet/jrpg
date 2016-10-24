@@ -13,19 +13,22 @@ public class SuperHeroe extends Personaje{
 	
 	public SuperHeroe() {
 		this.altura = 190;
+		this.fuerza = 20;
+		this.destreza = 4;
+		this.inteligencia = 3;
 	}
 	
 	public SuperHeroe(Casta casta) {
 		this.altura = 190;
 		this.casta = casta;
+		this.fuerza = 20 + this.casta.bonusDeFuerza();
+		this.destreza = 4 + this.casta.bonusDeDestreza();
+		this.inteligencia = 3 + this.casta.bonusDeInteligencia();
 	}
 	
 	@Override
 	protected int calcularPuntosDeDefensa() {
-		if(this.getCasta()== null)
-			return 4;
-		else
-			return 4 + this.casta.bonusDeDefensa();
+		return this.destreza;
 	}
 
 	@Override
@@ -35,10 +38,7 @@ public class SuperHeroe extends Personaje{
 
 	@Override
 	protected int calcularPuntosDeAtaque() {
-		if(this.getCasta()== null)
-			return 20 + cantidadDeAtaquesRecibidos;
-		else
-			return 20 + cantidadDeAtaquesRecibidos + this.casta.bonusDeAtaque();
+		return this.fuerza + cantidadDeAtaquesRecibidos;
 	}
 	
 	protected void despuesDeSerAtacado() {

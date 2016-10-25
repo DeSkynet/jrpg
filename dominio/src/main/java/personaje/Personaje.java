@@ -14,9 +14,9 @@ public abstract class Personaje implements Atacable {
 	protected int altura;
 	protected String nombre;
 	public Casta casta = null;
-	public Alianza alianza = null;
+	protected Alianza alianza = null;
 	
-	Alianza getAlianza() {
+	public Alianza getAlianza() {
 		return alianza;
 	}
 

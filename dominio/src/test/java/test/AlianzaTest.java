@@ -18,8 +18,8 @@ public class AlianzaTest {
 		
 		p1.aliar(p2);
 		
-		Assert.assertEquals(2, p1.alianza.cantidadDeAliados());
-		Assert.assertEquals(2, p2.alianza.cantidadDeAliados());
+		Assert.assertEquals(2, p1.getAlianza().cantidadDeAliados());
+		Assert.assertEquals(2, p2.getAlianza().cantidadDeAliados());
 	}
 	
 	@Test
@@ -31,11 +31,11 @@ public class AlianzaTest {
 		
 		julio.aliar(lazaro);
 		
-		Assert.assertTrue(julio.alianza.estaEnAlianza(julio));
-		Assert.assertTrue(julio.alianza.estaEnAlianza(lazaro));
+		Assert.assertTrue(julio.getAlianza().estaEnAlianza(julio));
+		Assert.assertTrue(julio.getAlianza().estaEnAlianza(lazaro));
 		
-		Assert.assertTrue(lazaro.alianza.estaEnAlianza(julio));
-		Assert.assertTrue(lazaro.alianza.estaEnAlianza(lazaro));
+		Assert.assertTrue(lazaro.getAlianza().estaEnAlianza(julio));
+		Assert.assertTrue(lazaro.getAlianza().estaEnAlianza(lazaro));
 	}
 	
 	@Test
@@ -49,9 +49,9 @@ public class AlianzaTest {
 		gordoValor.aliar(vitete);
 		vitete.aliar(laGarzaSosa);
 		
-		Assert.assertTrue(gordoValor.alianza.estaEnAlianza(vitete));
-		Assert.assertTrue(vitete.alianza.estaEnAlianza(laGarzaSosa));
-		Assert.assertTrue(laGarzaSosa.alianza.estaEnAlianza(gordoValor));
+		Assert.assertTrue(gordoValor.getAlianza().estaEnAlianza(vitete));
+		Assert.assertTrue(vitete.getAlianza().estaEnAlianza(laGarzaSosa));
+		Assert.assertTrue(laGarzaSosa.getAlianza().estaEnAlianza(gordoValor));
 	}
 	
 	@Test
@@ -65,13 +65,13 @@ public class AlianzaTest {
 		gordoValor.aliar(vitete);
 		vitete.aliar(laGarzaSosa);
 		
-		Assert.assertTrue(gordoValor.alianza.estaEnAlianza(vitete));
-		Assert.assertTrue(vitete.alianza.estaEnAlianza(laGarzaSosa));
-		Assert.assertTrue(laGarzaSosa.alianza.estaEnAlianza(gordoValor));
+		Assert.assertTrue(gordoValor.getAlianza().estaEnAlianza(vitete));
+		Assert.assertTrue(vitete.getAlianza().estaEnAlianza(laGarzaSosa));
+		Assert.assertTrue(laGarzaSosa.getAlianza().estaEnAlianza(gordoValor));
 		vitete.desaliar();
-		Assert.assertFalse(laGarzaSosa.alianza.estaEnAlianza(vitete));
-		Assert.assertTrue(laGarzaSosa.alianza.estaEnAlianza(gordoValor));
-		Assert.assertFalse(vitete.alianza != null);
+		Assert.assertFalse(laGarzaSosa.getAlianza().estaEnAlianza(vitete));
+		Assert.assertTrue(laGarzaSosa.getAlianza().estaEnAlianza(gordoValor));
+		Assert.assertFalse(vitete.getAlianza() != null);
 	}
 	
 	@Test
@@ -85,14 +85,14 @@ public class AlianzaTest {
 		gordoValor.aliar(vitete);
 		vitete.aliar(laGarzaSosa);
 		
-		Assert.assertTrue(gordoValor.alianza.estaEnAlianza(vitete));
-		Assert.assertTrue(vitete.alianza.estaEnAlianza(laGarzaSosa));
-		Assert.assertTrue(laGarzaSosa.alianza.estaEnAlianza(gordoValor));
+		Assert.assertTrue(gordoValor.getAlianza().estaEnAlianza(vitete));
+		Assert.assertTrue(vitete.getAlianza().estaEnAlianza(laGarzaSosa));
+		Assert.assertTrue(laGarzaSosa.getAlianza().estaEnAlianza(gordoValor));
 		
 		gordoValor.desaliar(); // se desalia 
-		Assert.assertEquals(null, gordoValor.alianza); 	//me fijo que sea null.
-		Assert.assertTrue(vitete.alianza.estaEnAlianza(laGarzaSosa));
-		Assert.assertFalse(vitete.alianza.estaEnAlianza(gordoValor));	//se veridica si
+		Assert.assertEquals(null, gordoValor.getAlianza()); 	//me fijo que sea null.
+		Assert.assertTrue(vitete.getAlianza().estaEnAlianza(laGarzaSosa));
+		Assert.assertFalse(vitete.getAlianza().estaEnAlianza(gordoValor));	//se veridica si
 	}
 	
 	@Test
@@ -107,13 +107,13 @@ public class AlianzaTest {
 		gordoValor.aliar(vitete);
 		vitete.aliar(laGarzaSosa);
 		
-		Assert.assertTrue(gordoValor.alianza.estaEnAlianza(vitete));
-		Assert.assertTrue(vitete.alianza.estaEnAlianza(laGarzaSosa));
-		Assert.assertTrue(laGarzaSosa.alianza.estaEnAlianza(gordoValor));
-		Assert.assertTrue(vitete.alianza.estaEnAlianza(gordoValor));
+		Assert.assertTrue(gordoValor.getAlianza().estaEnAlianza(vitete));
+		Assert.assertTrue(vitete.getAlianza().estaEnAlianza(laGarzaSosa));
+		Assert.assertTrue(laGarzaSosa.getAlianza().estaEnAlianza(gordoValor));
+		Assert.assertTrue(vitete.getAlianza().estaEnAlianza(gordoValor));
 		
 		gordoValor.desaliar();
-		Assert.assertTrue(vitete.alianza.estaEnAlianza(laGarzaSosa));
+		Assert.assertTrue(vitete.getAlianza().estaEnAlianza(laGarzaSosa));
 		
 		laGarzaSosa.desaliar();
 		vitete.aliar(aliBaba);
@@ -137,24 +137,24 @@ public class AlianzaTest {
 		willy9.crearAlianza("Los Indestructibles");
 		willy9.aliar(aliBaba9);
 		
-		Assert.assertTrue(gordoValor9.alianza.estaEnAlianza(vitete9));
-		Assert.assertTrue(vitete9.alianza.estaEnAlianza(laGarzaSosa9));
-		Assert.assertTrue(laGarzaSosa9.alianza.estaEnAlianza(gordoValor9));
+		Assert.assertTrue(gordoValor9.getAlianza().estaEnAlianza(vitete9));
+		Assert.assertTrue(vitete9.getAlianza().estaEnAlianza(laGarzaSosa9));
+		Assert.assertTrue(laGarzaSosa9.getAlianza().estaEnAlianza(gordoValor9));
 		
-		Assert.assertTrue(aliBaba9.alianza.estaEnAlianza(willy9));
-		Assert.assertTrue(willy9.alianza.estaEnAlianza(aliBaba9));
+		Assert.assertTrue(aliBaba9.getAlianza().estaEnAlianza(willy9));
+		Assert.assertTrue(willy9.getAlianza().estaEnAlianza(aliBaba9));
 		gordoValor9.aliar(aliBaba9);
 //		willy9.alianza.mostrarAlianza();
 //		System.out.println("_______");
 //		gordoValor9.alianza.mostrarAlianza();
-		Assert.assertTrue(gordoValor9.alianza.estaEnAlianza(willy9));
-		Assert.assertTrue(vitete9.alianza.estaEnAlianza(aliBaba9));
+		Assert.assertTrue(gordoValor9.getAlianza().estaEnAlianza(willy9));
+		Assert.assertTrue(vitete9.getAlianza().estaEnAlianza(aliBaba9));
 		
-		Assert.assertTrue(aliBaba9.alianza.estaEnAlianza(gordoValor9));
-		Assert.assertTrue(willy9.alianza.estaEnAlianza(laGarzaSosa9));
+		Assert.assertTrue(aliBaba9.getAlianza().estaEnAlianza(gordoValor9));
+		Assert.assertTrue(willy9.getAlianza().estaEnAlianza(laGarzaSosa9));
 		
-		Assert.assertEquals(5, laGarzaSosa9.alianza.cantidadDeAliados());
-		Assert.assertEquals(5, willy9.alianza.cantidadDeAliados());
-		Assert.assertEquals(5, gordoValor9.alianza.cantidadDeAliados());
+		Assert.assertEquals(5, laGarzaSosa9.getAlianza().cantidadDeAliados());
+		Assert.assertEquals(5, willy9.getAlianza().cantidadDeAliados());
+		Assert.assertEquals(5, gordoValor9.getAlianza().cantidadDeAliados());
 	}
 }

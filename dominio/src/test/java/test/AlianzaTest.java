@@ -6,6 +6,7 @@ import org.junit.Test;
 import personaje.Humano;
 import personaje.Personaje;
 import personaje.castas.Ladron;
+import personaje.castas.Luchador;
 
 public class AlianzaTest {
 	@Test
@@ -108,6 +109,7 @@ public class AlianzaTest {
 		Assert.assertTrue(gordoValor.alianza.estaEnAlianza(vitete));
 		Assert.assertTrue(vitete.alianza.estaEnAlianza(laGarzaSosa));
 		Assert.assertTrue(laGarzaSosa.alianza.estaEnAlianza(gordoValor));
+		Assert.assertTrue(vitete.alianza.estaEnAlianza(gordoValor));
 		
 		gordoValor.desaliar(gordoValor);
 		Assert.assertTrue(vitete.alianza.estaEnAlianza(laGarzaSosa));
@@ -116,5 +118,42 @@ public class AlianzaTest {
 		vitete.aliar(aliBaba);
 		
 		aliBaba.alianza.mostrarAlianza();
+	}
+	
+	@Test
+	public void pruebaSumaAlianza() {
+		Personaje gordoValor9 = new Humano(new Ladron(), "Gordo Valor");
+		Personaje vitete9 = new Humano(new Ladron(), "Vitete");
+		Personaje willy9 = new Humano(new Luchador(), "willy");
+		Personaje laGarzaSosa9 = new Humano(new Ladron(), "Garza Sosa");
+		Personaje aliBaba9 = new Humano(new Ladron(), "Alí Babá");
+		
+		gordoValor9.crearAlianza("Los Piratas");
+		
+		gordoValor9.aliar(vitete9);
+		vitete9.aliar(laGarzaSosa9);
+		
+		willy9.crearAlianza("Los Indestructibles");
+		willy9.aliar(aliBaba9);
+		
+		Assert.assertTrue(gordoValor9.alianza.estaEnAlianza(vitete9));
+		Assert.assertTrue(vitete9.alianza.estaEnAlianza(laGarzaSosa9));
+		Assert.assertTrue(laGarzaSosa9.alianza.estaEnAlianza(gordoValor9));
+		
+		Assert.assertTrue(aliBaba9.alianza.estaEnAlianza(willy9));
+		Assert.assertTrue(willy9.alianza.estaEnAlianza(aliBaba9));
+		gordoValor9.aliar(aliBaba9);
+		willy9.alianza.mostrarAlianza();
+		System.out.println("_______");
+		gordoValor9.alianza.mostrarAlianza();
+		Assert.assertTrue(gordoValor9.alianza.estaEnAlianza(willy9));
+		Assert.assertTrue(vitete9.alianza.estaEnAlianza(aliBaba9));
+		
+		Assert.assertTrue(aliBaba9.alianza.estaEnAlianza(gordoValor9));
+		Assert.assertTrue(willy9.alianza.estaEnAlianza(laGarzaSosa9));
+		
+		Assert.assertEquals(5, laGarzaSosa9.alianza.cantidadDeAliados());
+		Assert.assertEquals(5, willy9.alianza.cantidadDeAliados());
+		Assert.assertEquals(5, gordoValor9.alianza.cantidadDeAliados());
 	}
 }

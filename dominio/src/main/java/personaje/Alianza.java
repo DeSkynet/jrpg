@@ -8,11 +8,15 @@ import personaje.Personaje;
 
 public class Alianza {
 	private String nombreAlianza; 
-	private List<Personaje> alianza = new LinkedList<Personaje>();
+	public List<Personaje> alianza = new LinkedList<Personaje>();
 	
 	public Alianza(String nombreAlianza) {
 		this.nombreAlianza = nombreAlianza;
 	}
+	
+//	public final void agregarAliado(Personaje personaje) {
+//		alianza.add(personaje);
+//	}
 	
 	public final void agregarAliado(Personaje personaje) {
 		alianza.add(personaje);
@@ -20,6 +24,7 @@ public class Alianza {
 	
 	public final void eliminarAliado(Personaje personaje) {
 		alianza.remove(personaje);
+		personaje.alianza=null;
 	}
 	
 	public final int cantidadDeAliados() {
@@ -40,5 +45,24 @@ public class Alianza {
 		while(it.hasNext()) {
 			System.out.println(it.next().nombre);
 		}
+	}
+
+	public void agregarAlianza(Alianza alianzaAAgregar) {
+		Iterator<Personaje> it = alianzaAAgregar.alianza.iterator();
+		
+		while(it.hasNext()) {
+			this.agregarAliado(it.next());
+		}
+		
+Iterator<Personaje> itt = alianzaAAgregar.alianza.iterator();
+		
+		while(itt.hasNext()) {
+			
+			itt.next().alianza=this;
+		}
+		
+		
+		
+		
 	}
 }

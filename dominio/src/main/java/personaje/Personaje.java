@@ -73,15 +73,21 @@ public abstract class Personaje implements Atacable {
 	///METODOS ALIANZA
 	public void crearAlianza(String nombreAlianza) {
 		this.alianza = new Alianza(nombreAlianza);
-		this.alianza.agregarAliado(this);
+		this.alianza.agregarAliado(this);	//Se agrega en el momento que se crea la alianza entre dos personajes. 
 	}
 	
-	public void aliar(Personaje per) {
-		if(per.alianza == null || this.alianza.cantidadDeAliados() < cantidadMaximaDeAliados) {
+	public boolean aliar(Personaje per) {
+		if(per.alianza == null && this.alianza.cantidadDeAliados() < CANTIDAD_MAXIMA_DE_ALIADOS) {
 			per.alianza = this.alianza;
 			this.alianza.agregarAliado(per);
-		} else 
-			System.out.println("NO PUEDE AGREGAR...");
+		} else{
+			if(per.alianza != null && this.alianza.cantidadDeAliados()+per.alianza.cantidadDeAliados() <= CANTIDAD_MAXIMA_DE_ALIADOS){
+				this.alianza.agregarAlianza(per.alianza);
+			}
+			else return false;
+		}
+		return true;
+		
 	}
 	
 	public void desaliar(Personaje per) {
@@ -91,7 +97,7 @@ public abstract class Personaje implements Atacable {
 		}
 	}
 	
-	static final int cantidadMaximaDeAliados = 10;
+	static final int CANTIDAD_MAXIMA_DE_ALIADOS = 5;
 
 	
 }

@@ -16,6 +16,10 @@ public abstract class Personaje implements Atacable {
 	public Casta casta = null;
 	public Alianza alianza = null;
 	
+	Alianza getAlianza() {
+		return alianza;
+	}
+
 	public final void atacar(Atacable atacado) {
 		if (puedeAtacar()) {
 			atacado.serAtacado(calcularPuntosDeAtaque());
@@ -76,28 +80,12 @@ public abstract class Personaje implements Atacable {
 		this.alianza.agregarAliado(this);	//Se agrega en el momento que se crea la alianza entre dos personajes. 
 	}
 	
-	public boolean aliar(Personaje per) {
-		if(per.alianza == null && this.alianza.cantidadDeAliados() < CANTIDAD_MAXIMA_DE_ALIADOS) {
-			per.alianza = this.alianza;
-			this.alianza.agregarAliado(per);
-		} else{
-			if(per.alianza != null && this.alianza.cantidadDeAliados()+per.alianza.cantidadDeAliados() <= CANTIDAD_MAXIMA_DE_ALIADOS){
-				this.alianza.agregarAlianza(per.alianza);
-			}
-			else return false;
-		}
-		return true;
-		
+	public void aliar(Personaje per){
+		this.alianza.aliar(per);
 	}
 	
-	public void desaliar(Personaje per) {
-		if(this.alianza != null) {
-			this.alianza.eliminarAliado(per);
-			per.alianza = null;
-		}
+	public void desaliar(){
+		this.alianza.desaliar(this);
 	}
-	
-	static final int CANTIDAD_MAXIMA_DE_ALIADOS = 5;
-
 	
 }

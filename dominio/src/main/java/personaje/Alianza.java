@@ -9,14 +9,33 @@ import personaje.Personaje;
 public class Alianza {
 	private String nombreAlianza; 
 	public List<Personaje> alianza = new LinkedList<Personaje>();
+	static final int CANTIDAD_MAXIMA_DE_ALIADOS = 5;
 	
 	public Alianza(String nombreAlianza) {
 		this.nombreAlianza = nombreAlianza;
 	}
 	
-//	public final void agregarAliado(Personaje personaje) {
-//		alianza.add(personaje);
-//	}
+	
+		
+	public boolean aliar(Personaje per) {
+		if(per.alianza == null && this.cantidadDeAliados() < CANTIDAD_MAXIMA_DE_ALIADOS) {
+			per.alianza = this;
+			this.agregarAliado(per);
+		} else{
+			if(per.alianza != null && this.cantidadDeAliados()+per.alianza.cantidadDeAliados() <= CANTIDAD_MAXIMA_DE_ALIADOS){
+				this.agregarAlianza(per.alianza);
+			}
+			else return false;
+		}
+		return true;
+	}
+	
+	protected void desaliar(Personaje per) {
+		if(this != null) {
+			this.eliminarAliado(per);
+			per.alianza = null;
+		}
+	}
 	
 	public final void agregarAliado(Personaje personaje) {
 		alianza.add(personaje);

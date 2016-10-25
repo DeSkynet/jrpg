@@ -68,11 +68,10 @@ public class AlianzaTest {
 		Assert.assertTrue(gordoValor.alianza.estaEnAlianza(vitete));
 		Assert.assertTrue(vitete.alianza.estaEnAlianza(laGarzaSosa));
 		Assert.assertTrue(laGarzaSosa.alianza.estaEnAlianza(gordoValor));
-		
-		vitete.desaliar(gordoValor);
-		Assert.assertFalse(vitete.alianza.estaEnAlianza(gordoValor));
-		Assert.assertFalse(laGarzaSosa.alianza.estaEnAlianza(gordoValor));
-		Assert.assertFalse(gordoValor.alianza != null);
+		vitete.desaliar();
+		Assert.assertFalse(laGarzaSosa.alianza.estaEnAlianza(vitete));
+		Assert.assertTrue(laGarzaSosa.alianza.estaEnAlianza(gordoValor));
+		Assert.assertFalse(vitete.alianza != null);
 	}
 	
 	@Test
@@ -90,8 +89,10 @@ public class AlianzaTest {
 		Assert.assertTrue(vitete.alianza.estaEnAlianza(laGarzaSosa));
 		Assert.assertTrue(laGarzaSosa.alianza.estaEnAlianza(gordoValor));
 		
-		gordoValor.desaliar(gordoValor);
+		gordoValor.desaliar(); // se desalia 
+		Assert.assertEquals(null, gordoValor.alianza); 	//me fijo que sea null.
 		Assert.assertTrue(vitete.alianza.estaEnAlianza(laGarzaSosa));
+		Assert.assertFalse(vitete.alianza.estaEnAlianza(gordoValor));	//se veridica si
 	}
 	
 	@Test
@@ -111,13 +112,13 @@ public class AlianzaTest {
 		Assert.assertTrue(laGarzaSosa.alianza.estaEnAlianza(gordoValor));
 		Assert.assertTrue(vitete.alianza.estaEnAlianza(gordoValor));
 		
-		gordoValor.desaliar(gordoValor);
+		gordoValor.desaliar();
 		Assert.assertTrue(vitete.alianza.estaEnAlianza(laGarzaSosa));
 		
-		laGarzaSosa.desaliar(laGarzaSosa);
+		laGarzaSosa.desaliar();
 		vitete.aliar(aliBaba);
 		
-		aliBaba.alianza.mostrarAlianza();
+//		aliBaba.alianza.mostrarAlianza();
 	}
 	
 	@Test
@@ -143,9 +144,9 @@ public class AlianzaTest {
 		Assert.assertTrue(aliBaba9.alianza.estaEnAlianza(willy9));
 		Assert.assertTrue(willy9.alianza.estaEnAlianza(aliBaba9));
 		gordoValor9.aliar(aliBaba9);
-		willy9.alianza.mostrarAlianza();
-		System.out.println("_______");
-		gordoValor9.alianza.mostrarAlianza();
+//		willy9.alianza.mostrarAlianza();
+//		System.out.println("_______");
+//		gordoValor9.alianza.mostrarAlianza();
 		Assert.assertTrue(gordoValor9.alianza.estaEnAlianza(willy9));
 		Assert.assertTrue(vitete9.alianza.estaEnAlianza(aliBaba9));
 		

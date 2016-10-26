@@ -39,7 +39,9 @@ public class Humano extends Personaje{
 
 	@Override
 	protected int calcularPuntosDeAtaque() {
-			return this.fuerza ;
+		if(this.alianza == null)
+			return this.fuerza;
+		
+		return this.fuerza + this.alianza.cantidadDeAliados() - 1;  ///SE LE RESTA 1 PARA NO CONTAR AL PERSONAJE EN CUESTION
 	}
-
 }

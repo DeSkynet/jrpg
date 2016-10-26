@@ -12,8 +12,8 @@
 **10-Habilidad Alien**: Como jugador de la Raza Alien quiero obtener una bonificacion de salud cada vez que realizo daños a un enemigo para aumentar mis probabilidades de victoria.  
 **11-Habilidad SuperHeore**: Como jugador de la Raza SuperHeroe quiero obtener una bonificacion de fuerza cada vez que recibo daños para aumentar mis probabilidades de victoria.  
 **12-Bonificacion Ladron**: Como jugador de la casta Ladron quiero obtener un bonus de defenza para aumentar mi porcentaje de evasion de golpes y de daños criticos.   
-**13-Bonificacion Luchador**: Como jugador de la casta Guerrero quiero obtener un bonus de fuerza para aumentar la cantidad de daños por golpe.  
-**14-Bonificacion Hechizero**: Como jugador de la casta Mago quiero obtener un bonus de magia y acceder a una lista de hechizos para aplicarlos en la batalla.
+**13-Bonificacion Luchador**: Como jugador de la casta Luchador quiero obtener un bonus de fuerza para aumentar la cantidad de daños por golpe.  
+**14-Bonificacion Hechizero**: Como jugador de la casta Hechizero quiero obtener un bonus de magia y acceder a una lista de hechizos para aplicarlos en la batalla.
 
 # Criterios de Aceptación  
 
@@ -23,7 +23,7 @@
 **04-Subir de nivel**: Dado un personaje de nivel 1, cuando subo de nivel entonces mis puntos de fuerza aumenta en 2 puntos.  
 **05-Obtener Items**: Dado un humano, cuando equipo una espada Excalibur entonces mis puntos de ataque aumentan a 30;  
 **06-Alianzas**: Dado un humano, cuando acepto una alianza con otro jugador entonces el otro jugador pelea a mi favor.  
-**07-Recompensas**: Dado un robot, cuando derroto a un jugador con excalibur, entonces recibo su item.  
+**07-Recompensas**: Dado un robot, cuando derroto a un jugador con una espada Excalibur, entonces recibo su item.  
 **08-Habilidad Humano**: Dado un humano, cuando me alío con un otro humano, entonces mis fuerza aumenta en 1 por cada humano aliado.  
 **09-Habilidad Robot**: Dado un robot, cuando muero en batalla, entonces revivo con la mitad de energia.  
 **10-Habilidad Alien**: Dado un alien, cuando ataco a un enemigo, entonces mi salud amenta un 10% del daño realizado.  

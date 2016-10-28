@@ -40,6 +40,7 @@ public class Alianza {
 	public final void agregarAliado(Personaje personaje) {
 		alianza.add(personaje);
 	}
+
 	
 	public final void eliminarAliado(Personaje personaje) {
 		alianza.remove(personaje);

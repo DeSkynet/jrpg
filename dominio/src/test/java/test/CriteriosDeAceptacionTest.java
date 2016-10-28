@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import personaje.*;
 import personaje.castas.*;
+import personaje.items.ConCascoDeMithril;
 import personaje.items.ConEspadaExcalibur;
 
 /*
@@ -115,7 +116,26 @@ public class CriteriosDeAceptacionTest {
 		
 	}
 	
-	/// faltan HU 7 POR FALTA DE CLASE BATALLA
+	//Historia de usuario 07-Quitar Item de un Decorator.
+		@Test
+		public void testQuitarItem() {
+			Personaje luke = new Humano();
+			Assert.assertEquals(10, luke.obtenerPuntosDeAtaque());
+			Assert.assertEquals(0, luke.obtenerPuntosDeDefensa());
+			
+			//Se agrega item
+			luke = new ConEspadaExcalibur(luke);
+			Assert.assertEquals(10+20, luke.obtenerPuntosDeAtaque());
+			
+			//Se agrega 2 item
+			luke = new ConCascoDeMithril(luke);
+			Assert.assertEquals(5, luke.obtenerPuntosDeDefensa());
+		}
+			luke.quitarItemMayor();
+			Assert.assertEquals(10, luke.obtenerPuntosDeAtaque());
+			Assert.assertEquals(5, luke.obtenerPuntosDeDefensa());
+		
+	}
 
 	//Historia de usuario 08-Habilidad SuperHeroe
 	@Test

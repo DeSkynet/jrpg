@@ -12,7 +12,7 @@ public class Ladron extends Casta{
 
 	@Override
 	public int bonusDeDestreza() {
-		return 7;
+		return 0;
 	}
 
 	@Override

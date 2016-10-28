@@ -22,7 +22,7 @@ public class Robot extends Personaje{
 	public Robot(Casta casta, String nombre) {
 		this.altura = 200;
 		this.casta = casta;
-		this.fuerza = 20 + this.casta.bonusDeFuerza();
+		this.fuerza = 15 + this.casta.bonusDeFuerza();
 		this.destreza = 5 + this.casta.bonusDeDestreza();
 		this.inteligencia = 10 + this.casta.bonusDeInteligencia();
 		this.nombre=nombre;

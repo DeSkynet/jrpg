@@ -21,7 +21,7 @@ public class Humano extends Personaje{
 	public Humano(Casta casta,String nombre) {
 		this.altura = 180;
 		this.casta = casta;
-		this.fuerza = 10 + this.casta.bonusDeFuerza();
+		this.fuerza = 5 + this.casta.bonusDeFuerza();
 		this.destreza = 0 + this.casta.bonusDeDestreza();
 		this.inteligencia = 5 + this.casta.bonusDeInteligencia();
 		this.nombre=nombre;

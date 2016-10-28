@@ -13,6 +13,20 @@ public abstract class Personaje implements Atacable {
 	protected int salud = 100;
 	protected int altura;
 	protected String nombre;
+	
+	
+	public int getDestreza() {
+		return destreza;
+	}
+
+	public int getFuerza() {
+		return fuerza;
+	}
+
+	public int getInteligencia() {
+		return inteligencia;
+	}
+
 	public Casta casta = null;
 	protected Alianza alianza = null;
 	
@@ -30,6 +44,11 @@ public abstract class Personaje implements Atacable {
 	
 	@Override
 	public void serAtacado(int daño) {
+		if( daño <= this.calcularPuntosDeDefensa())
+			daño = 0;
+		else
+			daño -= this.calcularPuntosDeDefensa();
+		
 		this.salud -= daño;
 		this.despuesDeSerAtacado();
 	}

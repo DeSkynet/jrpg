@@ -18,7 +18,7 @@ public class CastaTest {
 	@Test
 	public void creoUnaCastaYVeoElCambioEnSusAtributos() {
 		Personaje bender = new Robot(new Ladron(), "ladro1");
-		Assert.assertEquals(7, bender.obtenerPuntosDeDefensa());
+		Assert.assertEquals(12, bender.obtenerPuntosDeDefensa());
 	}
 	
 	@Test
@@ -34,9 +34,9 @@ public class CastaTest {
 		///OBTENGO EL NOMBRE DE LA CASTA
 		Assert.assertEquals("Ladron", aliBaba.casta.getCasta());
 		///OBTENGO LOS PUNTOS DE ATAQUE
-		Assert.assertEquals(0+2, aliBaba.obtenerPuntosDeDefensa());
+		Assert.assertEquals(0 + 7, aliBaba.obtenerPuntosDeDefensa());
 		///OBTENGO LOS PUNTOS DE DEFENSA
-		Assert.assertEquals(10+5, aliBaba.obtenerPuntosDeAtaque());
+		Assert.assertEquals(10 + 2, aliBaba.obtenerPuntosDeAtaque());
 	}
 	
 	@Test
@@ -48,7 +48,7 @@ public class CastaTest {
 	@Test
 	public void defensaDeLaCasta() {
 		Personaje bender = new Robot(new Ladron(),"ladro1");
-		Assert.assertEquals(5+2, bender.obtenerPuntosDeDefensa());
+		Assert.assertEquals(5 + 7, bender.obtenerPuntosDeDefensa());
 	}
 	
 }

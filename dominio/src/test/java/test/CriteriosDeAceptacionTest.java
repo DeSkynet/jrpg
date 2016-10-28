@@ -3,12 +3,14 @@ package test;
 import org.junit.Assert;
 import org.junit.Test;
 
-import personaje.Personaje;
 import personaje.*;
 import personaje.castas.*;
 import personaje.items.ConEspadaExcalibur;
 
-
+/*
+ * 	PARA ALGUNOS TEST TODAVIA SON NECESARIO PLANTEAR/REFORMAR CLASES 
+ *  BATALLA/ALIANZA/PERSONAJE
+ */
 
 public class CriteriosDeAceptacionTest {
 	
@@ -26,7 +28,64 @@ public class CriteriosDeAceptacionTest {
 		Assert.assertEquals(5 + 7, bender.obtenerPuntosDeDefensa());
 	}
 	
-	/// FALTAN HU 3 Y 4, SE NECESITA BATALLA PARA PODER VER LA SUBA DE NIVEL
+	//Historia de usuario 03-Experiencia
+	@Test
+	public void peleoParaGanarExperiencia() {
+		int turno = 0;
+
+		Personaje aliBaba = new Humano(new Ladron(), "Alí Baba");
+		Personaje robocop = new Robot(new Luchador(), "Robocop");
+		
+		Assert.assertEquals(0, aliBaba.getExperiencia());
+		Assert.assertEquals(0, robocop.getExperiencia());
+		
+		//INICIA COMBATE
+		while(robocop.estaVivo() && aliBaba.estaVivo()) {
+			if(turno==0) {
+				robocop.atacar(aliBaba);
+				turno = 1;
+			} else {
+				aliBaba.atacar(robocop);
+				turno = 0;
+			}	
+		}
+		
+		Assert.assertFalse(aliBaba.estaVivo());
+		Assert.assertTrue(robocop.estaVivo());
+		
+		//AL GANAR GANA EXPERIENCIA
+		robocop.aumentarExperiencia();
+		Assert.assertEquals(100, robocop.getExperiencia());
+	}
+	
+	//Historia de Usuario 04-Subir de Nivel
+	@Test
+	public void ganoExperienciaParaSubirDeNivel() {
+		int turno = 0;
+
+		Personaje aliBaba = new Humano(new Ladron(), "Alí Baba");
+		Personaje robocop = new Robot(new Luchador(), "Robocop");
+		
+		Assert.assertEquals(1, aliBaba.getNivel());
+		Assert.assertEquals(1, robocop.getNivel());
+		
+		//INICIA COMBATE
+		while(robocop.estaVivo() && aliBaba.estaVivo()) {
+			if(turno==0) {
+				robocop.atacar(aliBaba);
+				turno = 1;
+			} else {
+				aliBaba.atacar(robocop);
+				turno = 0;
+			}	
+		}
+		
+		Assert.assertFalse(aliBaba.estaVivo());
+		Assert.assertTrue(robocop.estaVivo());
+		
+		robocop.aumentarExperiencia();
+		Assert.assertEquals(2, robocop.getNivel());
+	}
 	
 	//Historia de Usuario 05-Obtener Items
 	@Test
@@ -120,18 +179,18 @@ public class CriteriosDeAceptacionTest {
 	}
 	
 	//Historia de usuario 13-Bonificacion Luchador
-		@Test
-		public void bonificacionLuchador() {
-			Personaje estIngenieria = new Humano(new Luchador(), "estIngenieria");
-			
-			Assert.assertEquals(10 + 7, estIngenieria.getFuerza());
-		}
+	@Test
+	public void bonificacionLuchador() {
+		Personaje estIngenieria = new Humano(new Luchador(), "estIngenieria");
+		
+		Assert.assertEquals(10 + 7, estIngenieria.getFuerza());
+	}
 		
 	//Historia de usuario 14-Bonificacion Hechicero
-				@Test
-				public void bonificacionechicero() {
-					Personaje gandalf = new Humano(new Hechicero(), "gandalf");
-					
-					Assert.assertEquals(5 + 7, gandalf.getInteligencia());
-				}
+	@Test
+	public void bonificacionechicero() {
+		Personaje gandalf = new Humano(new Hechicero(), "gandalf");
+		
+		Assert.assertEquals(5 + 7, gandalf.getInteligencia());
+	}
 }

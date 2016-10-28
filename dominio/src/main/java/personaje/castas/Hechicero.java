@@ -11,16 +11,16 @@ public class Hechicero extends Casta{
 
 	@Override
 	public int bonusDeDestreza() {
-		return 6;
+		return 2;
 	}
 
 	@Override
 	public int bonusDeFuerza() {
-		return 8;
+		return 4;
 	}
 	
 	@Override
 	public int bonusDeInteligencia(){
-		return 10;
+		return 7;
 	}
 }

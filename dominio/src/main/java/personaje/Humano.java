@@ -44,4 +44,5 @@ public class Humano extends Personaje{
 		
 		return this.fuerza + this.alianza.cantidadDeAliados() - 1;  ///SE LE RESTA 1 PARA NO CONTAR AL PERSONAJE EN CUESTION
 	}
+	
 }

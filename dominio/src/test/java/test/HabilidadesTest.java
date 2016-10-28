@@ -15,11 +15,11 @@ public class HabilidadesTest {
 		
 		kodos.atacar(kang);
 		//kodos ataca a kang, kang queda con 90 de salud y kodos se cura un 10% de lo que ataco, pero como su salud esta al maximo queda de esa manera
-		Assert.assertEquals(90, kang.getSalud());
+		Assert.assertEquals(93, kang.getSalud());
 		Assert.assertEquals(true, kodos.esSaludMaxima());
 		//ahora kang ataca a kodos y recupera 10% de energia
 		kang.atacar(kodos);
-		Assert.assertEquals(90 + 1, kang.getSalud());
+		Assert.assertEquals(93 + 1, kang.getSalud());
 	}
 	
 	//Historia de ususario 11-Habilidad SuperHeroe

@@ -3,9 +3,11 @@ package test;
 import org.junit.Assert;
 import org.junit.Test;
 
+import personaje.Personaje;
 import personaje.*;
 import personaje.castas.*;
 import personaje.items.ConEspadaExcalibur;
+
 
 
 public class CriteriosDeAceptacionTest {
@@ -21,7 +23,7 @@ public class CriteriosDeAceptacionTest {
 	@Test
 	public void creoUnaCastaYVeoElCambioEnSusAtributos() {
 		Personaje bender = new Robot(new Ladron(), "ladro1");
-		Assert.assertEquals(5 + 2, bender.obtenerPuntosDeDefensa());
+		Assert.assertEquals(5 + 7, bender.obtenerPuntosDeDefensa());
 	}
 	
 	/// FALTAN HU 3 Y 4, SE NECESITA BATALLA PARA PODER VER LA SUBA DE NIVEL
@@ -35,7 +37,26 @@ public class CriteriosDeAceptacionTest {
 		Assert.assertEquals(10 + 20, arturo.obtenerPuntosDeAtaque());
 	}
 	
-	/// faltan hu 6 y 7 POR FALTA DE CLASE BATALLA
+	//Historia de Usuario 06-Alianzas
+	@Test
+	public void testDeAlianzas() {
+		Personaje p1 = new Humano(new Ladron(), "p1");
+		Personaje p2 = new Humano(new Ladron(), "p2");
+		NPC npc = new NPC(1);
+		
+		p1.crearAlianza("Los Indestructibles");
+		
+		p1.aliar(p2);
+		p2.aliar(npc);
+		
+		Assert.assertEquals(3, p1.getAlianza().cantidadDeAliados());
+		Assert.assertEquals(3, p2.getAlianza().cantidadDeAliados());
+		Assert.assertEquals(3, npc.getAlianza().cantidadDeAliados());
+		
+		
+	}
+	
+	/// faltan HU 7 POR FALTA DE CLASE BATALLA
 
 	//Historia de usuario 08-Habilidad SuperHeroe
 	@Test
@@ -68,13 +89,13 @@ public class CriteriosDeAceptacionTest {
 
 		kodos.atacar(kang);
 		
-		//kodos ataca a kang, kang queda con 90 de salud y kodos se cura un 10% de lo que ataco, pero como su salud esta al maximo queda de esa manera
-		Assert.assertEquals(90, kang.getSalud());
+		//kodos ataca a kang, kang queda con 93 de salud y kodos se cura un 10% de lo que ataco, pero como su salud esta al maximo queda de esa manera
+		Assert.assertEquals(93, kang.getSalud());
 		Assert.assertEquals(true, kodos.esSaludMaxima());
 		
 		//ahora kang ataca a kodos y recupera 10% de energia
 		kang.atacar(kodos);
-		Assert.assertEquals(90 + 1, kang.getSalud());
+		Assert.assertEquals(93 + 1, kang.getSalud());
 	}
 	
 	//Historia de usuario 11-Habilidad SuperHeroe
@@ -90,6 +111,27 @@ public class CriteriosDeAceptacionTest {
 		Assert.assertEquals(20 + 1, thor.obtenerPuntosDeAtaque());
 	}
 	
-	///FALTAN TEST DE HU 12, 13 Y 14
+	//Historia de usuario 12-Bonificacion Ladron
+	@Test
+	public void bonificacionLadron() {
+		Personaje politico = new Humano(new Ladron(), "politico");
+		
+		Assert.assertEquals(0 + 7, politico.getDestreza());
+	}
 	
+	//Historia de usuario 13-Bonificacion Luchador
+		@Test
+		public void bonificacionLuchador() {
+			Personaje estIngenieria = new Humano(new Luchador(), "estIngenieria");
+			
+			Assert.assertEquals(10 + 7, estIngenieria.getFuerza());
+		}
+		
+	//Historia de usuario 14-Bonificacion Hechicero
+				@Test
+				public void bonificacionechicero() {
+					Personaje gandalf = new Humano(new Hechicero(), "gandalf");
+					
+					Assert.assertEquals(5 + 7, gandalf.getInteligencia());
+				}
 }

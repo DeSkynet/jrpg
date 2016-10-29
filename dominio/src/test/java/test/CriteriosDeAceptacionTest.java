@@ -37,6 +37,8 @@ public class CriteriosDeAceptacionTest {
 		Personaje aliBaba = new Humano(new Ladron(), "Alí Baba");
 		Personaje robocop = new Robot(new Luchador(), "Robocop");
 		
+		aliBaba.crearAlianza("Los Ladris");
+		
 		Assert.assertEquals(0, aliBaba.getExperiencia());
 		Assert.assertEquals(0, robocop.getExperiencia());
 		
@@ -55,7 +57,7 @@ public class CriteriosDeAceptacionTest {
 		Assert.assertTrue(robocop.estaVivo());
 		
 		//AL GANAR GANA EXPERIENCIA
-		robocop.aumentarExperiencia();
+		robocop.aumentarExperiencia(aliBaba.getAlianza());
 		Assert.assertEquals(100, robocop.getExperiencia());
 	}
 	
@@ -66,6 +68,8 @@ public class CriteriosDeAceptacionTest {
 
 		Personaje aliBaba = new Humano(new Ladron(), "Alí Baba");
 		Personaje robocop = new Robot(new Luchador(), "Robocop");
+		
+		aliBaba.crearAlianza("Los Ladris");
 		
 		Assert.assertEquals(1, aliBaba.getNivel());
 		Assert.assertEquals(1, robocop.getNivel());
@@ -84,7 +88,7 @@ public class CriteriosDeAceptacionTest {
 		Assert.assertFalse(aliBaba.estaVivo());
 		Assert.assertTrue(robocop.estaVivo());
 		
-		robocop.aumentarExperiencia();
+		robocop.aumentarExperiencia(aliBaba.getAlianza());
 		Assert.assertEquals(2, robocop.getNivel());
 	}
 	
@@ -117,25 +121,25 @@ public class CriteriosDeAceptacionTest {
 	}
 	
 	//Historia de usuario 07-Quitar Item de un Decorator.
-		@Test
-		public void testQuitarItem() {
-			Personaje luke = new Humano();
-			Assert.assertEquals(10, luke.obtenerPuntosDeAtaque());
-			Assert.assertEquals(0, luke.obtenerPuntosDeDefensa());
-			
-			//Se agrega item
-			luke = new ConEspadaExcalibur(luke);
-			Assert.assertEquals(10+20, luke.obtenerPuntosDeAtaque());
-			
-			//Se agrega 2 item
-			luke = new ConCascoDeMithril(luke);
-			Assert.assertEquals(5, luke.obtenerPuntosDeDefensa());
-		}
-			luke.quitarItemMayor();
-			Assert.assertEquals(10, luke.obtenerPuntosDeAtaque());
-			Assert.assertEquals(5, luke.obtenerPuntosDeDefensa());
-		
-	}
+//		@Test
+//		public void testQuitarItem() {
+//			Personaje luke = new Humano();
+//			Assert.assertEquals(10, luke.obtenerPuntosDeAtaque());
+//			Assert.assertEquals(0, luke.obtenerPuntosDeDefensa());
+//			
+//			//Se agrega item
+//			luke = new ConEspadaExcalibur(luke);
+//			Assert.assertEquals(10+20, luke.obtenerPuntosDeAtaque());
+//			
+//			//Se agrega 2 item
+//			luke = new ConCascoDeMithril(luke);
+//			Assert.assertEquals(5, luke.obtenerPuntosDeDefensa());
+//			
+//			//luke.quitarItemMayor();
+//			Assert.assertEquals(10, luke.obtenerPuntosDeAtaque());
+//			Assert.assertEquals(5, luke.obtenerPuntosDeDefensa());
+//		
+//	}
 
 	//Historia de usuario 08-Habilidad SuperHeroe
 	@Test
@@ -158,7 +162,28 @@ public class CriteriosDeAceptacionTest {
 		Assert.assertEquals(10 + 2, duncan.obtenerPuntosDeAtaque());
 	}
 
-	/// FALTA HU 9 (HABILIDAD ROBOT) POR FALTA DE CLASE BATALLA
+//	@Test
+//	public void robotQueRevive() {
+//		
+//		int turno = 0;
+//
+//		Personaje aliBaba = new Humano(new Ladron(), "Alí Baba");
+//		Personaje juliVelazquez = new Humano(new Ladron(), "JuliV");
+//		Personaje macri = new Humano(new Ladron(), "macri");
+//		
+//		aliBaba.crearAlianza("Los Ladris");
+//		
+//		Personaje robocop = new Robot(new Luchador(), "Robocop");
+//		Personaje ironMan = new SuperHeroe(new Luchador(), "ironMan");
+//		Personaje superMan = new SuperHeroe(new Luchador(), "superMan");
+//		
+//		robocop.crearAlianza("Los Jodidos");
+//		
+//		//INICIA COMBATE
+//		while(robocop.getAlianza().estanVivos() && aliBaba.getAlianza().estanVivos()) {
+//			///// QUEDA EN TERMINAR....
+//		}
+//	}
 	
 	//Historia de usuario 10 - Habilidad Alien
 	@Test

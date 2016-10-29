@@ -11,6 +11,8 @@ import personaje.Casta;
 
 public class Robot extends Personaje{
 	
+	private int contadorRevivir = 0;
+	
 	public Robot(){
 		this.altura = 200;
 		this.fuerza = 20;
@@ -42,4 +44,14 @@ public class Robot extends Personaje{
 	protected int calcularPuntosDeAtaque() {
 		return this.fuerza;
 	}
+
+	public int getContadorRevivir() {
+		return contadorRevivir;
+	}
+
+	public void setContadorRevivir(int contadorRevivir) {
+		this.contadorRevivir = contadorRevivir;
+	}
+	
+	
 }

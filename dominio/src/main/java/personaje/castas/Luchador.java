@@ -16,7 +16,7 @@ public class Luchador extends Casta{
 
 	@Override
 	public int bonusDeFuerza() {
-		return 5;
+		return 7;
 	}
 	
 	@Override

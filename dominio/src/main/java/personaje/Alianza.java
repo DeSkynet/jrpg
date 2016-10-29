@@ -74,15 +74,21 @@ public class Alianza {
 			this.agregarAliado(it.next());
 		}
 		
-Iterator<Personaje> itt = alianzaAAgregar.alianza.iterator();
+		Iterator<Personaje> itt = alianzaAAgregar.alianza.iterator();
 		
 		while(itt.hasNext()) {
 			
 			itt.next().alianza=this;
 		}
 		
-		
-		
-		
+	}
+	
+	public boolean estanVivos(){
+		int aux = 0;
+		Iterator<Personaje> it = this.alianza.iterator();
+		while(it.hasNext()){
+			aux+= it.next().getSalud();
+		}
+		return aux!=0;
 	}
 }

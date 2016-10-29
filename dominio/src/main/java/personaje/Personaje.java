@@ -1,5 +1,7 @@
 package personaje;
 
+import java.util.Iterator;
+
 import constante.Constantes;
 import interfaces.Atacable;
 import personaje.Alianza;
@@ -30,7 +32,7 @@ public abstract class Personaje implements Atacable {
 	@Override
 	public void serAtacado(int daño) {
 		if( daño <= this.calcularPuntosDeDefensa())
-			daño = 0;
+			daño = 1;
 		else
 			daño -= this.calcularPuntosDeDefensa();
 		
@@ -44,7 +46,9 @@ public abstract class Personaje implements Atacable {
 		return calcularPuntosDeDefensa();
 	}
 	
-	protected void despuesDeSerAtacado() { }
+	protected void despuesDeSerAtacado() { 
+		this.energia+= Constantes.SUBA_DE_ENERGIA_DESPUES_DE_ATAQUE;
+	}
 	
 	//ATAQUE
 	protected abstract boolean puedeAtacar();
@@ -123,9 +127,11 @@ public abstract class Personaje implements Atacable {
 	}
 	
 	///Aumentar Experiencia
-	public void aumentarExperiencia() {
-		this.experiencia+= Constantes.EXPERIENCIA_POR_VICTORIA;
-		
+	public void aumentarExperiencia(Alianza alianzaEnemiga) {
+		Iterator<Personaje> it = alianzaEnemiga.alianza.iterator();
+		while(it.hasNext()){
+			this.experiencia+= Constantes.EXPERIENCIA_POR_VICTORIA * it.next().nivel;
+		}
 		if(esTopeDeExperiencia())
 			subirDeNivel();
 	}
@@ -135,7 +141,9 @@ public abstract class Personaje implements Atacable {
 	}
 	
 	public void subirDeNivel() {
-		this.nivel+=1;
+		if(this.nivel < Constantes.NIVEL_MAXIMO){
+		this.nivel++;
+		}
 	}
 	
 }

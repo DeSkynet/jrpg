@@ -1,5 +1,7 @@
 package personaje;
 
+import personaje.items.ItemMayor;
+
 public class Equipamiento extends Personaje{
 	private int eficiencia;
 	
@@ -29,4 +31,20 @@ public class Equipamiento extends Personaje{
 	public int getEficiencia(){
 		return this.eficiencia;
 	}
+	
+	protected ItemMayor calcularItemMayor() {
+		ItemMayor itemMayor;
+		if(this.tieneEquipamiento()==true){
+		 Equipamiento per=this.equipamiento;
+		 itemMayor=per.calcularItemMayor();
+		 if((itemMayor.getEficienciaMayor()) > this.getEficiencia())
+			return itemMayor;
+		}
+		return new ItemMayor(this.getEficiencia(),this.getClass().getSimpleName());
+	}
+	
+	public Equipamiento getEquipamiento(){
+		return this.equipamiento;
+	}
+	
 }

@@ -105,16 +105,7 @@ public class CriteriosDeAceptacionTest {
 		Assert.assertEquals(10+20, luke.obtenerPuntosDeAtaque());
 		Assert.assertEquals(0, luke.obtenerPuntosDeDefensa());
 		Assert.assertTrue(luke.tieneEquipamiento());	//Tiene item
-		
-		//Se agrega 2 item
-		luke.equiparItem(new ConCascoDeMithril());
-		Assert.assertEquals(5, luke.obtenerPuntosDeDefensa());
-		Assert.assertEquals(10+20, luke.obtenerPuntosDeAtaque());
-		
-		//Se agrega 3 item
-		luke.equiparItem(new ConCascoDeMithril());
-		Assert.assertEquals(5+5, luke.obtenerPuntosDeDefensa());
-		Assert.assertEquals(10+20, luke.obtenerPuntosDeAtaque());
+	
 	}
 	
 	//Historia de Usuario 06-Alianzas
@@ -133,13 +124,13 @@ public class CriteriosDeAceptacionTest {
 		Assert.assertEquals(3, p2.getAlianza().cantidadDeAliados());
 		Assert.assertEquals(3, npc.getAlianza().cantidadDeAliados());
 		
-		
 	}
 	
 		//Historia de usuario 07-Quitar Item de un Decorator.
-		@Ignore
+		@Test
 		public void testQuitarItem() {
 			Personaje luke = new Humano();
+			Personaje darthVader = new Humano();
 			Assert.assertEquals(10, luke.obtenerPuntosDeAtaque());
 			Assert.assertEquals(0, luke.obtenerPuntosDeDefensa());
 			
@@ -148,7 +139,6 @@ public class CriteriosDeAceptacionTest {
 			Assert.assertEquals(10+20, luke.obtenerPuntosDeAtaque());
 			Assert.assertEquals(0, luke.obtenerPuntosDeDefensa());
 
-			
 			//Se agrega 2 item
 			luke.equiparItem(new ConCascoDeMithril());
 			Assert.assertEquals(5, luke.obtenerPuntosDeDefensa());
@@ -158,21 +148,33 @@ public class CriteriosDeAceptacionTest {
 			Assert.assertEquals(5+5, luke.obtenerPuntosDeDefensa());
 			Assert.assertEquals(10+20, luke.obtenerPuntosDeAtaque());
 			
-//			luke.quitarItemMayor();
+			//Asigno Item que le saque a luke
+			Equipamiento ItemMayoy=luke.quitarItemMayor();
+			if(ItemMayoy!=null){
+				darthVader.equiparItem(ItemMayoy);
+				Assert.assertEquals(10+20, darthVader.obtenerPuntosDeAtaque());
+				Assert.assertEquals(0, darthVader.obtenerPuntosDeDefensa());
+				Assert.assertTrue(darthVader.tieneEquipamiento());
+			}
+			
 			Assert.assertEquals(10, luke.obtenerPuntosDeAtaque());
 			Assert.assertEquals(5+5, luke.obtenerPuntosDeDefensa());
+			Assert.assertTrue(luke.tieneEquipamiento());
 			
-//			luke.quitarItemMayor();
+			luke.quitarItemMayor();
 			Assert.assertEquals(10, luke.obtenerPuntosDeAtaque());
 			Assert.assertEquals(5, luke.obtenerPuntosDeDefensa());
+			Assert.assertTrue(luke.tieneEquipamiento());
 			
-//			luke.quitarItemMayor();
+			luke.quitarItemMayor();
 			Assert.assertEquals(10, luke.obtenerPuntosDeAtaque());
 			Assert.assertEquals(0, luke.obtenerPuntosDeDefensa());
+			Assert.assertFalse(luke.tieneEquipamiento());
 		
-//			luke.quitarItemMayor();	//YA NO TIENE ITEM, NO DEBERIA PASAR NADA.
+			luke.quitarItemMayor();	//YA NO TIENE ITEM, NO DEBERIA PASAR NADA.
 			Assert.assertEquals(10, luke.obtenerPuntosDeAtaque());
 			Assert.assertEquals(0, luke.obtenerPuntosDeDefensa());
+			Assert.assertFalse(luke.tieneEquipamiento());
 	}
 
 	//Historia de usuario 08-Habilidad SuperHeroe

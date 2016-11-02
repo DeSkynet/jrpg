@@ -5,7 +5,7 @@ import java.util.Iterator;
 import constante.Constantes;
 import interfaces.Atacable;
 import personaje.Alianza;
-import personaje.items.ConEspadaExcalibur;
+import personaje.items.ItemMayor;
 
 public abstract class Personaje implements Atacable {
 	protected int coordenadaX = 0;
@@ -106,7 +106,6 @@ public abstract class Personaje implements Atacable {
 	
 	/// SETTERS
 	
-	
 	public void setDestreza(int destreza) {
 		this.destreza = destreza;
 	}
@@ -165,7 +164,8 @@ public abstract class Personaje implements Atacable {
 		this.nivel++;
 		}
 	}
-
+	
+	//ITEMS
 	public void equiparItem(Equipamiento item) {
 		item.equipamiento=this.equipamiento;
 		this.equipamiento=item;
@@ -175,4 +175,34 @@ public abstract class Personaje implements Atacable {
 		return this.equipamiento != null;
 	}
 	
+	protected ItemMayor calcularItemMayor(){
+		return this.equipamiento.calcularItemMayor();
+	}
+	
+	public Equipamiento quitarItemMayor(){
+		ItemMayor maxItem;
+		String claseMaximaEfi;
+		if(this.tieneEquipamiento()==true){
+			maxItem=this.equipamiento.calcularItemMayor();  //Devuelve un objeto ItemTest
+			claseMaximaEfi=maxItem.getClase();	//Se queda solo con el nombre de la clase.
+			Equipamiento equipamientoMax=this.quitarItem(claseMaximaEfi);		
+			return equipamientoMax;			//Devuelve el item mas poderoso.
+		}
+		else return null;	//no tienen item.
+	}
+	
+	protected Equipamiento quitarItem(String maxEfi){
+
+		if( this.equipamiento.getClass().getSimpleName().compareTo(maxEfi) == 0 && this.tieneEquipamiento()==true ){
+			Equipamiento aux=this.equipamiento;
+			this.equipamiento=aux.equipamiento;
+			aux.equipamiento=null;
+			return aux;
+		}
+		else if(this.equipamiento.tieneEquipamiento()==true){
+			return this.equipamiento.quitarItem(maxEfi);
+		}
+		return null;	//devuelve null para el caso donde tieneItem()==false
+	}
+
 }

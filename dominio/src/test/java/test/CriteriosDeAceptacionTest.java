@@ -1,6 +1,7 @@
 package test;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import personaje.*;
@@ -120,26 +121,26 @@ public class CriteriosDeAceptacionTest {
 		
 	}
 	
-	//Historia de usuario 07-Quitar Item de un Decorator.
-//		@Test
-//		public void testQuitarItem() {
-//			Personaje luke = new Humano();
-//			Assert.assertEquals(10, luke.obtenerPuntosDeAtaque());
-//			Assert.assertEquals(0, luke.obtenerPuntosDeDefensa());
-//			
-//			//Se agrega item
-//			luke = new ConEspadaExcalibur(luke);
-//			Assert.assertEquals(10+20, luke.obtenerPuntosDeAtaque());
-//			
-//			//Se agrega 2 item
-//			luke = new ConCascoDeMithril(luke);
-//			Assert.assertEquals(5, luke.obtenerPuntosDeDefensa());
-//			
-//			//luke.quitarItemMayor();
-//			Assert.assertEquals(10, luke.obtenerPuntosDeAtaque());
-//			Assert.assertEquals(5, luke.obtenerPuntosDeDefensa());
-//		
-//	}
+		//Historia de usuario 07-Quitar Item de un Decorator.
+		@Ignore
+		public void testQuitarItem() {
+			Personaje luke = new Humano();
+			Assert.assertEquals(10, luke.obtenerPuntosDeAtaque());
+			Assert.assertEquals(0, luke.obtenerPuntosDeDefensa());
+			
+			//Se agrega item
+			luke = new ConEspadaExcalibur(luke);
+			Assert.assertEquals(10+20, luke.obtenerPuntosDeAtaque());
+			
+			//Se agrega 2 item
+			luke = new ConCascoDeMithril(luke);
+			Assert.assertEquals(5, luke.obtenerPuntosDeDefensa());
+			
+			//luke.quitarItemMayor();
+			Assert.assertEquals(10, luke.obtenerPuntosDeAtaque());
+			Assert.assertEquals(5, luke.obtenerPuntosDeDefensa());
+		
+	}
 
 	//Historia de usuario 08-Habilidad SuperHeroe
 	@Test
@@ -162,28 +163,28 @@ public class CriteriosDeAceptacionTest {
 		Assert.assertEquals(10 + 2, duncan.obtenerPuntosDeAtaque());
 	}
 
-//	@Test
-//	public void robotQueRevive() {
-//		
-//		int turno = 0;
-//
-//		Personaje aliBaba = new Humano(new Ladron(), "Alí Baba");
-//		Personaje juliVelazquez = new Humano(new Ladron(), "JuliV");
-//		Personaje macri = new Humano(new Ladron(), "macri");
-//		
-//		aliBaba.crearAlianza("Los Ladris");
-//		
-//		Personaje robocop = new Robot(new Luchador(), "Robocop");
-//		Personaje ironMan = new SuperHeroe(new Luchador(), "ironMan");
-//		Personaje superMan = new SuperHeroe(new Luchador(), "superMan");
-//		
-//		robocop.crearAlianza("Los Jodidos");
-//		
-//		//INICIA COMBATE
-//		while(robocop.getAlianza().estanVivos() && aliBaba.getAlianza().estanVivos()) {
-//			///// QUEDA EN TERMINAR....
-//		}
-//	}
+	@Ignore
+	public void robotQueRevive() {
+		
+		int turno = 0;
+
+		Personaje aliBaba = new Humano(new Ladron(), "Alí Baba");
+		Personaje juliVelazquez = new Humano(new Ladron(), "JuliV");
+		Personaje macri = new Humano(new Ladron(), "macri");
+		
+		aliBaba.crearAlianza("Los Ladris");
+		
+		Personaje robocop = new Robot(new Luchador(), "Robocop");
+		Personaje ironMan = new SuperHeroe(new Luchador(), "ironMan");
+		Personaje superMan = new SuperHeroe(new Luchador(), "superMan");
+		
+		robocop.crearAlianza("Los Jodidos");
+		
+		//INICIA COMBATE
+		while(robocop.getAlianza().estanVivos() && aliBaba.getAlianza().estanVivos()) {
+			///// QUEDA EN TERMINAR....
+		}
+	}
 	
 	//Historia de usuario 10 - Habilidad Alien
 	@Test

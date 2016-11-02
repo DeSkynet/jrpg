@@ -11,7 +11,6 @@ import personaje.Casta;
 public class Humano extends Personaje{
 
 	public Humano() {
-		this.altura = 180;
 		this.fuerza = 10;
 		this.destreza = 0;
 		this.inteligencia = 5;
@@ -19,7 +18,6 @@ public class Humano extends Personaje{
 	}
 	
 	public Humano(Casta casta,String nombre) {
-		this.altura = 180;
 		this.casta = casta;
 		this.fuerza = 10 + this.casta.bonusDeFuerza();
 		this.destreza = 0 + this.casta.bonusDeDestreza();

@@ -39,11 +39,7 @@ public class CastaTest {
 		Assert.assertEquals(10 + 2, aliBaba.obtenerPuntosDeAtaque());
 	}
 	
-	@Test
-	public void veoAltura() {
-		Personaje aliBaba = new Humano(new Ladron(),"ladro1");
-		Assert.assertEquals(180, aliBaba.getAltura());
-	}
+
 	
 	@Test
 	public void defensaDeLaCasta() {

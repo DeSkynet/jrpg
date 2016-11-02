@@ -3,8 +3,9 @@ package personaje.castas;
 import personaje.Casta;
 
 
-public class Ladron extends Casta{
 
+public class Ladron extends Casta{
+	
 	@Override
 	public String getCasta() {
 		return "Ladron";

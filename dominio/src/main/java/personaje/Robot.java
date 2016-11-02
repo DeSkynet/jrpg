@@ -14,7 +14,6 @@ public class Robot extends Personaje{
 	private int contadorRevivir = 0;
 	
 	public Robot(){
-		this.altura = 200;
 		this.fuerza = 20;
 		this.destreza = 5;
 		this.inteligencia = 10;
@@ -22,7 +21,6 @@ public class Robot extends Personaje{
 	}
 	
 	public Robot(Casta casta, String nombre) {
-		this.altura = 200;
 		this.casta = casta;
 		this.fuerza = 15 + this.casta.bonusDeFuerza();
 		this.destreza = 5 + this.casta.bonusDeDestreza();

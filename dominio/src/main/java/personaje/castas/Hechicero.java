@@ -2,7 +2,9 @@ package personaje.castas;
 
 import personaje.Casta;
 
+
 public class Hechicero extends Casta{
+	
 	
 	@Override
 	public String getCasta() {

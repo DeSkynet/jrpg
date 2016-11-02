@@ -24,7 +24,7 @@ public class ItemsTest {
 	public void testConUnaEspadaExcalibur() {
 		Personaje arturo = new Humano();
 		
-		arturo = new ConEspadaExcalibur(arturo);
+		arturo.equiparItem(new ConEspadaExcalibur());
 		Assert.assertEquals(30, arturo.obtenerPuntosDeAtaque());
 	}
 	@Test
@@ -33,7 +33,7 @@ public class ItemsTest {
 		Assert.assertEquals(10, luke.obtenerPuntosDeAtaque());
 		
 		//Se agrega item
-		luke = new ConEspadaLaser(luke);
+		luke.equiparItem(new ConEspadaLaser());
 		Assert.assertEquals(10+10, luke.obtenerPuntosDeAtaque());
 	}
 	
@@ -43,11 +43,11 @@ public class ItemsTest {
 		Assert.assertEquals(10, luke.obtenerPuntosDeAtaque());
 		
 		//Se agrega item
-		luke = new ConEspadaLaser(luke);
+		luke.equiparItem(new ConEspadaLaser());
 		Assert.assertEquals(10+10, luke.obtenerPuntosDeAtaque());
 		
 		//Se agrega item
-		luke = new ConEspadaLaser(luke);
+		luke.equiparItem(new ConEspadaLaser());
 		Assert.assertEquals(10+10+10, luke.obtenerPuntosDeAtaque());
 	}
 	
@@ -57,11 +57,11 @@ public class ItemsTest {
 		Assert.assertEquals(10, luke.obtenerPuntosDeAtaque());
 		
 		//Se agrega item
-		luke = new ConEspadaLaser(luke);
+		luke.equiparItem(new ConEspadaLaser());
 		Assert.assertEquals(10+10, luke.obtenerPuntosDeAtaque());
 		
 		//Se agrega item
-		luke = new ConEspadaExcalibur(luke);
+		luke.equiparItem(new ConEspadaExcalibur());
 		Assert.assertEquals(10+10+20, luke.obtenerPuntosDeAtaque());
 	}
 	
@@ -72,11 +72,11 @@ public class ItemsTest {
 		Assert.assertEquals(0, luke.obtenerPuntosDeDefensa());
 		
 		//Se agrega item
-		luke = new ConEspadaExcalibur(luke);
+		luke.equiparItem(new ConEspadaExcalibur());
 		Assert.assertEquals(10+20, luke.obtenerPuntosDeAtaque());
 		
 		//Se agrega 2 item
-		luke = new ConCascoDeMithril(luke);
+		luke.equiparItem(new ConCascoDeMithril());
 		Assert.assertEquals(5, luke.obtenerPuntosDeDefensa());
 	}
 }

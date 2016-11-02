@@ -2,8 +2,9 @@ package personaje.castas;
 
 import personaje.Casta;
 
-public class Luchador extends Casta{
 
+public class Luchador extends Casta{
+	
 	@Override
 	public String getCasta() {
 		return "Luchador";

@@ -1,12 +1,18 @@
 package test;
 
 import org.junit.Assert;
+
 import org.junit.Test;
 
+import personaje.Alien;
 import personaje.Humano;
 import personaje.Personaje;
+import personaje.SuperHeroe;
+import personaje.castas.Hechicero;
 import personaje.castas.Ladron;
 import personaje.castas.Luchador;
+
+import personaje.Batalla;
 
 public class AlianzaTest {
 	@Test
@@ -20,6 +26,18 @@ public class AlianzaTest {
 		
 		Assert.assertEquals(2, p1.getAlianza().cantidadDeAliados());
 		Assert.assertEquals(2, p2.getAlianza().cantidadDeAliados());
+	}
+	
+	@Test
+	public void eliminarseAUnoMismo() {
+		Personaje p1 = new Humano(new Ladron(), "p1");
+		Personaje p2 = new Humano(new Ladron(), "p2");
+		
+		p1.crearAlianza("Los Indestructibles");
+		
+		p1.aliar(p2);
+		p1.desaliar();
+		Assert.assertEquals(null, p1.getAlianza());
 	}
 	
 	@Test
@@ -156,5 +174,26 @@ public class AlianzaTest {
 		Assert.assertEquals(5, laGarzaSosa9.getAlianza().cantidadDeAliados());
 		Assert.assertEquals(5, willy9.getAlianza().cantidadDeAliados());
 		Assert.assertEquals(5, gordoValor9.getAlianza().cantidadDeAliados());
+	}
+	
+	@Test
+	public void pruebaColaBatalla(){
+		Personaje gordoValor9 = new SuperHeroe(new Ladron(), "Gordo Valor"); //11 destreza
+		Personaje vitete9 = new Humano(new Hechicero(), "Vitete"); //2/7
+		Personaje willy9 = new Humano(new Luchador(), "willy");//5
+		Personaje laGarzaSosa9 = new Humano(new Ladron(), "Garza Sosa");//7
+		Personaje aliBaba9 = new Alien(new Ladron(), "Alí Babá");//10
+		
+		gordoValor9.crearAlianza("Los Piratas");
+		
+		gordoValor9.aliar(vitete9);
+		vitete9.aliar(laGarzaSosa9);
+		
+		willy9.crearAlianza("Los Indestructibles");
+		willy9.aliar(aliBaba9);
+		
+		Batalla uno = new Batalla(gordoValor9, willy9);
+		uno.Batallar();
+	
 	}
 }

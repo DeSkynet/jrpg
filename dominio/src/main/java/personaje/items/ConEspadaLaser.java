@@ -1,20 +1,17 @@
 package personaje.items;
 
-import personaje.Personaje;
-import personaje.PersonajeEquipado;
+import personaje.Equipamiento;
 
-/**
- *  LA ESPADA LASER AUMENTA EL PODER DE ATAQUE +10.
- */
+/** LA ESPADA LASER AUMENTA EL PODER DE ATAQUE +10.*/
 
-public class ConEspadaLaser extends PersonajeEquipado{
+public class ConEspadaLaser extends Equipamiento{
 
-	public ConEspadaLaser(Personaje personajeEquipado) {
-		super(personajeEquipado);
+	public ConEspadaLaser() {
+		super(10);
 	}
 	
 	public int obtenerPuntosDeAtaque() {
-		return super.obtenerPuntosDeAtaque() + 10;
+		return super.obtenerPuntosDeAtaque() + getEficiencia();
 	}
 }
 

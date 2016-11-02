@@ -5,6 +5,7 @@ import java.util.Iterator;
 import constante.Constantes;
 import interfaces.Atacable;
 import personaje.Alianza;
+import personaje.items.ConEspadaExcalibur;
 
 public abstract class Personaje implements Atacable {
 	protected int coordenadaX = 0;
@@ -19,6 +20,7 @@ public abstract class Personaje implements Atacable {
 	protected String nombre;
 	public Casta casta = null;
 	protected Alianza alianza = null;
+	protected Equipamiento equipamiento = null;
 	
 	
 
@@ -44,6 +46,9 @@ public abstract class Personaje implements Atacable {
 	//DEFENSA
 	protected abstract int calcularPuntosDeDefensa();
 	public int obtenerPuntosDeDefensa() {
+		if(tieneEquipamiento()){	//SI TIENE EQUIPAMIENTO
+			return calcularPuntosDeDefensa() + equipamiento.calcularPuntosDeDefensa();
+		}
 		return calcularPuntosDeDefensa();
 	}
 	
@@ -60,6 +65,9 @@ public abstract class Personaje implements Atacable {
 	///EQUIVALENTE AL DAÑO REALIZADO.
 	protected void despuesDeAtacar() { }
 	public int obtenerPuntosDeAtaque() {
+		if(tieneEquipamiento()){	//SI TIENE EQUIPAMIENTO
+			return calcularPuntosDeAtaque() + equipamiento.calcularPuntosDeAtaque();
+		}
 		return calcularPuntosDeAtaque();
 	}
 	
@@ -156,6 +164,15 @@ public abstract class Personaje implements Atacable {
 		if(this.nivel < Constantes.NIVEL_MAXIMO){
 		this.nivel++;
 		}
+	}
+
+	public void equiparItem(Equipamiento item) {
+		item.equipamiento=this.equipamiento;
+		this.equipamiento=item;
+	}
+	
+	public boolean tieneEquipamiento(){
+		return this.equipamiento != null;
 	}
 	
 }

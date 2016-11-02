@@ -96,10 +96,25 @@ public class CriteriosDeAceptacionTest {
 	//Historia de Usuario 05-Obtener Items
 	@Test
 	public void testConUnaEspadaExcalibur() {
-		Personaje arturo = new Humano();
+		Personaje luke = new Humano();
+		Assert.assertEquals(10, luke.obtenerPuntosDeAtaque());
+		Assert.assertEquals(0, luke.obtenerPuntosDeDefensa());
+		Assert.assertFalse(luke.tieneEquipamiento());
+		//Se agrega item
+		luke.equiparItem(new ConEspadaExcalibur());
+		Assert.assertEquals(10+20, luke.obtenerPuntosDeAtaque());
+		Assert.assertEquals(0, luke.obtenerPuntosDeDefensa());
+		Assert.assertTrue(luke.tieneEquipamiento());	//Tiene item
 		
-		arturo = new ConEspadaExcalibur(arturo);
-		Assert.assertEquals(10 + 20, arturo.obtenerPuntosDeAtaque());
+		//Se agrega 2 item
+		luke.equiparItem(new ConCascoDeMithril());
+		Assert.assertEquals(5, luke.obtenerPuntosDeDefensa());
+		Assert.assertEquals(10+20, luke.obtenerPuntosDeAtaque());
+		
+		//Se agrega 3 item
+		luke.equiparItem(new ConCascoDeMithril());
+		Assert.assertEquals(5+5, luke.obtenerPuntosDeDefensa());
+		Assert.assertEquals(10+20, luke.obtenerPuntosDeAtaque());
 	}
 	
 	//Historia de Usuario 06-Alianzas
@@ -129,17 +144,35 @@ public class CriteriosDeAceptacionTest {
 			Assert.assertEquals(0, luke.obtenerPuntosDeDefensa());
 			
 			//Se agrega item
-			luke = new ConEspadaExcalibur(luke);
+			luke.equiparItem(new ConEspadaExcalibur());
 			Assert.assertEquals(10+20, luke.obtenerPuntosDeAtaque());
+			Assert.assertEquals(0, luke.obtenerPuntosDeDefensa());
+
 			
 			//Se agrega 2 item
-			luke = new ConCascoDeMithril(luke);
+			luke.equiparItem(new ConCascoDeMithril());
 			Assert.assertEquals(5, luke.obtenerPuntosDeDefensa());
+			Assert.assertEquals(10+20, luke.obtenerPuntosDeAtaque());
 			
-			//luke.quitarItemMayor();
+			luke.equiparItem(new ConCascoDeMithril());
+			Assert.assertEquals(5+5, luke.obtenerPuntosDeDefensa());
+			Assert.assertEquals(10+20, luke.obtenerPuntosDeAtaque());
+			
+//			luke.quitarItemMayor();
+			Assert.assertEquals(10, luke.obtenerPuntosDeAtaque());
+			Assert.assertEquals(5+5, luke.obtenerPuntosDeDefensa());
+			
+//			luke.quitarItemMayor();
 			Assert.assertEquals(10, luke.obtenerPuntosDeAtaque());
 			Assert.assertEquals(5, luke.obtenerPuntosDeDefensa());
+			
+//			luke.quitarItemMayor();
+			Assert.assertEquals(10, luke.obtenerPuntosDeAtaque());
+			Assert.assertEquals(0, luke.obtenerPuntosDeDefensa());
 		
+//			luke.quitarItemMayor();	//YA NO TIENE ITEM, NO DEBERIA PASAR NADA.
+			Assert.assertEquals(10, luke.obtenerPuntosDeAtaque());
+			Assert.assertEquals(0, luke.obtenerPuntosDeDefensa());
 	}
 
 	//Historia de usuario 08-Habilidad SuperHeroe

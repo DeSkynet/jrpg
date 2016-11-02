@@ -1,15 +1,14 @@
 package personaje.items;
 
-import personaje.Personaje;
-import personaje.PersonajeEquipado;
+import personaje.Equipamiento;
 
-public class ConCampoMagnetico extends PersonajeEquipado{
+public class ConCampoMagnetico extends Equipamiento{
 	
-	public ConCampoMagnetico(Personaje personajeEquipado) {
-		super(personajeEquipado);
+	public ConCampoMagnetico() {
+		super(10);
 	}
 	
 	public int obtenerPuntosDeDefensa() {
-		return super.obtenerPuntosDeDefensa() + 10;
+		return super.calcularPuntosDeDefensa() + getEficiencia();
 	}
 }

@@ -1,15 +1,12 @@
 package personaje.items;
 
-import personaje.Personaje;
-import personaje.PersonajeEquipado;
-
-public class ConCascoDeMithril extends PersonajeEquipado{
-
-	public ConCascoDeMithril(Personaje personajeEquipado) {
-		super(personajeEquipado);
+import personaje.Equipamiento;
+public class ConCascoDeMithril extends Equipamiento{
+	public ConCascoDeMithril() {
+		super(5);	//5 es la eficiencia del casco de mithril.
 	}
 	
-	public int obtenerPuntosDeDefensa() {
-		return super.obtenerPuntosDeDefensa() + 5;
+	public int calcularPuntosDeDefensa() {
+			return super.calcularPuntosDeDefensa() + getEficiencia();
 	}
 }

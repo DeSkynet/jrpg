@@ -7,6 +7,8 @@ import interfaces.Atacable;
 import personaje.Alianza;
 
 public abstract class Personaje implements Atacable {
+	protected int coordenadaX = 0;
+	protected int coordenadaY = 0;
 	protected int experiencia = 0;
 	protected int nivel = 1;
 	protected int destreza;	///INDICA BENEFICIOS AL PERSONAJE EN LA BATALLA, COMO ESQUIVAR...
@@ -14,7 +16,6 @@ public abstract class Personaje implements Atacable {
 	protected int inteligencia;
 	protected int energia = 100;
 	protected int salud = 100;
-	protected int altura;
 	protected String nombre;
 	public Casta casta = null;
 	protected Alianza alianza = null;
@@ -75,10 +76,6 @@ public abstract class Personaje implements Atacable {
 		return inteligencia;
 	}
 	
-	public int getAltura() {
-		return this.altura;
-	}
-	
 	public int getExperiencia() {
 		return this.experiencia;
 	}
@@ -99,6 +96,17 @@ public abstract class Personaje implements Atacable {
 		return alianza;
 	}
 	
+	/// SETTERS
+	
+	
+	public void setDestreza(int destreza) {
+		this.destreza = destreza;
+	}
+
+	public void setSalud(int salud) {
+		this.salud = salud;
+	}
+
 	// BOOLEANS
 	public boolean esSaludMaxima() {
 		return this.salud==100;
@@ -126,14 +134,18 @@ public abstract class Personaje implements Atacable {
 		this.alianza.desaliar(this);
 	}
 	
+	public boolean existeAlianza(){
+		return this.alianza != null;
+	}
+	
 	///Aumentar Experiencia
 	public void aumentarExperiencia(Alianza alianzaEnemiga) {
 		Iterator<Personaje> it = alianzaEnemiga.alianza.iterator();
 		while(it.hasNext()){
-			this.experiencia+= Constantes.EXPERIENCIA_POR_VICTORIA * it.next().nivel;
+			this.experiencia+= Constantes.EXPERIENCIA_POR_VICTORIA * it.next().nivel; ///1500 SON 3 ALIADOS
+			if(esTopeDeExperiencia())
+				subirDeNivel();
 		}
-		if(esTopeDeExperiencia())
-			subirDeNivel();
 	}
 	
 	public boolean esTopeDeExperiencia() {

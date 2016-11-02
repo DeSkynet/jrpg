@@ -12,7 +12,6 @@ public class SuperHeroe extends Personaje{
 	int cantidadDeAtaquesRecibidos;
 	
 	public SuperHeroe() {
-		this.altura = 190;
 		this.fuerza = 20;
 		this.destreza = 4;
 		this.inteligencia = 3;
@@ -20,7 +19,6 @@ public class SuperHeroe extends Personaje{
 	}
 	
 	public SuperHeroe(Casta casta, String nombre) {
-		this.altura = 190;
 		this.casta = casta;
 		this.fuerza = 20 + this.casta.bonusDeFuerza();
 		this.destreza = 4 + this.casta.bonusDeDestreza();

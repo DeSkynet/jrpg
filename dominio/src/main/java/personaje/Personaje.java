@@ -166,9 +166,13 @@ public abstract class Personaje implements Atacable {
 	}
 	
 	//ITEMS
-	public void equiparItem(Equipamiento item) {
+	public boolean equiparItem(Equipamiento item) {
+		if(item!=null){
 		item.equipamiento=this.equipamiento;
 		this.equipamiento=item;
+		return true;
+		}
+		return false;
 	}
 	
 	public boolean tieneEquipamiento(){

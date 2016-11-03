@@ -1,13 +1,11 @@
 package ventana;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -16,6 +14,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 
+@SuppressWarnings("serial")
 public class VentanaPrincipal extends JFrame {
 
 	private JPanel contentPane;
@@ -89,7 +88,7 @@ public class VentanaPrincipal extends JFrame {
 		registrarUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				abrirVentanaRegistro();
-				
+				 
 			}
 		});
 		registrarUsuario.setFont(new Font("Tahoma", Font.BOLD, 16));

@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.util.Scanner;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import mensaje.Mensaje;
 
@@ -26,11 +27,11 @@ public class Cliente {
 		
 		leerArchivoConfig();
 		
-		try {
-			this.cliente = new Socket(host, puerto);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			this.cliente = new Socket(host, puerto);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 	}
 	
 	
@@ -76,12 +77,10 @@ public class Cliente {
 	///ENVIAR OBJETO para logueo por ejemplo
     public void enviarObjeto(Object obj) {
     	PrintStream ps;
-    	Gson gson;
     	
     	try {
 			ps = new PrintStream(this.cliente.getOutputStream());
-			gson = new Gson();
-			ps.println(gson.toJson(obj));
+			ps.println(obj);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -91,8 +90,48 @@ public class Cliente {
     
     ///PROVISORIO
     public void registrarCliente(String usuario, String pass) {
-    	enviarObjeto(new Mensaje(usuario, pass));
+    	JsonObject nuevoCliente = new JsonObject();
+    	
+    	nuevoCliente.addProperty("Usuario", usuario);
+    	nuevoCliente.addProperty("Pass", pass);
+    	
+    	System.out.println(nuevoCliente);
+    	
+    	//enviarObjeto(nuevoCliente);
     }
+    
+    public void elegirPersonaje(String raza, String casta) {
+    	JsonObject eleccionPersonaje = new JsonObject();
+    	
+    	eleccionPersonaje.addProperty("Usuario", this.nombre);
+    	eleccionPersonaje.addProperty("Raza", raza);
+    	eleccionPersonaje.addProperty("Casta", casta);
+    	
+    	System.out.println(eleccionPersonaje);
+    	//enviarObjeto(eleccionPersonaje);
+    }
+    
+    public void posicionDelPersonaje(int coordX, int coordY) {
+    	JsonObject posicionPersonaje = new JsonObject();
+    	
+    	posicionPersonaje.addProperty("Usuario", this.nombre);
+    	posicionPersonaje.addProperty("CoordenadaX", coordX);
+    	posicionPersonaje.addProperty("CoordenadaY", coordY);
+    	
+    	//enviarObjeto(posicionPersoanje);
+    }
+    
+    public void Ataque(String ataque, String atacado) {
+		JsonObject ataquePersonaje = new JsonObject();
+		
+		ataquePersonaje.addProperty("Usuario", this.nombre);
+		ataquePersonaje.addProperty("Ataque", ataque);
+		ataquePersonaje.addProperty("Atacado", atacado);
+		
+//		enviarObjeto(ataquePersonaje);
+	}
+    
+    
     
     public void cerrarCliente() {
         try {
@@ -101,4 +140,9 @@ public class Cliente {
             e.printStackTrace();
         }
     }
+    
+    public static void main(String[] args) {
+		Cliente c = new Cliente("usuario");
+		c.registrarCliente("ssss", "ffff");
+	}
 }

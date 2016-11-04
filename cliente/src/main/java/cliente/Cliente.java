@@ -87,4 +87,18 @@ public class Cliente {
 			e.printStackTrace();
 		}
     }
+    
+    
+    ///PROVISORIO
+    public void registrarCliente(String usuario, String pass) {
+    	enviarObjeto(new Mensaje(usuario, pass));
+    }
+    
+    public void cerrarCliente() {
+        try {
+            cliente.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

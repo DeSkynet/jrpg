@@ -1,13 +1,19 @@
 package cliente;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Scanner;
 
+import com.google.gson.Gson;
+
+import mensaje.Mensaje;
+
 public class Cliente {
-	private static final String PATH_ARCHIVO_CONFIG = "archivos/conexion.config";
+	private static final String PATH_ARCHIVO_CONFIG = "config/conexion.config";
 	
 	private Socket cliente;
     private String nombre = null;
@@ -46,7 +52,39 @@ public class Cliente {
 		}
     	entrada.close();
 	}
-
-    
-    
+		
+	///enviar mensaje 
+    public void enviarMensaje(String mjs) {
+    	PrintStream ps;
+    	Mensaje mensajeJson;
+    	Gson gson;
+    	
+        try {
+            //Se lee desde el host del usuario y dirige el flujo o información al server
+            ps = new PrintStream(this.cliente.getOutputStream()); //le digo a donde lo tiene que mandar.. cliente es el socket.
+            
+        	//SEREALIZO EL MENSAJE CON GSON.
+        	mensajeJson=new Mensaje(this.nombre,mjs);
+        	gson = new Gson();
+        	
+            ps.println(gson.toJson(mensajeJson)); //MANDO el mensaje JSON por el socket.
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+	
+	///ENVIAR OBJETO para logueo por ejemplo
+    public void enviarObjeto(Object obj) {
+    	PrintStream ps;
+    	Gson gson;
+    	
+    	try {
+			ps = new PrintStream(this.cliente.getOutputStream());
+			gson = new Gson();
+			ps.println(gson.toJson(obj));
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
 }

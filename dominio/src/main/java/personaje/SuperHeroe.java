@@ -32,11 +32,6 @@ public class SuperHeroe extends Personaje{
 	}
 
 	@Override
-	protected boolean puedeAtacar() {
-		return this.energia >= calcularPuntosDeAtaque();
-	}
-
-	@Override
 	protected int calcularPuntosDeAtaque() {
 		return this.fuerza + cantidadDeAtaquesRecibidos;
 	}

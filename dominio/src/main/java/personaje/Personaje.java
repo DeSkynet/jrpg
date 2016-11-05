@@ -22,7 +22,6 @@ public abstract class Personaje implements Atacable {
 	protected Alianza alianza = null;
 	protected Equipamiento equipamiento = null;
 	
-	
 
 	public final void atacar(Atacable atacado) {
 		if (puedeAtacar()) {
@@ -33,7 +32,7 @@ public abstract class Personaje implements Atacable {
 	}
 	
 	@Override
-	public void serAtacado(int daño) {
+	public final void serAtacado(int daño) {
 		if( daño <= this.calcularPuntosDeDefensa())
 			daño = 1;
 		else
@@ -57,7 +56,9 @@ public abstract class Personaje implements Atacable {
 	}
 	
 	//ATAQUE
-	protected abstract boolean puedeAtacar();
+	protected boolean puedeAtacar() {
+		return this.energia >= calcularPuntosDeAtaque();
+	}
 	protected abstract int calcularPuntosDeAtaque();
 	
 	///LO PUEDE USAR EL ALIEN COMO UN MODO DE REGENERARSE

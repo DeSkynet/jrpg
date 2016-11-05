@@ -31,11 +31,6 @@ public class Humano extends Personaje{
 	}
 
 	@Override
-	protected boolean puedeAtacar() {
-		return this.energia >= calcularPuntosDeAtaque();
-	}
-
-	@Override
 	protected int calcularPuntosDeAtaque() {
 		if(this.alianza == null)
 			return this.fuerza;

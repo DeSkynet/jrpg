@@ -7,11 +7,9 @@ public class NPC extends Personaje {
 	
 	private int id;
 	
-	
 	public NPC(int id){
 		this.id = id;
 	}
-
 	
 	//DEFENSA
 	public int calcularPuntosDeDefensa(){
@@ -28,11 +26,6 @@ public class NPC extends Personaje {
 	
 	public int obtenerPuntosDeAtaque() {
 		return calcularPuntosDeAtaque();
-	}
-	
-
-	public boolean puedeAtacar() {
-		return this.energia >= calcularPuntosDeAtaque();
 	}
 
 	public int getId() {

@@ -1,37 +1,32 @@
 package cliente;
 
-import java.io.BufferedReader;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Scanner;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
+//import com.google.gson.JsonObject;
 
-import mensaje.Mensaje;
+import mensajes.*;
 
 public class Cliente {
 	private static final String PATH_ARCHIVO_CONFIG = "config/conexion.config";
 	
 	private Socket cliente;
-    private String nombre = null;
+	private String nombre = null;
     private String host;
     private int puerto;
+    private String mapaActual;
     
     //CONSTRUCTOR DE CLIENTE
 	public Cliente(String nombre) {
 		this.nombre = nombre;
-		
 		leerArchivoConfig();
-		
-//		try {
-//			this.cliente = new Socket(host, puerto);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
 	}
 	
 	
@@ -47,91 +42,64 @@ public class Cliente {
 			}
 			
 		} catch (FileNotFoundException e) {
+			//DEBERIA abrir una ventana, mostrando que hay un error en el archivo de configuracion.
 				System.err.println(e.getLocalizedMessage());
 		} finally {
 			entrada.close();
 		}
-    	entrada.close();
 	}
 		
-	///enviar mensaje 
-    public void enviarMensaje(String mjs) {
-    	PrintStream ps;
-    	Mensaje mensajeJson;
-    	Gson gson;
-    	
-        try {
-            //Se lee desde el host del usuario y dirige el flujo o información al server
-            ps = new PrintStream(this.cliente.getOutputStream()); //le digo a donde lo tiene que mandar.. cliente es el socket.
-            
-        	//SEREALIZO EL MENSAJE CON GSON.
-        	mensajeJson=new Mensaje(this.nombre,mjs);
-        	gson = new Gson();
-        	
-            ps.println(gson.toJson(mensajeJson)); //MANDO el mensaje JSON por el socket.
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-	
 	///ENVIAR OBJETO para logueo por ejemplo
-    public void enviarObjeto(Object obj) {
+    public void enviarMensaje(String tipoMensaje,Object obj) {
+    	
+    	Mensaje mensaje=new Mensaje(tipoMensaje,obj);
+    	Gson gson = new Gson();
+		String mensajeParaEnviar = gson.toJson(mensaje);
+
     	PrintStream ps;
     	
     	try {
 			ps = new PrintStream(this.cliente.getOutputStream());
-			ps.println(obj);
+			ps.println(mensajeParaEnviar);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
     }
     
-    
-    ///PROVISORIO
     public void registrarCliente(String usuario, String pass) {
-    	JsonObject nuevoCliente = new JsonObject();
+    	MensajeLogIn logIn=new MensajeLogIn(usuario,pass);
     	
-    	nuevoCliente.addProperty("Usuario", usuario);
-    	nuevoCliente.addProperty("Pass", pass);
-    	
-    	System.out.println(nuevoCliente);
-    	
-    	//enviarObjeto(nuevoCliente);
+    	enviarMensaje("MensajeLogInNuevo", logIn);
+    }
+    
+
+    public void iniciarSesionCliente(String usuario, String pass) {
+    	MensajeLogIn logIn=new MensajeLogIn(usuario,pass);
+    	enviarMensaje("MensajeLogIn", logIn);
     }
     
     public void elegirPersonaje(String raza, String casta) {
-    	JsonObject eleccionPersonaje = new JsonObject();
-    	
-    	eleccionPersonaje.addProperty("Usuario", this.nombre);
-    	eleccionPersonaje.addProperty("Raza", raza);
-    	eleccionPersonaje.addProperty("Casta", casta);
-    	
-    	System.out.println(eleccionPersonaje);
-    	//enviarObjeto(eleccionPersonaje);
+    	MensajeEleccionPersonaje eleccionPersonaje = new MensajeEleccionPersonaje(this.nombre,raza,casta);
+    	enviarMensaje("MensajeEleccionPersonaje", eleccionPersonaje);
     }
     
     public void posicionDelPersonaje(int coordX, int coordY) {
-    	JsonObject posicionPersonaje = new JsonObject();
-    	
-    	posicionPersonaje.addProperty("Usuario", this.nombre);
-    	posicionPersonaje.addProperty("CoordenadaX", coordX);
-    	posicionPersonaje.addProperty("CoordenadaY", coordY);
-    	
-    	//enviarObjeto(posicionPersoanje);
+    	MensajePosicion posicionPersonaje = new MensajePosicion(coordX,coordY);
+    	enviarMensaje("MensajePosicion", posicionPersonaje);
     }
     
-    public void Ataque(String ataque, String atacado) {
-		JsonObject ataquePersonaje = new JsonObject();
-		
-		ataquePersonaje.addProperty("Usuario", this.nombre);
-		ataquePersonaje.addProperty("Ataque", ataque);
-		ataquePersonaje.addProperty("Atacado", atacado);
-		
-//		enviarObjeto(ataquePersonaje);
+    public void elegirMapa(String mapa) {
+    	this.mapaActual=mapa;
+		MensajeEleccionTerreno terreno = new MensajeEleccionTerreno(this.nombre,this.mapaActual);
+		enviarMensaje("MensajeEleccionTerreno", terreno);
 	}
     
     
+    public void Ataque(String ataque, String atacado) {
+		MensajeAtaque ataquePersonaje = new MensajeAtaque(this.nombre,ataque,atacado);
+		enviarMensaje("MensajeAtaque", ataquePersonaje);
+	}
     
     public void cerrarCliente() {
         try {
@@ -144,5 +112,30 @@ public class Cliente {
     public static void main(String[] args) {
 		Cliente c = new Cliente("usuario");
 		c.registrarCliente("ssss", "ffff");
+	}
+    
+    public void eligeMapa() {
+		 try {
+			PrintStream psSalida = new PrintStream(cliente.getOutputStream()); //abro el canal
+				
+			//Abro una ventana y Asigno el mapa a this.mapa.
+		
+		
+       	//SEREALIZO EL MENSAJE CON GSON.
+           MensajeEleccionTerreno mensajeJson=new MensajeEleccionTerreno(nombre,this.mapaActual);
+           Gson gson = new Gson();
+           String mensajeParaEnviar = gson.toJson(mensajeJson);
+       	
+           psSalida.println(mensajeParaEnviar); //MANDO el mensaje JSON por el socket.
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+		
+	}
+    
+    public Socket getSocket() {
+		return cliente;
 	}
 }

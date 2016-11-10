@@ -11,7 +11,7 @@ import personaje.Personaje;
 public class JugadorDAO extends DAO<Personaje>{
 	private Connection conexion = null;
 	private PreparedStatement statement;
-	private static final String PATH_CONNECTION = "jdbc:sqlite:bd/JuegoBD.bd";
+	private static final String PATH_CONNECTION = "jdbc:sqlite:src/main/resources/bd/PruebaBD.bd";
 	private static final String INSERTAR = "Insert into Jugador values(?,?,?,?,?);";
 	private static final String BUSCAR = "select *from Jugador where Usuario = ?;";
 	private static final String ACTUALIZAR = "update Jugador set Experiencia = ? where Usuario = ?;";

@@ -52,21 +52,34 @@ public class HiloServidor extends Thread {
 
                     case "Movimiento":
 	                    MensajePosicion movi=gson.fromJson(mensajeResivido.getObjeto().toString(), MensajePosicion.class);
-//	                    this.leerMovimiento();	//Actualizo la Bd
-	                    this.distribuirMovimiento();
+//	                    this.leerMovimiento(movi.getUsuario(),movi.getCordenadaX(),movi.getCordenadaY());	//Actualizo la Bd
+	                    this.distribuirMovimiento(movi.getUsuario(),movi.getCordenadaX(),movi.getCordenadaY());
 	                    break;
 
-                    case "MensajeNuevoJugador":
+                    case "MensajeLogInNuevo":
                     	
-                    	MensajeNuevoJugador nuevo=gson.fromJson(mensajeResivido.getObjeto().toString(), MensajeNuevoJugador.class);
-//                    	cargarNuevoJugadorALaBD();
-//                    	envioElPersonaje(this.socket);
+                    	MensajeLogIn nuevo=gson.fromJson(mensajeResivido.getObjeto().toString(), MensajeLogIn.class);
+//                    	boolean confi=cargarNuevoALaBD(nuevo.getUsuario(),nuevo.getContraseña());
+//                    	envioConfirmacion(socket, confi);
                     	break;
-                    
+                    	
+                    case "MensajeEleccionPersonaje":
+                    	
+                    	MensajeEleccionPersonaje persona=gson.fromJson(mensajeResivido.getObjeto().toString(), MensajeEleccionPersonaje.class);
+//                    	cargarNuevoJugadorALaBD(nuevo.getUsuario(),nuevo.getContraseña());
+//                    	envioElPersonaje(this.socket);
+                    	
+                    	break;
+                    	                   
                     case "MensajeEleccionTerreno":
                     	MensajeEleccionTerreno terreno=gson.fromJson(mensajeResivido.getObjeto().toString(), MensajeEleccionTerreno.class);
 //                    	cambioEnBD(terreno.getUsuario(),terreno.getMapa());
                     	
+                    	break;
+                    	
+                    case "MensajeAtaque":
+                    	MensajeAtaque ataque=gson.fromJson(mensajeResivido.getObjeto().toString(), MensajeAtaque.class);
+                    	//FALTA
                     	break;
                     default: System.out.println ("El tipo especificado no es un mensaje.."); break;
 
@@ -95,7 +108,25 @@ public class HiloServidor extends Thread {
     }
     
     
-    private void distribuirMovimiento() {
+    private void envioConfirmacion(Socket socket, boolean confirmacion) {
+    	Mensaje mensaje=new Mensaje("MensajeConfirmacion",confirmacion);
+    	Gson gson = new Gson();
+		String mensajeParaEnviar = gson.toJson(mensaje);
+
+    	PrintStream ps;
+    	
+    	try {
+			ps = new PrintStream(socket.getOutputStream());
+			ps.println(mensajeParaEnviar);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+//DISTRIBUYE A TODOS LOS JUGADORES DE UN PLANO ACTIVOS, LA NUEVA COORDENADA DE X e Y.
+	private void distribuirMovimiento(String usuario, int cordX,int cordY) {
        //Pido a la BD todos los que esten EN this.mapaActual Y Esten ACTIVOS.
     	//CREO UN INTERADOR Y DE A UNO VOY HACIENDO EL WHILE.
         while (iterador.hasNext()) {

@@ -77,13 +77,12 @@ public class Cliente {
     		Mensaje mensajeRecuperado;
     		
             try {
-            	datos = new DataInputStream(cliente.getInputStream()); //le digo que tiene que leer del Socket
+            	datos = new DataInputStream(cliente.getInputStream()); //le digo que tiene que leer del Socket //Se queda escuchando al socket..
     	    			
         		mensaje = datos.readLine();
             	//DESEREALIZO EL MENSAJE DE JSON
         		gson = new Gson();
         		mensajeRecuperado = gson.fromJson(mensaje, Mensaje.class);
-        		datos = new DataInputStream(cliente.getInputStream()); //Se queda escuchando al socket..
         		return mensajeRecuperado;
             } catch (IOException e) {
             	e.printStackTrace();
@@ -92,21 +91,33 @@ public class Cliente {
     }
     
     
-    
-    
-    public void registrarCliente(String usuario, String pass) {
+    public boolean registrarCliente(String usuario, String pass) {
     	MensajeLogIn logIn=new MensajeLogIn(usuario,pass);
-    	
     	enviarMensaje("MensajeLogInNuevo", logIn);
+    	return esperaConfirmacion();
     }
     
 
-    public void iniciarSesionCliente(String usuario, String pass) {
+    public boolean iniciarSesionCliente(String usuario, String pass) {
     	MensajeLogIn logIn=new MensajeLogIn(usuario,pass);
     	enviarMensaje("MensajeLogIn", logIn);
+    	return esperaConfirmacion();			
     }
     
-    public void elegirPersonaje(String raza, String casta) {
+   //Espera confirmacion del servidor 
+   private boolean esperaConfirmacion() {
+	   Mensaje mensaje=ReciveMensaje();
+	   if(mensaje!=null && mensaje.getTipoMensaje().equals("MensajeConfirmacion")){
+		   Gson gson = new Gson();
+		   boolean confirmacion=(boolean) mensaje.getObjeto();
+		   if(confirmacion==true)
+			   return true;
+	   }   
+		return false;
+	}
+
+
+ public void elegirPersonaje(String raza, String casta) {
     	MensajeEleccionPersonaje eleccionPersonaje = new MensajeEleccionPersonaje(this.nombre,raza,casta);
     	enviarMensaje("MensajeEleccionPersonaje", eleccionPersonaje);
     }
@@ -148,17 +159,17 @@ public class Cliente {
 			//Abro una ventana y Asigno el mapa a this.mapa.
 		
 		
-       	//SEREALIZO EL MENSAJE CON GSON.
-           MensajeEleccionTerreno mensajeJson=new MensajeEleccionTerreno(nombre,this.mapaActual);
-           Gson gson = new Gson();
-           String mensajeParaEnviar = gson.toJson(mensajeJson);
-       	
-           psSalida.println(mensajeParaEnviar); //MANDO el mensaje JSON por el socket.
-
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
+	       	//SEREALIZO EL MENSAJE CON GSON.
+	           MensajeEleccionTerreno mensajeJson=new MensajeEleccionTerreno(nombre,this.mapaActual);
+	           Gson gson = new Gson();
+	           String mensajeParaEnviar = gson.toJson(mensajeJson);
+	       	
+	           psSalida.println(mensajeParaEnviar); //MANDO el mensaje JSON por el socket.
+	
+			} catch (IOException e) {
+	
+				e.printStackTrace();
+			}
 		
 	}
     

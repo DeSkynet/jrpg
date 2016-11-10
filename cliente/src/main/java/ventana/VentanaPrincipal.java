@@ -12,10 +12,13 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import cliente.Cliente;
+import mensajes.MensajeLogIn;
+
 
 @SuppressWarnings("serial")
 public class VentanaPrincipal extends JFrame {
-
+	private Cliente cliente;
 	private JPanel contentPane;
 	private JTextField usuario;
 	private JTextField pass;
@@ -27,7 +30,9 @@ public class VentanaPrincipal extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VentanaPrincipal() {
+	public VentanaPrincipal(Cliente cliente) {
+		
+		this.cliente = cliente;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(600, 600);
 		contentPane = new JPanel();
@@ -88,6 +93,6 @@ public class VentanaPrincipal extends JFrame {
 	
 	public void recibirDeVentanaRegistro(String usuario, String pass) {
 		System.out.println(usuario + pass);
-		//this.cliente = new Cliente(usuario);
+		this.cliente.enviarMensaje("Registro", new MensajeLogIn(usuario, pass));
 	}
 }

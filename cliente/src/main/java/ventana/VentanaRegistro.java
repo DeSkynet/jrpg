@@ -66,6 +66,7 @@ public class VentanaRegistro extends JFrame {
 	
 	public void enviarRegistroAPrincipal(String usuario, String pass) {
 		ventanaPrincipal.recibirDeVentanaRegistro(usuario, pass);
+		dispose();
 	}
 
 }

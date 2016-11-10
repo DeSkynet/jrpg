@@ -5,29 +5,35 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
 import com.google.gson.Gson;
 
+import dao.DAO;
 import mensajes.*;
+import personaje.Humano;
+import personaje.castas.Hechicero;
 
 public class HiloServidor extends Thread {
 	
     private Socket socket;
     private String nombreMapa;
     private boolean isLogIn;
+    private DAO jugador;
     
-    public HiloServidor(Socket socket, String nombreMapa, boolean isLogIn) {
+    public HiloServidor(Socket socket, String nombreMapa, boolean isLogIn, DAO jugador) {
         super("ThreadServer");
         this.socket = socket;
         this.nombreMapa=nombreMapa;
         this.isLogIn=isLogIn;
+        this.jugador = jugador;
     }
 
 
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings({"deprecation", "unchecked"})
 	public void run() {
 
         DataInputStream data;
@@ -61,6 +67,17 @@ public class HiloServidor extends Thread {
                     	MensajeLogIn nuevo=gson.fromJson(mensajeResivido.getObjeto().toString(), MensajeLogIn.class);
 //                    	boolean confi=cargarNuevoALaBD(nuevo.getUsuario(),nuevo.getContraseña());
 //                    	envioConfirmacion(socket, confi);
+							try {
+								if(!jugador.buscar(nuevo.getUsuario())) {
+									///EJEMPLO HARDCORE ----> SUJETA A CAMBIOS OBLIGADOS
+									jugador.insertar(nuevo.getUsuario(), nuevo.getContraseña(), new Humano(new Hechicero(), " "));
+									envioConfirmacion(socket, true);
+								}
+								else
+									envioConfirmacion(socket, false);
+							} catch (SQLException e) {
+								e.printStackTrace();
+							}
                     	break;
                     	
                     case "MensajeEleccionPersonaje":

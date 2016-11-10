@@ -16,15 +16,13 @@ import mensajes.*;
 public class HiloServidor extends Thread {
 	
     private Socket socket;
-    private Map <String, ArrayList<Socket>> map;
     private String nombreMapa;
     private boolean isLogIn;
     
-    public HiloServidor(Socket socket, Map <String, ArrayList<Socket>> map, String nombreSala, boolean isLogIn) {
+    public HiloServidor(Socket socket, String nombreMapa, boolean isLogIn) {
         super("ThreadServer");
         this.socket = socket;
-        this.map = map;
-        this.nombreMapa=nombreSala;
+        this.nombreMapa=nombreMapa;
         this.isLogIn=isLogIn;
     }
 
@@ -54,42 +52,26 @@ public class HiloServidor extends Thread {
 
                     case "Movimiento":
 	                    MensajePosicion movi=gson.fromJson(mensajeResivido.getObjeto().toString(), MensajePosicion.class);
-//	                    leerMovimiento();
-	
+//	                    this.leerMovimiento();	//Actualizo la Bd
+	                    this.distribuirMovimiento();
 	                    break;
 
                     case "MensajeNuevoJugador":
                     	
                     	MensajeNuevoJugador nuevo=gson.fromJson(mensajeResivido.getObjeto().toString(), MensajeNuevoJugador.class);
-//                    	cargarNuevoJugador();
+//                    	cargarNuevoJugadorALaBD();
+//                    	envioElPersonaje(this.socket);
                     	break;
-
-
+                    
+                    case "MensajeEleccionTerreno":
+                    	MensajeEleccionTerreno terreno=gson.fromJson(mensajeResivido.getObjeto().toString(), MensajeEleccionTerreno.class);
+//                    	cambioEnBD(terreno.getUsuario(),terreno.getMapa());
+                    	
+                    	break;
                     default: System.out.println ("El tipo especificado no es un mensaje.."); break;
 
                 }
-                    
-                    iterador = map.get(nombreMapa).iterator(); //creo un interador de los clientes.
-
-                    while (iterador.hasNext()) {
-                        Socket cliente = iterador.next(); //le pido un cliente de la coleccion.
-                        try {
-
-                            // si el socket extraido es distinto al socket del
-                            // hilo
-                            // se enviara el msg a todos los usuarios de la
-                            // coleccion menos el que envio dicho msg.
-                            if (!cliente.equals(socket)) {
-                                PrintStream ps = new PrintStream(
-                                        cliente.getOutputStream());                              
-                                
-                                ps.println(mensaje);// envia el mensaje al
-                                                // correspondiente socket.
-                            }
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                   
                 }
                 // indico que el flujo de informacion provenga del usuario de
                 // este hilo.
@@ -98,12 +80,12 @@ public class HiloServidor extends Thread {
             } while ((mensaje = data.readLine()) != null);
 
             Servidor.cantActualClientes--;
-            map.get(nombreMapa).remove(socket);
+//            map.get(nombreMapa).remove(socket);	//No Existe mas el map..
             System.out.println("Un cliente se ha desconectado.");
         } catch (IOException e) {
             try {
                 Servidor.cantActualClientes--;
-                map.get(nombreMapa).remove(socket);	//Soluciona problema de parar servidor.
+//                map.get(nombreMapa).remove(socket);	//Soluciona problema de parar servidor.
                 socket.close();
             } catch (IOException e1) {
                 e1.printStackTrace();
@@ -111,4 +93,30 @@ public class HiloServidor extends Thread {
             System.out.println("La conexion ha finalizado.");
         }
     }
+    
+    
+    private void distribuirMovimiento() {
+       //Pido a la BD todos los que esten EN this.mapaActual Y Esten ACTIVOS.
+    	//CREO UN INTERADOR Y DE A UNO VOY HACIENDO EL WHILE.
+        while (iterador.hasNext()) {
+            Socket cliente = iterador.next(); //le pido un cliente de la coleccion.
+            try {
+
+                // si el socket extraido es distinto al socket del
+                // hilo
+                // se enviara el msg a todos los usuarios de la
+                // coleccion menos el que envio dicho msg.
+                if (!cliente.equals(socket)) {
+                    PrintStream ps = new PrintStream(
+                            cliente.getOutputStream());                              
+                    
+                    ps.println(mensaje);// envia el mensaje al
+                                    // correspondiente socket.
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+	}
 }

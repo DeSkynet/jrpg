@@ -1,10 +1,11 @@
 package mensajes;
 
 public class MensajePosicion {
+	private String usuario;
 	private int cordenadaX;
 	private int cordenadaY;
 	
-	public MensajePosicion(int x,int y){
+	public MensajePosicion(String usuario,int x,int y){
 		this.cordenadaX=x;
 		this.cordenadaY=y;
 	}
@@ -16,4 +17,9 @@ public class MensajePosicion {
 	public int getCordenadaY() {
 		return cordenadaY;
 	}
+
+	public String getUsuario() {
+		return usuario;
+	}
+	
 }

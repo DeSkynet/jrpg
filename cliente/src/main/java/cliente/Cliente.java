@@ -1,6 +1,7 @@
 package cliente;
 
 
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -67,6 +68,32 @@ public class Cliente {
 		}
     }
     
+  ///RECIVE Mensaje
+    public Mensaje ReciveMensaje() {
+
+            DataInputStream datos;
+            String mensaje = null;
+            Gson gson;
+    		Mensaje mensajeRecuperado;
+    		
+            try {
+            	datos = new DataInputStream(cliente.getInputStream()); //le digo que tiene que leer del Socket
+    	    			
+        		mensaje = datos.readLine();
+            	//DESEREALIZO EL MENSAJE DE JSON
+        		gson = new Gson();
+        		mensajeRecuperado = gson.fromJson(mensaje, Mensaje.class);
+        		datos = new DataInputStream(cliente.getInputStream()); //Se queda escuchando al socket..
+        		return mensajeRecuperado;
+            } catch (IOException e) {
+            	e.printStackTrace();
+            }
+            return null;
+    }
+    
+    
+    
+    
     public void registrarCliente(String usuario, String pass) {
     	MensajeLogIn logIn=new MensajeLogIn(usuario,pass);
     	
@@ -85,7 +112,7 @@ public class Cliente {
     }
     
     public void posicionDelPersonaje(int coordX, int coordY) {
-    	MensajePosicion posicionPersonaje = new MensajePosicion(coordX,coordY);
+    	MensajePosicion posicionPersonaje = new MensajePosicion(this.nombre,coordX,coordY);
     	enviarMensaje("MensajePosicion", posicionPersonaje);
     }
     

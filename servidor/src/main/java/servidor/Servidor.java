@@ -101,39 +101,39 @@ public class Servidor {
             System.exit(1);
         }
         
-        String usuarioJson;
-       try {
-		DataInputStream dato = new DataInputStream(cliente.getInputStream());
-			if((usuarioJson = dato.readLine()) != null){
-				//DESEREALIZO el Log in
-				Gson gson = new Gson();
-			    Mensaje jugadorRecuperado = gson.fromJson(usuarioJson, Mensaje.class);
-				this.tipoMensaje=jugadorRecuperado.getTipoMensaje();
-				//DIFERENCIO ENTRE PRIMERA VEZ Y LOGUIN, PARA ALMACENAR EN BASE DE DATOS Y/O iniciar seccion.
-				MensajeLogIn jugador=(MensajeLogIn) jugadorRecuperado.getObjeto();
-				if(this.tipoMensaje.equals("MensajeLogIn")){
-					//Iniciar Seccion
-					this.logIn=true;
-					//SE FIJA EN BD LOGIN SI EXISTE, en caso de no existir manda mensaje de error al cliente.. sino manda el personaje desde la tabla BD.
-					
-					
-				}
-				else {
-					this.logIn=false;
-					//Se fija en la base de dato si ya existe. Si no existe lo AGrego a la base de datos.
-					
-				}
-				
-//				if(mapSalas.containsKey(tipoMensaje) ==false)
-//					mapSalas.put(tipoMensaje, new ArrayList<Socket>() );
-//				mapSalas.get(tipoMensaje).add(cliente); 
-
-//				System.out.println("El Usuario "+   +", NRO " + cantActualClientes
-//		                +" ingreso a la sala "+ tipoMensaje +" y fue aceptado correctamente.");
-			}	
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//        String usuarioJson;
+//       try {
+//		DataInputStream dato = new DataInputStream(cliente.getInputStream());
+//			if((usuarioJson = dato.readLine()) != null){
+//				//DESEREALIZO el Log in
+//				Gson gson = new Gson();
+//			    Mensaje jugadorRecuperado = gson.fromJson(usuarioJson, Mensaje.class);
+//				this.tipoMensaje=jugadorRecuperado.getTipoMensaje();
+//				//DIFERENCIO ENTRE PRIMERA VEZ Y LOGUIN, PARA ALMACENAR EN BASE DE DATOS Y/O iniciar seccion.
+//				MensajeLogIn jugador=(MensajeLogIn) jugadorRecuperado.getObjeto();
+//				if(this.tipoMensaje.equals("MensajeLogIn")){
+//					//Iniciar Seccion
+//					this.logIn=true;
+//					//SE FIJA EN BD LOGIN SI EXISTE, en caso de no existir manda mensaje de error al cliente.. sino manda el personaje desde la tabla BD.
+//					
+//					
+//				}
+//				else {
+//					this.logIn=false;
+//					//Se fija en la base de dato si ya existe. Si no existe lo AGrego a la base de datos.
+//					
+//				}
+//				
+////				if(mapSalas.containsKey(tipoMensaje) ==false)
+////					mapSalas.put(tipoMensaje, new ArrayList<Socket>() );
+////				mapSalas.get(tipoMensaje).add(cliente); 
+//
+////				System.out.println("El Usuario "+   +", NRO " + cantActualClientes
+////		                +" ingreso a la sala "+ tipoMensaje +" y fue aceptado correctamente.");
+//			}	
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 
         return cliente; //devuelvo el socket del cliente
     }

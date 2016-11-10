@@ -55,11 +55,19 @@ public class HiloServidor extends Thread {
                     String tipo=mensajeResivido.getTipoMensaje();
                     
                     switch (tipo) {
+                    	case "Registro":
+                    		MensajeLogIn reg = gson.fromJson(mensajeResivido.getObjeto().toString(), MensajeLogIn.class);
+                    		
+                    		try {
+								jugador.insertar(reg.getUsuario(), reg.getContraseña(), new Humano(new Hechicero(), " "));
+							} catch (SQLException e1) {
+								e1.printStackTrace();
+							}
 
                     case "Movimiento":
 	                    MensajePosicion movi=gson.fromJson(mensajeResivido.getObjeto().toString(), MensajePosicion.class);
 //	                    this.leerMovimiento(movi.getUsuario(),movi.getCordenadaX(),movi.getCordenadaY());	//Actualizo la Bd
-	                    this.distribuirMovimiento(movi.getUsuario(),movi.getCordenadaX(),movi.getCordenadaY());
+//	                    this.distribuirMovimiento(movi.getUsuario(),movi.getCordenadaX(),movi.getCordenadaY());
 	                    break;
 
                     case "MensajeLogInNuevo":
@@ -142,29 +150,29 @@ public class HiloServidor extends Thread {
 		
 	}
 
-//DISTRIBUYE A TODOS LOS JUGADORES DE UN PLANO ACTIVOS, LA NUEVA COORDENADA DE X e Y.
-	private void distribuirMovimiento(String usuario, int cordX,int cordY) {
-       //Pido a la BD todos los que esten EN this.mapaActual Y Esten ACTIVOS.
-    	//CREO UN INTERADOR Y DE A UNO VOY HACIENDO EL WHILE.
-        while (iterador.hasNext()) {
-            Socket cliente = iterador.next(); //le pido un cliente de la coleccion.
-            try {
-
-                // si el socket extraido es distinto al socket del
-                // hilo
-                // se enviara el msg a todos los usuarios de la
-                // coleccion menos el que envio dicho msg.
-                if (!cliente.equals(socket)) {
-                    PrintStream ps = new PrintStream(
-                            cliente.getOutputStream());                              
-                    
-                    ps.println(mensaje);// envia el mensaje al
-                                    // correspondiente socket.
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-	}
+////DISTRIBUYE A TODOS LOS JUGADORES DE UN PLANO ACTIVOS, LA NUEVA COORDENADA DE X e Y.
+//	private void distribuirMovimiento(String usuario, int cordX,int cordY) {
+//       //Pido a la BD todos los que esten EN this.mapaActual Y Esten ACTIVOS.
+//    	//CREO UN INTERADOR Y DE A UNO VOY HACIENDO EL WHILE.
+//        while (iterador.hasNext()) {
+//            Socket cliente = iterador.next(); //le pido un cliente de la coleccion.
+//            try {
+//
+//                // si el socket extraido es distinto al socket del
+//                // hilo
+//                // se enviara el msg a todos los usuarios de la
+//                // coleccion menos el que envio dicho msg.
+//                if (!cliente.equals(socket)) {
+//                    PrintStream ps = new PrintStream(
+//                            cliente.getOutputStream());                              
+//                    
+//                    ps.println(mensaje);// envia el mensaje al
+//                                    // correspondiente socket.
+//                }
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+//	}
 }

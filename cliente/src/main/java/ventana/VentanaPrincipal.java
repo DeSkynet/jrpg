@@ -7,12 +7,14 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import cliente.Cliente;
+import mensajes.Mensaje;
 import mensajes.MensajeLogIn;
 
 
@@ -69,6 +71,21 @@ public class VentanaPrincipal extends JFrame {
 		pass.setColumns(10);
 		
 		botonIniciar = new JButton("INICIAR SESION");
+		botonIniciar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				envioSession(usuario.getText(),pass.getText());
+				
+				if(recibirConfirmacionDeAcceso()){
+					JOptionPane.showMessageDialog(null, "Iniciar Sesion.");
+				}
+				else{
+					JOptionPane.showMessageDialog(null, "El usuario y/o la contaseña no son validas.");
+					usuario.setText("");
+					pass.setText("");
+				}
+				 
+			}
+		});
 		botonIniciar.setFont(new Font("Tahoma", Font.BOLD, 16));
 		botonIniciar.setBounds(301, 416, 167, 35);
 		contentPane.add(botonIniciar);
@@ -94,5 +111,16 @@ public class VentanaPrincipal extends JFrame {
 	public void recibirDeVentanaRegistro(String usuario, String pass) {
 		System.out.println(usuario + pass);
 		this.cliente.enviarMensaje("Registro", new MensajeLogIn(usuario, pass));
+	}
+	
+	public void envioSession(String usuario, String pass){
+		this.cliente.enviarMensaje("MensajeLogIn", new MensajeLogIn(usuario, pass));
+	}
+	
+	public boolean recibirConfirmacionDeAcceso(){
+		Mensaje men=this.cliente.recibeMensaje();
+		if(men.getTipoMensaje().equals("MensajeConfirmacion"))
+			return (boolean)men.getObjeto();
+		return false;
 	}
 }

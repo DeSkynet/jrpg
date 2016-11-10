@@ -17,6 +17,8 @@ public class JugadorDAO extends DAO<Personaje>{
 	private static final String ACTUALIZAR = "update Jugador set Experiencia = ? where Usuario = ?;";
 	private static final String ELIMINAR = "delete from Jugador where Usuario = ?;";
 	private static final String VER_TODOS = "select *from Jugador;";
+	private static final String VER_REGISTRO = "select *from Jugador where Usuario = ?;";
+	
 	
 	public JugadorDAO() {
 		if(conexion==null) {
@@ -96,6 +98,17 @@ public class JugadorDAO extends DAO<Personaje>{
 		} catch (SQLException e) {
 			e.getSQLState();
 		}
+	}
+
+	@Override
+	public String seleccionarUsuario(String usuario) throws SQLException {
+		ResultSet res;
+		statement=conexion.prepareStatement(VER_REGISTRO);
+		statement.setString(1, usuario);
+		res = statement.executeQuery();
+		if( res.next())
+			return res.getString(1) + " " + res.getString(2) + " "  + res.getDouble(3) + " " + res.getString(4) + " " + res.getString(5);
+		return null;
 	}
 
 }

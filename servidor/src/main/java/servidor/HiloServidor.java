@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
+import javax.swing.JOptionPane;
+
 import com.google.gson.Gson;
 
 import dao.DAO;
@@ -59,54 +61,65 @@ public class HiloServidor extends Thread {
                     		MensajeLogIn reg = gson.fromJson(mensajeResivido.getObjeto().toString(), MensajeLogIn.class);
                     		
                     		try {
-								jugador.insertar(reg.getUsuario(), reg.getContraseña(), new Humano(new Hechicero(), " "));
+                    			if(!jugador.buscar(reg.getUsuario())) {
+									jugador.insertar(reg.getUsuario(), reg.getContraseña(), new Humano(new Hechicero(), " "));
+									envioConfirmacion(socket, true);
+                    			}
+                    			else envioConfirmacion(socket, false);
 							} catch (SQLException e1) {
 								e1.printStackTrace();
+								envioConfirmacion(socket, false);
 							}
+                    		break;
+	                    case "Movimiento":
+		                    MensajePosicion movi=gson.fromJson(mensajeResivido.getObjeto().toString(), MensajePosicion.class);
+	//	                    this.leerMovimiento(movi.getUsuario(),movi.getCordenadaX(),movi.getCordenadaY());	//Actualizo la Bd
+	//	                    this.distribuirMovimiento(movi.getUsuario(),movi.getCordenadaX(),movi.getCordenadaY());
+		                    break;
+	
+	                    case "MensajeLogIn":
+	                    	
+	                    	MensajeLogIn nuevo=gson.fromJson(mensajeResivido.getObjeto().toString(), MensajeLogIn.class);
 
-                    case "Movimiento":
-	                    MensajePosicion movi=gson.fromJson(mensajeResivido.getObjeto().toString(), MensajePosicion.class);
-//	                    this.leerMovimiento(movi.getUsuario(),movi.getCordenadaX(),movi.getCordenadaY());	//Actualizo la Bd
-//	                    this.distribuirMovimiento(movi.getUsuario(),movi.getCordenadaX(),movi.getCordenadaY());
-	                    break;
+								try {
+									if(!jugador.buscar(nuevo.getUsuario())) {
+										///EJEMPLO HARDCORE ----> SUJETA A CAMBIOS OBLIGADOS
+										
+										envioConfirmacion(socket, false);
+									}
+									else{
+										String registro=jugador.seleccionarUsuario(nuevo.getUsuario());
+										String []datos=registro.split(" ");
+										if(datos[1].equals(nuevo.getContraseña()))
+											envioConfirmacion(socket, true);
+										else envioConfirmacion(socket, false);
+										
+									}
 
-                    case "MensajeLogInNuevo":
-                    	
-                    	MensajeLogIn nuevo=gson.fromJson(mensajeResivido.getObjeto().toString(), MensajeLogIn.class);
-//                    	boolean confi=cargarNuevoALaBD(nuevo.getUsuario(),nuevo.getContraseña());
-//                    	envioConfirmacion(socket, confi);
-							try {
-								if(!jugador.buscar(nuevo.getUsuario())) {
-									///EJEMPLO HARDCORE ----> SUJETA A CAMBIOS OBLIGADOS
-									jugador.insertar(nuevo.getUsuario(), nuevo.getContraseña(), new Humano(new Hechicero(), " "));
-									envioConfirmacion(socket, true);
+								} catch (SQLException e) {
+									e.printStackTrace();
 								}
-								else
-									envioConfirmacion(socket, false);
-							} catch (SQLException e) {
-								e.printStackTrace();
-							}
-                    	break;
-                    	
-                    case "MensajeEleccionPersonaje":
-                    	
-                    	MensajeEleccionPersonaje persona=gson.fromJson(mensajeResivido.getObjeto().toString(), MensajeEleccionPersonaje.class);
-//                    	cargarNuevoJugadorALaBD(nuevo.getUsuario(),nuevo.getContraseña());
-//                    	envioElPersonaje(this.socket);
-                    	
-                    	break;
-                    	                   
-                    case "MensajeEleccionTerreno":
-                    	MensajeEleccionTerreno terreno=gson.fromJson(mensajeResivido.getObjeto().toString(), MensajeEleccionTerreno.class);
-//                    	cambioEnBD(terreno.getUsuario(),terreno.getMapa());
-                    	
-                    	break;
-                    	
-                    case "MensajeAtaque":
-                    	MensajeAtaque ataque=gson.fromJson(mensajeResivido.getObjeto().toString(), MensajeAtaque.class);
-                    	//FALTA
-                    	break;
-                    default: System.out.println ("El tipo especificado no es un mensaje.."); break;
+	                    	break;
+	                    	
+	                    case "MensajeEleccionPersonaje":
+	                    	
+	                    	MensajeEleccionPersonaje persona=gson.fromJson(mensajeResivido.getObjeto().toString(), MensajeEleccionPersonaje.class);
+	//                    	cargarNuevoJugadorALaBD(nuevo.getUsuario(),nuevo.getContraseña());
+	//                    	envioElPersonaje(this.socket);
+	                    	
+	                    	break;
+	                    	                   
+	                    case "MensajeEleccionTerreno":
+	                    	MensajeEleccionTerreno terreno=gson.fromJson(mensajeResivido.getObjeto().toString(), MensajeEleccionTerreno.class);
+	//                    	cambioEnBD(terreno.getUsuario(),terreno.getMapa());
+	                    	
+	                    	break;
+	                    	
+	                    case "MensajeAtaque":
+	                    	MensajeAtaque ataque=gson.fromJson(mensajeResivido.getObjeto().toString(), MensajeAtaque.class);
+	                    	//FALTA
+	                    	break;
+	                    default: System.out.println ("El tipo especificado no es un mensaje.."); break;
 
                 }
                    

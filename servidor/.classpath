@@ -11,6 +11,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/dominio"/>
-	<classpathentry kind="lib" path="C:/Users/William/Documents/workspace/TALLER/jrpg/servidor/src/main/resources/Library_SQLite/sqlite-jdbc-3.8.6.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Library_sqlite"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

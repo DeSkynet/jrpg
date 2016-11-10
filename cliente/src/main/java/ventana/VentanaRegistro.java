@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -47,7 +48,17 @@ public class VentanaRegistro extends JFrame {
 		botonRegistro = new JButton("REGISTRAR");
 		botonRegistro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				//VALIDAR
 				enviarRegistroAPrincipal(usuarioRegistro.getText() , passRegistro.getText());
+				if(ventanaPrincipal.recibirConfirmacionDeAcceso()){
+					JOptionPane.showMessageDialog(null, "El registro ha sido correctamente creado.");
+					dispose();
+				}
+				else{
+					JOptionPane.showMessageDialog(null, "El usuario no esta disponible.");
+					passRegistro.setText("");
+					usuarioRegistro.setText("");
+				}
 			}
 		});
 		botonRegistro.setBounds(184, 304, 131, 29);
@@ -66,7 +77,8 @@ public class VentanaRegistro extends JFrame {
 	
 	public void enviarRegistroAPrincipal(String usuario, String pass) {
 		ventanaPrincipal.recibirDeVentanaRegistro(usuario, pass);
-		dispose();
 	}
+	
+	
 
 }

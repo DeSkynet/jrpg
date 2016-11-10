@@ -11,9 +11,12 @@ import mensajes.Mensaje;
 
 public class HiloCliente extends Thread {
     private Socket socket;
+    private Cliente cliente;
 
-    public HiloCliente(Socket socket) {
+
+    public HiloCliente(Cliente cliente, Socket socket) {
         super("ThreadCliente");
+        this.cliente=cliente;
         this.socket = socket;
     }
 
@@ -32,8 +35,9 @@ public class HiloCliente extends Thread {
             	//DESEREALIZO EL MENSAJE DE JSON
         		gson = new Gson();
         		mensajeRecuperado = gson.fromJson(mensaje, Mensaje.class);
-//        		System.out.println(mensajeRecuperado.getHora().getTime().toString().substring(11,16)+ "- " + mensajeRecuperado.getEmisor() + " dijo: "+ mensajeRecuperado.getMensaje() );
-        		
+        		System.out.println(mensajeRecuperado.getTipoMensaje() + " " + mensajeRecuperado.getObjeto());
+        		cliente.setMensaje(mensajeRecuperado);
+        		cliente.setNuevoMensaje(true);
         		
         		datos = new DataInputStream(socket.getInputStream()); //Se queda escuchando al socket..
         	}

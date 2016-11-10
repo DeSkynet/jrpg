@@ -65,7 +65,7 @@ public class Servidor {
     private void leerArchivoConfig() {
     	Scanner entrada = null;
     	try {
-			entrada = new Scanner(new File("archivos/conexion.config"));
+			entrada = new Scanner(new File(PATH_CONFIGURACION));
 			
 			if(entrada.hasNextLine()) {
 				this.IPServidor = entrada.nextLine().substring(3);
@@ -149,4 +149,6 @@ public class Servidor {
             e.printStackTrace();
         }
     }
+	
+	private static final String PATH_CONFIGURACION = "src/main/resources/config/conexion.config";
 }

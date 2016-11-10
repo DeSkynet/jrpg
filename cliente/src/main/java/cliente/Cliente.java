@@ -5,7 +5,6 @@ import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Scanner;
@@ -28,6 +27,11 @@ public class Cliente {
 	public Cliente(String nombre) {
 		this.nombre = nombre;
 		leerArchivoConfig();
+		try {
+			this.cliente = new Socket(this.host, this.puerto);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	
@@ -68,8 +72,8 @@ public class Cliente {
 		}
     }
     
-  ///RECIVE Mensaje
-    public Mensaje ReciveMensaje() {
+  ///RECIBE Mensaje
+    public Mensaje recibeMensaje() {
 
             DataInputStream datos;
             String mensaje = null;
@@ -106,7 +110,7 @@ public class Cliente {
     
    //Espera confirmacion del servidor 
    private boolean esperaConfirmacion() {
-	   Mensaje mensaje=ReciveMensaje();
+	   Mensaje mensaje=recibeMensaje();
 	   if(mensaje!=null && mensaje.getTipoMensaje().equals("MensajeConfirmacion")){
 		   Gson gson = new Gson();
 		   boolean confirmacion=(boolean) mensaje.getObjeto();
@@ -117,7 +121,7 @@ public class Cliente {
 	}
 
 
- public void elegirPersonaje(String raza, String casta) {
+   public void elegirPersonaje(String raza, String casta) {
     	MensajeEleccionPersonaje eleccionPersonaje = new MensajeEleccionPersonaje(this.nombre,raza,casta);
     	enviarMensaje("MensajeEleccionPersonaje", eleccionPersonaje);
     }
@@ -147,10 +151,10 @@ public class Cliente {
         }
     }
     
-    public static void main(String[] args) {
-		Cliente c = new Cliente("usuario");
-		c.registrarCliente("ssss", "ffff");
-	}
+//    public static void main(String[] args) {
+//		Cliente c = new Cliente("usuario");
+//		c.registrarCliente("ssss", "ffff");
+//	}
     
     public void eligeMapa() {
 		 try {

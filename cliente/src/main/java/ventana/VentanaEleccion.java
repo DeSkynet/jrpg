@@ -3,6 +3,10 @@ package ventana;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import cliente.Cliente;
+import mensajes.MensajeEleccionPersonaje;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -25,10 +29,12 @@ public class VentanaEleccion extends JFrame {
 	private JButton btnLadron;
 	private JButton btnHechicero;
 	private JButton btnJugar;
+	private Cliente cliente;
+	private String usuario;
 	/**
 	 * Create the frame.
 	 */
-	public VentanaEleccion() {
+	public VentanaEleccion(String usuario,Cliente cliente) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		setTitle("The Alliance - Selecciona Personaje");
@@ -36,6 +42,8 @@ public class VentanaEleccion extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		this.cliente=cliente;
+		this.usuario=usuario;
 		
 		JLabel lblRaza = new JLabel("RAZA");
 		lblRaza.setHorizontalAlignment(SwingConstants.CENTER);
@@ -47,6 +55,10 @@ public class VentanaEleccion extends JFrame {
 		btnHumano.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				eleccionRaza = btnHumano.getText();
+				btnAlien.setEnabled(true);
+				btnHumano.setEnabled(false);
+				btnRobot.setEnabled(true);
+				btnSuperheroe.setEnabled(true);
 			}
 		});
 		btnHumano.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -57,6 +69,10 @@ public class VentanaEleccion extends JFrame {
 		btnRobot.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				eleccionRaza = btnRobot.getText();
+				btnAlien.setEnabled(true);
+				btnHumano.setEnabled(true);
+				btnRobot.setEnabled(false);
+				btnSuperheroe.setEnabled(true);
 			}
 		});
 		btnRobot.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -67,6 +83,10 @@ public class VentanaEleccion extends JFrame {
 		btnSuperheroe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				eleccionRaza = btnSuperheroe.getText();
+				btnAlien.setEnabled(true);
+				btnHumano.setEnabled(true);
+				btnRobot.setEnabled(true);
+				btnSuperheroe.setEnabled(false);
 			}
 		});
 		btnSuperheroe.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -77,6 +97,10 @@ public class VentanaEleccion extends JFrame {
 		btnAlien.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				eleccionRaza = btnAlien.getText();
+				btnAlien.setEnabled(false);
+				btnHumano.setEnabled(true);
+				btnRobot.setEnabled(true);
+				btnSuperheroe.setEnabled(true);
 			}
 		});
 		btnAlien.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -93,6 +117,9 @@ public class VentanaEleccion extends JFrame {
 		btnLuchador.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				eleccionCasta = btnLuchador.getText();
+				btnLuchador.setEnabled(false);
+				btnHechicero.setEnabled(true);
+				btnLadron.setEnabled(true);
 			}
 		});
 		btnLuchador.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -103,6 +130,9 @@ public class VentanaEleccion extends JFrame {
 		btnLadron.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				eleccionCasta = btnLadron.getText();
+				btnLuchador.setEnabled(true);
+				btnHechicero.setEnabled(true);
+				btnLadron.setEnabled(false);
 			}
 		});
 		btnLadron.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -113,6 +143,9 @@ public class VentanaEleccion extends JFrame {
 		btnHechicero.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				eleccionCasta = btnHechicero.getText();
+				btnLuchador.setEnabled(true);
+				btnHechicero.setEnabled(false);
+				btnLadron.setEnabled(true);
 			}
 		});
 		btnHechicero.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -122,6 +155,9 @@ public class VentanaEleccion extends JFrame {
 		btnJugar = new JButton("Jugar");
 		btnJugar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(!eleccionCasta.isEmpty() && !eleccionRaza.isEmpty()){
+					enviaElecionPersonaje(eleccionRaza,eleccionCasta);
+				}else JOptionPane.showMessageDialog(btnAlien, "Debe seleccionar al menos una raza y una casta.");
 				JOptionPane.showMessageDialog(null, "AREA A CONECTAR CON EL JUEGO...");
 			}
 		});
@@ -130,5 +166,10 @@ public class VentanaEleccion extends JFrame {
 		contentPane.add(btnJugar);
 		
 	
+	}
+	
+	private void enviaElecionPersonaje(String eleccionRaza, String eleccionCasta) {
+		this.cliente.enviarMensaje("MensajeEleccionPersonaje", new MensajeEleccionPersonaje(usuario, eleccionRaza, eleccionCasta));
+		
 	}
 }

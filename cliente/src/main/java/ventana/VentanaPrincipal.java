@@ -15,6 +15,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import cliente.Cliente;
+import cliente.HiloCliente;
 import mensajes.Mensaje;
 import mensajes.MensajeLogIn;
 
@@ -77,18 +78,29 @@ public class VentanaPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if(!usuario.getText().isEmpty() && !usuario.getText().isEmpty()) {
 					envioSession(usuario.getText(),pass.getText());
-					
-					if(recibirConfirmacionDeAcceso()){
+					Mensaje mensaje=recibirConfirmacionDeAcceso();
+					if(mensaje.getTipoMensaje().equals("MensajeConfirmacion"))
+						if(mensaje.getObjeto().equals(true)){
+							JOptionPane.showMessageDialog(null, "Iniciar Sesion.");
+							//ABRO LA PROXIMA VENTANA DEL JUEGO.
+							crearHiloEscucha();
+							dispose();
+						}
+						else{
+							JOptionPane.showMessageDialog(null, "El usuario y/o la contaseña no son validas.");
+							usuario.setText("");
+							pass.setText("");
+						}
+					else if (mensaje.getTipoMensaje().equals("EleccionPersonaje")) {
+						
 						JOptionPane.showMessageDialog(null, "Iniciar Sesion.");
-						ventanaEleccion = new VentanaEleccion();
+						ventanaEleccion = new VentanaEleccion(usuario.getText(),getCliente());
 						ventanaEleccion.setVisible(true);
+						crearHiloEscucha();
 						dispose();
+						
 					}
-					else{
-						JOptionPane.showMessageDialog(null, "El usuario y/o la contaseña no son validas.");
-						usuario.setText("");
-						pass.setText("");
-					}
+					
 				}
 				else
 					JOptionPane.showMessageDialog(null, "Los campos no pueden quedar vacios.", "Advertencia", JOptionPane.ERROR_MESSAGE);
@@ -124,10 +136,26 @@ public class VentanaPrincipal extends JFrame {
 		this.cliente.enviarMensaje("MensajeLogIn", new MensajeLogIn(usuario, pass));
 	}
 	
-	public boolean recibirConfirmacionDeAcceso(){
+	public Mensaje recibirConfirmacionDeAcceso(){
+		Mensaje men=this.cliente.recibeMensaje();
+//		if(men.getTipoMensaje().equals("MensajeConfirmacion"))
+//			return (boolean)men.getObjeto();
+//		return false;
+		return men;
+	}
+	
+	public boolean recibirConfirmacion(){
 		Mensaje men=this.cliente.recibeMensaje();
 		if(men.getTipoMensaje().equals("MensajeConfirmacion"))
 			return (boolean)men.getObjeto();
 		return false;
+	}
+	
+	public void crearHiloEscucha(){
+		HiloCliente hiloCliente = new HiloCliente(cliente,cliente.getSocket());
+	    hiloCliente.start();
+	}
+	protected Cliente getCliente(){
+		return this.cliente;
 	}
 }

@@ -1,6 +1,7 @@
 package cliente;
 
 
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -76,32 +77,33 @@ public class Cliente {
   ///RECIBE Mensaje
     public Mensaje recibeMensaje() {
 
-//            DataInputStream datos;
-//            String mensaje = null;
-//            Gson gson;
-//    		Mensaje mensajeRecuperado;
-//    		
-//            try {
-//            	datos = new DataInputStream(cliente.getInputStream()); //le digo que tiene que leer del Socket //Se queda escuchando al socket..
-//    	    			
-//        		mensaje = datos.readLine();
-//            	//DESEREALIZO EL MENSAJE DE JSON
-//        		gson = new Gson();
-//        		mensajeRecuperado = gson.fromJson(mensaje, Mensaje.class);
-//        		return mensajeRecuperado;
-//            } catch (IOException e) {
-//            	e.printStackTrace();
-//            }
-//            return null;
+            DataInputStream datos;
+            String mensaje = null;
+            Gson gson;
+    		Mensaje mensajeRecuperado;
+    		
+            try {
+            	datos = new DataInputStream(cliente.getInputStream()); //le digo que tiene que leer del Socket //Se queda escuchando al socket..
+    	    			
+        		mensaje = datos.readLine();
+            	//DESEREALIZO EL MENSAJE DE JSON
+        		gson = new Gson();
+        		mensajeRecuperado = gson.fromJson(mensaje, Mensaje.class);
+        		return mensajeRecuperado;
+            } catch (IOException e) {
+            	e.printStackTrace();
+            	return null;
+            }
+            
     	
-    	while(isNuevoMensaje()==false){
-    		if(isNuevoMensaje()){
-    			setNuevoMensaje(false);
-    			return this.mensaje;
-    		}
-    	}
-    	setNuevoMensaje(false);
-    	return this.mensaje;
+//    	while(isNuevoMensaje()==false){
+//    		if(isNuevoMensaje()){
+//    			setNuevoMensaje(false);
+//    			return this.mensaje;
+//    		}
+//    	}
+//    	setNuevoMensaje(false);
+//    	return this.mensaje;
     }
     
     

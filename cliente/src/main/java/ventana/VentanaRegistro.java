@@ -53,7 +53,7 @@ public class VentanaRegistro extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if(!usuarioRegistro.getText().isEmpty() && !passRegistro.getText().isEmpty()) {
 					enviarRegistroAPrincipal(usuarioRegistro.getText() , passRegistro.getText());
-					if(ventanaPrincipal.recibirConfirmacionDeAcceso()){
+					if(ventanaPrincipal.recibirConfirmacion()){
 						JOptionPane.showMessageDialog(null, "El registro ha sido correctamente creado.");
 						dispose();
 					}

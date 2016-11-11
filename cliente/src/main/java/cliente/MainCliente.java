@@ -11,9 +11,6 @@ public class MainCliente {
         String contraseña;
         
         cliente = new Cliente("nombre");
-        
-       HiloCliente hiloCliente = new HiloCliente(cliente,cliente.getSocket());
-       hiloCliente.start();
         VentanaPrincipal principal = new VentanaPrincipal(cliente);
         principal.setVisible(true);
 

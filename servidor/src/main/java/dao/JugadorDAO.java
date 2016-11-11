@@ -36,9 +36,16 @@ public class JugadorDAO extends DAO<Personaje>{
 		
 		statement.setString(1, user);
 		statement.setString(2, pass);
-		statement.setDouble(3, obj.getExperiencia());
-		statement.setString(4, "Raza");
-		statement.setString(5, obj.getCasta().getCasta());
+		if(obj!=null){
+			statement.setDouble(3, obj.getExperiencia());
+			statement.setString(4, obj.getClass().getName());
+			statement.setString(5, obj.getCasta().getCasta());
+		} else {
+			statement.setDouble(3, 0);
+			statement.setString(4, " ");
+			statement.setString(5, " ");
+		}
+		
 		
 		statement.execute();
 		

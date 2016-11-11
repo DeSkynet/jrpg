@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import com.google.gson.Gson;
 
 import dao.DAO;
+import dao.DAOPERSONAJE;
 import mensajes.*;
 import personaje.Humano;
 import personaje.castas.Hechicero;
@@ -25,13 +26,15 @@ public class HiloServidor extends Thread {
     private String nombreMapa;
     private boolean isLogIn;
     private DAO jugador;
+    private DAOPERSONAJE personaje;
     
-    public HiloServidor(Socket socket, String nombreMapa, boolean isLogIn, DAO jugador) {
+    public HiloServidor(Socket socket, String nombreMapa, boolean isLogIn, DAO jugador, DAOPERSONAJE personaje) {
         super("ThreadServer");
         this.socket = socket;
         this.nombreMapa=nombreMapa;
         this.isLogIn=isLogIn;
         this.jugador = jugador;
+        this.personaje=personaje;
     }
 
 
@@ -84,16 +87,21 @@ public class HiloServidor extends Thread {
 								try {
 									if(!jugador.buscar(nuevo.getUsuario())) {
 										///EJEMPLO HARDCORE ----> SUJETA A CAMBIOS OBLIGADOS
-										
 										envioConfirmacion(socket, false);
 									}
 									else{
 										String registro=jugador.seleccionarUsuario(nuevo.getUsuario());
+
 										String []datos=registro.split(" ");
-										if(datos[1].equals(nuevo.getContraseña()))
-											envioConfirmacion(socket, true);
+										if(datos[1].equals(nuevo.getContraseña())){
+											//INSERTO LOGICA DE PREGUNTAR SI LA RAZA Y LA CASTA ESTAN SETIADAS,
+											if(!personaje.buscar(nuevo.getUsuario()))
+												envioMensaje(socket,"EleccionPersonaje");
+											else{
+												envioConfirmacion(socket, true);
+											}
+										}
 										else envioConfirmacion(socket, false);
-										
 									}
 
 								} catch (SQLException e) {
@@ -106,7 +114,12 @@ public class HiloServidor extends Thread {
 	                    	MensajeEleccionPersonaje persona=gson.fromJson(mensajeResivido.getObjeto().toString(), MensajeEleccionPersonaje.class);
 	//                    	cargarNuevoJugadorALaBD(nuevo.getUsuario(),nuevo.getContraseña());
 	//                    	envioElPersonaje(this.socket);
-	                    	
+						try {
+							personaje.insertar(persona.getUsuario(), persona.getRaza(), persona.getCasta());
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 	                    	break;
 	                    	                   
 	                    case "MensajeEleccionTerreno":
@@ -146,7 +159,25 @@ public class HiloServidor extends Thread {
     }
     
     
-    private void envioConfirmacion(Socket socket, boolean confirmacion) {
+    private void envioMensaje(Socket socket2, String string) {
+    	Mensaje mensaje=new Mensaje(string,true);
+    	Gson gson = new Gson();
+		String mensajeParaEnviar = gson.toJson(mensaje);
+
+    	PrintStream ps;
+    	
+    	try {
+			ps = new PrintStream(socket.getOutputStream());
+			ps.println(mensajeParaEnviar);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+
+	private void envioConfirmacion(Socket socket, boolean confirmacion) {
     	Mensaje mensaje=new Mensaje("MensajeConfirmacion",confirmacion);
     	Gson gson = new Gson();
 		String mensajeParaEnviar = gson.toJson(mensaje);

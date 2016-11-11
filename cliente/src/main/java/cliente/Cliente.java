@@ -1,7 +1,6 @@
 package cliente;
 
 
-import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -100,7 +99,6 @@ public class Cliente {
     			setNuevoMensaje(false);
     			return this.mensaje;
     		}
-    		System.out.println("Si saco esto, no anda.");
     	}
     	setNuevoMensaje(false);
     	return this.mensaje;

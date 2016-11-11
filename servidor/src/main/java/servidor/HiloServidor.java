@@ -62,7 +62,7 @@ public class HiloServidor extends Thread {
                     		
                     		try {
                     			if(!jugador.buscar(reg.getUsuario())) {
-									jugador.insertar(reg.getUsuario(), reg.getContraseña(), new Humano(new Hechicero(), " "));
+									jugador.insertar(reg.getUsuario(), reg.getContraseña(), null);
 									envioConfirmacion(socket, true);
                     			}
                     			else envioConfirmacion(socket, false);

@@ -1,5 +1,6 @@
 package ventana;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -20,6 +21,7 @@ public class VentanaRegistro extends JFrame {
 	private JTextField passRegistro;
 	private JButton botonRegistro;
 	private JLabel labelUsuario;
+	@SuppressWarnings("unused")
 	private JLabel labelPassword;
 
 	/**
@@ -33,6 +35,7 @@ public class VentanaRegistro extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		setTitle("Registro");
 		setLocationRelativeTo(padre);
 		contentPane.setLayout(null);
 		setResizable(false);
@@ -48,17 +51,20 @@ public class VentanaRegistro extends JFrame {
 		botonRegistro = new JButton("REGISTRAR");
 		botonRegistro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//VALIDAR
-				enviarRegistroAPrincipal(usuarioRegistro.getText() , passRegistro.getText());
-				if(ventanaPrincipal.recibirConfirmacionDeAcceso()){
-					JOptionPane.showMessageDialog(null, "El registro ha sido correctamente creado.");
-					dispose();
+				if(!usuarioRegistro.getText().isEmpty() && !passRegistro.getText().isEmpty()) {
+					enviarRegistroAPrincipal(usuarioRegistro.getText() , passRegistro.getText());
+					if(ventanaPrincipal.recibirConfirmacionDeAcceso()){
+						JOptionPane.showMessageDialog(null, "El registro ha sido correctamente creado.");
+						dispose();
+					}
+					else{
+						JOptionPane.showMessageDialog(null, "El usuario no esta disponible.");
+						passRegistro.setText("");
+						usuarioRegistro.setText("");
+					}
 				}
-				else{
-					JOptionPane.showMessageDialog(null, "El usuario no esta disponible.");
-					passRegistro.setText("");
-					usuarioRegistro.setText("");
-				}
+				else
+					JOptionPane.showMessageDialog(null, "Los campos no pueden quedar vacios.", "Advertencia", JOptionPane.ERROR_MESSAGE);
 			}
 		});
 		botonRegistro.setBounds(184, 304, 131, 29);

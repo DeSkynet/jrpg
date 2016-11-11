@@ -1,5 +1,6 @@
 package ventana;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,7 +28,7 @@ public class VentanaPrincipal extends JFrame {
 	private JButton botonIniciar;
 	private JButton registrarUsuario;
 	private VentanaRegistro ventanaRegistro;
-
+	private VentanaEleccion ventanaEleccion;
 
 	/**
 	 * Create the frame.
@@ -35,9 +36,10 @@ public class VentanaPrincipal extends JFrame {
 	public VentanaPrincipal(Cliente cliente) {
 		
 		this.cliente = cliente;
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(600, 600);
 		contentPane = new JPanel();
+		setTitle("The Alliance");
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -54,7 +56,7 @@ public class VentanaPrincipal extends JFrame {
 		lblPassword.setBounds(56, 251, 108, 33);
 		contentPane.add(lblPassword);
 		
-		JLabel lblMensajeria = new JLabel("MENSAJERIA");
+		JLabel lblMensajeria = new JLabel("INICIO");
 		lblMensajeria.setFont(new Font("Arial Rounded MT Bold", Font.PLAIN, 26));
 		lblMensajeria.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMensajeria.setBounds(204, 16, 179, 24);
@@ -73,17 +75,23 @@ public class VentanaPrincipal extends JFrame {
 		botonIniciar = new JButton("INICIAR SESION");
 		botonIniciar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				envioSession(usuario.getText(),pass.getText());
-				
-				if(recibirConfirmacionDeAcceso()){
-					JOptionPane.showMessageDialog(null, "Iniciar Sesion.");
+				if(!usuario.getText().isEmpty() && !usuario.getText().isEmpty()) {
+					envioSession(usuario.getText(),pass.getText());
+					
+					if(recibirConfirmacionDeAcceso()){
+						JOptionPane.showMessageDialog(null, "Iniciar Sesion.");
+						ventanaEleccion = new VentanaEleccion();
+						ventanaEleccion.setVisible(true);
+						dispose();
+					}
+					else{
+						JOptionPane.showMessageDialog(null, "El usuario y/o la contaseña no son validas.");
+						usuario.setText("");
+						pass.setText("");
+					}
 				}
-				else{
-					JOptionPane.showMessageDialog(null, "El usuario y/o la contaseña no son validas.");
-					usuario.setText("");
-					pass.setText("");
-				}
-				 
+				else
+					JOptionPane.showMessageDialog(null, "Los campos no pueden quedar vacios.", "Advertencia", JOptionPane.ERROR_MESSAGE);
 			}
 		});
 		botonIniciar.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -109,7 +117,6 @@ public class VentanaPrincipal extends JFrame {
 	
 	
 	public void recibirDeVentanaRegistro(String usuario, String pass) {
-		System.out.println(usuario + pass);
 		this.cliente.enviarMensaje("Registro", new MensajeLogIn(usuario, pass));
 	}
 	

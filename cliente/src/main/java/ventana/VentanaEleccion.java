@@ -159,6 +159,8 @@ public class VentanaEleccion extends JFrame {
 					enviaElecionPersonaje(eleccionRaza,eleccionCasta);
 				}else JOptionPane.showMessageDialog(btnAlien, "Debe seleccionar al menos una raza y una casta.");
 				JOptionPane.showMessageDialog(null, "AREA A CONECTAR CON EL JUEGO...");
+				//ABRO LA PROXIMA VENTANA DEL JUEGO.
+				dispose();
 			}
 		});
 		btnJugar.setFont(new Font("Arial", Font.PLAIN, 16));

@@ -6,9 +6,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Map;
 
 import javax.swing.JOptionPane;
 
@@ -44,12 +42,6 @@ public class HiloServidor extends Thread {
         DataInputStream data;
         Iterator<Socket> iterador;
         String mensaje = null;
-        
-        if(isLogIn){
-        	//ENVIO EL PERSONAJE DE LA BD AL CLIENTE.
-        }       
-        
-
         try {
             do {
                 if (mensaje != null) {
@@ -86,15 +78,13 @@ public class HiloServidor extends Thread {
 
 								try {
 									if(!jugador.buscar(nuevo.getUsuario())) {
-										///EJEMPLO HARDCORE ----> SUJETA A CAMBIOS OBLIGADOS
 										envioConfirmacion(socket, false);
 									}
 									else{
 										String registro=jugador.seleccionarUsuario(nuevo.getUsuario());
-
 										String []datos=registro.split(" ");
 										if(datos[1].equals(nuevo.getContraseña())){
-											//INSERTO LOGICA DE PREGUNTAR SI LA RAZA Y LA CASTA ESTAN SETIADAS,
+											//INSERTO LOGICA DE PREGUNTAR SI LA RAZA Y LA CASTA ESTAN INICIALIZADAS,
 											if(!personaje.buscar(nuevo.getUsuario()))
 												envioMensaje(socket,"EleccionPersonaje");
 											else{
@@ -112,12 +102,10 @@ public class HiloServidor extends Thread {
 	                    case "MensajeEleccionPersonaje":
 	                    	
 	                    	MensajeEleccionPersonaje persona=gson.fromJson(mensajeResivido.getObjeto().toString(), MensajeEleccionPersonaje.class);
-	//                    	cargarNuevoJugadorALaBD(nuevo.getUsuario(),nuevo.getContraseña());
-	//                    	envioElPersonaje(this.socket);
 						try {
 							personaje.insertar(persona.getUsuario(), persona.getRaza(), persona.getCasta());
+//                    		envioElPersonaje(this.socket);
 						} catch (SQLException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 	                    	break;

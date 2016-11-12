@@ -13,7 +13,7 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 	private Connection conexion = null;
 	private PreparedStatement statement;
 	private static final String PATH_CONNECTION = "jdbc:sqlite:src/main/resources/bd/Personaje.bd";
-	private static final String INSERTAR = "Insert into Personaje values(?,?,?,?,?,?,?,?,?,?,?,?);";
+	private static final String INSERTAR = "Insert into Personaje values(?,?,?,?,?,?,?,?,?,?,?,?,?);";
 	private static final String BUSCAR = "select *from Personaje where Usuario = ?;";
 	private static final String ACTUALIZARCOORDENADAXY = "update Personaje set CordenadaX = ? set CordenadaY = ? where Usuario = ?;";
 	private static final String ACTUALIZAREXPERIENCIA = "update Personaje set Experiencia = ? where Usuario = ?;";
@@ -32,29 +32,15 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 	private static final String VER_TODOS = "select *from Personaje;";
 	private static final String VER_REGISTRO = "select *from Personaje where Usuario = ?;";
 	
-	
-//	public PersonajeDAO(Connection conexion, PreparedStatement statement) {
-
-//		if(conexion==null) {
-//			try {
-//				conexion = DriverManager.getConnection(PATH_CONNECTION);
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}else{
-//			this.conexion=conexion;
-//			this.statement=statement;
-//		}
-//}
-		public PersonajeDAO() {
-			if(conexion==null) {
-				try {
-					conexion = DriverManager.getConnection(PATH_CONNECTION);
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+	public PersonajeDAO() {
+		if(conexion==null) {
+			try {
+				conexion = DriverManager.getConnection(PATH_CONNECTION);
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
 		}
+	}
 	
 	@Override
 	public void insertar(String user, String raza, String casta) throws SQLException {
@@ -72,7 +58,7 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 		statement.setInt(10, 100);	//Salud
 		statement.setString(11, casta);	//Casta
 		statement.setString(12, raza);	//Raza	
-		
+		statement.setString(13, "");	//Raza	
 		statement.execute();
 		
 	}
@@ -107,13 +93,11 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 		statement.executeUpdate();
 	}
 	
-
 	@Override
 	public boolean buscar(String user) throws SQLException {
-		System.out.println("Hola2");
+
 		statement = conexion.prepareStatement(BUSCAR);
 		statement.setString(1, user);
-		System.out.println("Hola3");
 		ResultSet res = statement.executeQuery();
 		if(!res.next())
 			return false;	
@@ -125,7 +109,6 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 		statement = conexion.prepareStatement(ELIMINAR);
 		
 		statement.setString(1, user);
-		
 		statement.executeUpdate();
 		
 	}
@@ -159,15 +142,12 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 		statement.setString(1, usuario);
 		res = statement.executeQuery();
 		if( res.next())
-			return res.getString(1) + " " + res.getString(2) + " "  + res.getDouble(3) + " " + res.getString(4) + " " + res.getString(5);
+			return res.getString(1) + " " + res.getString(2) + " "  + res.getDouble(3) + " " + res.getString(4) + " " + res.getString(5) + " " + res.getString(6) + " " + res.getString(7) + " " + res.getString(8) + " " + res.getString(9) + " " + res.getString(10) + " " + res.getString(11) + " " + res.getString(12);
 		return null;
 	}
 	
 	public Connection getConexion() {
 		return conexion;
-	}
-	public PreparedStatement getStatement(){
-		return statement;
 	}
 }
 

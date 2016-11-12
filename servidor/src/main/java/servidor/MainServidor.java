@@ -1,11 +1,6 @@
 package servidor;
 
 import java.net.Socket;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
 import dao.DAO;
 import dao.DAOPERSONAJE;
 import dao.JugadorDAO;
@@ -16,17 +11,12 @@ public class MainServidor {
         Socket socket = null;
         Servidor servidor = null;
         int maximoConexiones = 1020;
-        JugadorDAO daoJugador;
-        PersonajeDAO daoPersonaje;
-//        Connection conexion = null;
-//    	PreparedStatement statement=null;
-//    	final String PATH_CONNECTION = "jdbc:sqlite:src/main/resources/bd/PruebaBD.bd";
-//    	
+        DAO daoJugador;
+        DAOPERSONAJE daoPersonaje;
+        
         servidor = new Servidor(maximoConexiones);
-        
-        
+ 
         daoJugador = new JugadorDAO();
-//        conexion=daoJugador.getConexion();
         daoPersonaje = new PersonajeDAO();
         		
         while (true) {

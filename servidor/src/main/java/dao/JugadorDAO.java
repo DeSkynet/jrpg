@@ -24,7 +24,6 @@ public class JugadorDAO extends DAO<Personaje>{
 		if(conexion==null) {
 			try {
 				conexion = DriverManager.getConnection(PATH_CONNECTION);
-				this.conexion=conexion;
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -111,10 +110,6 @@ public class JugadorDAO extends DAO<Personaje>{
 
 	public Connection getConexion() {
 		return conexion;
-	}
-	
-	public PreparedStatement getStatement(){
-		return statement;
 	}
 	
 }

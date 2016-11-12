@@ -18,6 +18,7 @@ public abstract class Personaje implements Atacable {
 	protected int energia = 100;
 	protected int salud = 100;
 	protected String nombre;
+	protected String mapa;
 	public Casta casta = null;
 	protected Alianza alianza = null;
 	protected Equipamiento equipamiento = null;
@@ -105,6 +106,10 @@ public abstract class Personaje implements Atacable {
 		return alianza;
 	}
 	
+	public String getMapa() {
+		return mapa;
+	}
+	
 	/// SETTERS
 	
 	public void setDestreza(int destreza) {
@@ -126,6 +131,10 @@ public abstract class Personaje implements Atacable {
 	
 	public boolean estaVivo() {
 		return this.salud > 0;
+	}
+	
+	public void setMapa(String nombreMapa) {
+		this.mapa=nombreMapa;
 	}
 	
 	/// ALIANZA

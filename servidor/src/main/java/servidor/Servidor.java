@@ -13,6 +13,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import javax.swing.JOptionPane;
+
 import com.google.gson.Gson;
 
 import mensajes.Mensaje;
@@ -56,7 +58,7 @@ public class Servidor {
         try {
             servidor = new ServerSocket(puerto);
         } catch (IOException e) {
-            System.out.println("No se puede conectar desde el puerto elegido, cerrando Servidor...");
+            JOptionPane.showMessageDialog(null, "No se puede conectar desde el puerto elegido, cerrando Servidor...");
             System.exit(1);
         }
     }
@@ -97,8 +99,8 @@ public class Servidor {
                 return null;
             }
         } catch (Exception e) {
-            System.out.println("Error al aceptar conexiones, Cerrando el Servidor...");
-            System.exit(1);
+            JOptionPane.showMessageDialog(null, "Error al aceptar conexiones, Cerrando el Servidor...");
+        	System.exit(1);
         }
 
         return cliente; //devuelvo el socket del cliente

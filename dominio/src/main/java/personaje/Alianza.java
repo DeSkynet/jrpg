@@ -15,6 +15,13 @@ public class Alianza {
 		this.nombreAlianza = nombreAlianza;
 	}
 	
+	public Alianza(Alianza alianza){
+		alianza.nombreAlianza = this.nombreAlianza;
+		Iterator<Personaje> it = this.alianza.iterator();
+//		while(it.hasNext()){
+//			it.next().alianza.
+//		}
+	}
 	
 		
 	public boolean aliar(Personaje per) {

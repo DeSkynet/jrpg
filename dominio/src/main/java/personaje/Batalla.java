@@ -18,10 +18,25 @@ public class Batalla {
 	protected Alianza alianzaEnemiga;
 	protected PriorityQueue<Personaje> colaDeTurnos;
 
+	
+//	public Alianza clone(){
+//		Alianza copiaAlianzaAtacante = new Alianza (alianzaAtacante);
+//		
+//		return copiaAlianzaAtacante; 
+//	}
+//	
+//	public Alianza clone2(){
+//		Alianza copiaAlianzaEnemiga = alianzaEnemiga;
+//		
+//		return copiaAlianzaEnemiga;
+//	}
+	
 	public Batalla(Personaje atacante,Personaje enemigo){
 		
 		this.atacante = atacante;
 		this.enemigo = enemigo;
+		
+//		alianzaAtacante.clone();
 		
 		///VERIFICO SI LA PELEA ES ENTRE ALIANZAS O PERSONAJES SIN ALIANZAS
 		if(atacante.existeAlianza()){
@@ -64,6 +79,8 @@ public class Batalla {
 	private void despuesDeBatalla() {
 		//Despues de batalla todos los atributos que se modificaron (por las habilidades) vuelven a la normalidad
 		// A excepcion de salud, y la energia
+		
+	
 	}
 
 	private void repartirExperiencia() {
@@ -101,7 +118,8 @@ public class Batalla {
 	
 	private void aplicarPenalidad(Personaje personajeDeTurno) {
 		///ACA HAY QUE PENSAR LA PENALIDAD
-		
+		personajeDeTurno.desaliar();
+		personajeDeTurno.setSalud(1);
 	}
 
 	///ESTOS GETS LOS OBTENEMOS MEDIANTE INTERFAZ GRAFICA (Click Mouse)

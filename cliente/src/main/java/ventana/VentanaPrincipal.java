@@ -17,6 +17,7 @@ import cliente.Cliente;
 import cliente.HiloCliente;
 import mensajes.Mensaje;
 import mensajes.MensajeLogIn;
+import pantalla.Juego;
 
 
 @SuppressWarnings("serial")
@@ -82,6 +83,8 @@ public class VentanaPrincipal extends JFrame {
 						if(mensaje.getObjeto().equals(true)){
 							JOptionPane.showMessageDialog(null, "Iniciar Sesion.");
 							//ABRO LA PROXIMA VENTANA DEL JUEGO.
+							Juego juego = new Juego();
+							juego.iniciar();
 							crearHiloEscucha();
 							dispose();
 						}

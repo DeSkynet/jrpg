@@ -6,6 +6,7 @@ import javax.swing.border.EmptyBorder;
 
 import cliente.Cliente;
 import mensajes.MensajeEleccionPersonaje;
+import pantalla.Juego;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -160,6 +161,8 @@ public class VentanaEleccion extends JFrame {
 				}else JOptionPane.showMessageDialog(btnAlien, "Debe seleccionar al menos una raza y una casta.");
 				JOptionPane.showMessageDialog(null, "AREA A CONECTAR CON EL JUEGO...");
 				//ABRO LA PROXIMA VENTANA DEL JUEGO.
+				Juego juego = new Juego();
+				juego.iniciar();
 				dispose();
 			}
 		});

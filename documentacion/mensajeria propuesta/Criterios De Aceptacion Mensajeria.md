@@ -50,4 +50,23 @@ Como Personaje quiero espero una confirmacion de algunos cambios.
 ```sh
 {"Personaje":"Jugador1","Respuesta":"true"}
 ```
-
+**11. Incremento Experiencia**  
+Como Personaje quiero espero incrementar mi experiencia.
+```sh
+{"Personaje":"Jugador1","IncrementoExperiencia":"10"}
+```
+**12. Incremento Energia**  
+Como Personaje quiero espero incrementar mi energia al ir a una zona segura.
+```sh
+{"Personaje":"Jugador1","IncrementoEnergia":"10"}
+```
+**13. Incremento Fuerza**  
+Como Personaje quiero espero incrementar mi experiencia.
+```sh
+{"Personaje":"Jugador1","IncrementoFuerza":"10"}
+```
+**14. Activo**  
+Como Personaje quiero saber si un personaje se encuentra activo.
+```sh
+{"Personaje":"Jugador1","Activo":"true"}
+```

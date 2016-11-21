@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
 
 import com.google.gson.Gson;
 
-import dao.DAO;
+import dao.DAOJUGADOR;
 import dao.DAOPERSONAJE;
 import mensajes.*;
 import personaje.Humano;
@@ -23,10 +23,11 @@ public class HiloServidor extends Thread {
     private Socket socket;
     private String nombreMapa;
     private boolean isLogIn;
-    private DAO jugador;
+    private DAOJUGADOR jugador;
     private DAOPERSONAJE personaje;
+    private String usuario=null;
     
-    public HiloServidor(Socket socket, String nombreMapa, boolean isLogIn, DAO jugador, DAOPERSONAJE personaje) {
+    public HiloServidor(Socket socket, String nombreMapa, boolean isLogIn, DAOJUGADOR jugador, DAOPERSONAJE personaje) {
         super("ThreadServer");
         this.socket = socket;
         this.nombreMapa=nombreMapa;
@@ -85,9 +86,11 @@ public class HiloServidor extends Thread {
 										String []datos=registro.split(" ");
 										if(datos[1].equals(nuevo.getContraseña())){
 											//INSERTO LOGICA DE PREGUNTAR SI LA RAZA Y LA CASTA ESTAN INICIALIZADAS,
-											if(!personaje.buscar(nuevo.getUsuario()))
+											this.usuario=nuevo.getUsuario();
+											jugador.actualizar(usuario, true);
+											if(!personaje.buscar(nuevo.getUsuario())){
 												envioMensaje(socket,"EleccionPersonaje");
-											else{
+											}else{
 												envioConfirmacion(socket, true);
 											}
 										}
@@ -142,7 +145,19 @@ public class HiloServidor extends Thread {
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
-            System.out.println("La conexion ha finalizado.");
+            finally {
+            	 if(this.jugador!=null){
+            		 try{
+           			 System.out.println("La conexion ha finalizado.");
+            		 jugador.actualizar(this.usuario, false);
+            		 } catch (SQLException e2) {
+							e2.printStackTrace();
+						}
+            	 }
+                 	
+                
+			}
+           
         }
     }
     

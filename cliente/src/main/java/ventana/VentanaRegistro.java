@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -11,6 +12,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+
+import herramientas.Constantes;
 
 @SuppressWarnings("serial")
 public class VentanaRegistro extends JFrame {
@@ -31,6 +34,7 @@ public class VentanaRegistro extends JFrame {
 		this.ventanaPrincipal = padre;
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setIconImage(new ImageIcon(Constantes.PATH_ICONO).getImage());
 		setBounds(100, 100, 500,500);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -51,6 +55,8 @@ public class VentanaRegistro extends JFrame {
 		botonRegistro = new JButton("REGISTRAR");
 		botonRegistro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				usuarioRegistro.setText(usuarioRegistro.getText().trim());
+				passRegistro.setText(passRegistro.getText().trim());
 				if(!usuarioRegistro.getText().isEmpty() && !passRegistro.getText().isEmpty()) {
 					enviarRegistroAPrincipal(usuarioRegistro.getText() , passRegistro.getText());
 					if(ventanaPrincipal.recibirConfirmacion()){
@@ -64,7 +70,7 @@ public class VentanaRegistro extends JFrame {
 					}
 				}
 				else
-					JOptionPane.showMessageDialog(null, "Los campos no pueden quedar vacios.", "Advertencia", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Los campos no pueden quedar vacios.", "Advertencia", JOptionPane.WARNING_MESSAGE);
 			}
 		});
 		botonRegistro.setBounds(184, 304, 131, 29);

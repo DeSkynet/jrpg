@@ -11,7 +11,6 @@ import personaje.Personaje;
 
 public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 	private Connection conexion = null;
-	private PreparedStatement statement;
 	private static final String PATH_CONNECTION = "jdbc:sqlite:src/main/resources/bd/Personaje.bd";
 	private static final String INSERTAR = "Insert into Personaje values(?,?,?,?,?,?,?,?,?,?,?,?,?);";
 	private static final String BUSCAR = "select *from Personaje where Usuario = ?;";
@@ -19,9 +18,9 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 	private static final String ACTUALIZAREXPERIENCIA = "update Personaje set Experiencia = ? where Usuario = ?;";
 	private static final String ACTUALIZARNIVEL = "update Personaje set Nivel = ? where Usuario = ?;";
 	
-	private static final String ACTUALIZARDESTREZA = "update Personaje set Nivel = ? where Usuario = ?;";
-	private static final String ACTUALIZARFUERZA = "update Personaje set Nivel = ? where Usuario = ?;";
-	private static final String ACTUALIZARINTELIGENCIA = "update Personaje set Nivel = ? where Usuario = ?;";
+	private static final String ACTUALIZARDESTREZA = "update Personaje set Destreza = ? where Usuario = ?;";
+	private static final String ACTUALIZARFUERZA = "update Personaje set Fuerza = ? where Usuario = ?;";
+	private static final String ACTUALIZARINTELIGENCIA = "update Personaje set Inteligencia = ? where Usuario = ?;";
 	private static final String ACTUALIZARENERGIA = "update Personaje set Energia = ? where Usuario = ?;";
 	private static final String ACTUALIZARSALUD = "update Personaje set Salud = ? where Usuario = ?;";
 	private static final String ACTUALIZARRAZACASTA = "update Personaje set Raza = ? set Casta = ? where Usuario = ?;";
@@ -44,27 +43,93 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 	
 	@Override
 	public void insertar(String user, String raza, String casta) throws SQLException {
-		statement = conexion.prepareStatement(INSERTAR);
+		PreparedStatement statement=null;
+		try {
+			statement = conexion.prepareStatement(INSERTAR);
+			statement.setString(1, user);
+			statement.setInt(2, 0);	//CordenadaX
+			statement.setInt(3, 0);	//CordenadaY
+			statement.setInt(4, 0); //Experiencia
+			statement.setInt(5, 1); //Nivel
+			statement.setInt(6, 0);	//DESTREZA
+			statement.setInt(7, 0);	//Fuerza
+			statement.setInt(8, 0);	//Inteligencia
+			statement.setInt(9, 100);	//Energia
+			statement.setInt(10, 100);	//Salud
+			statement.setString(11, casta);	//Casta
+			statement.setString(12, raza);	//Raza	
+			statement.setString(13, "");	//Raza	
+			statement.execute();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			try {
+				statement.close();
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
+		}
 		
-		statement.setString(1, user);
-		statement.setInt(2, 0);	//CordenadaX
-		statement.setInt(3, 0);	//CordenadaY
-		statement.setInt(4, 0); //Experiencia
-		statement.setInt(5, 1); //Nivel
-		statement.setInt(6, 0);	//DESTREZA
-		statement.setInt(7, 0);	//Fuerza
-		statement.setInt(8, 0);	//Inteligencia
-		statement.setInt(9, 100);	//Energia
-		statement.setInt(10, 100);	//Salud
-		statement.setString(11, casta);	//Casta
-		statement.setString(12, raza);	//Raza	
-		statement.setString(13, "");	//Raza	
-		statement.execute();
 		
 	}
 
 	@Override
+	public void actualizarDestreza(String usuario, int destreza) throws SQLException {
+		PreparedStatement statement=null;
+		statement = conexion.prepareStatement(ACTUALIZARDESTREZA);
+		statement.setInt(1, destreza);
+		statement.setString(3, usuario);
+		statement.executeUpdate();
+		
+	}
+	
+	@Override
+	public void actualizarFuerza(String usuario, int fuerza) throws SQLException {
+		PreparedStatement statement=null;
+		statement = conexion.prepareStatement(ACTUALIZARFUERZA);
+
+		statement.setInt(1, fuerza);
+		statement.setString(3, usuario);
+		statement.executeUpdate();
+		
+	}
+	
+	@Override
+	public void actualizarExperiencia(String usuario, int experiencia) throws SQLException {
+		PreparedStatement statement=null;
+		statement = conexion.prepareStatement(ACTUALIZAREXPERIENCIA);
+
+		statement.setInt(1, experiencia);
+		statement.setString(3, usuario);
+		statement.executeUpdate();
+		
+	}
+	
+	@Override
+	public void actualizarSalud(String usuario, int salud) throws SQLException {
+		PreparedStatement statement=null;
+		statement = conexion.prepareStatement(ACTUALIZARSALUD);
+
+		statement.setInt(1, salud);
+		statement.setString(3, usuario);
+		statement.executeUpdate();
+		
+	}
+	
+	@Override
+	public void actualizarInteligencia(String usuario, int inteligencia) throws SQLException {
+		PreparedStatement statement=null;
+		statement = conexion.prepareStatement(ACTUALIZARINTELIGENCIA);
+
+		statement.setInt(1, inteligencia);
+		statement.setString(3, usuario);
+		statement.executeUpdate();
+		
+	}
+	
+	@Override
 	public void actualizarCordenadasXY(String usuario, int cordX, int cordY) throws SQLException {
+		PreparedStatement statement=null;
 		statement = conexion.prepareStatement(ACTUALIZARCOORDENADAXY);
 
 		statement.setInt(1, cordX);
@@ -72,10 +137,11 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 		statement.setString(3, usuario);
 		statement.executeUpdate();
 		
-	}
+	}	
 	
 	@Override
 	public void actualizarNivel(String usuario, int nivel) throws SQLException {
+		PreparedStatement statement=null;
 		statement = conexion.prepareStatement(ACTUALIZARNIVEL);
 
 		statement.setInt(1, nivel);
@@ -84,38 +150,90 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 	}
 	
 	@Override
-	public void actualizarNivel(String usuario, String raza,String casta) throws SQLException {
-		statement = conexion.prepareStatement(ACTUALIZARRAZACASTA);
+	public void actualizarRazaCasta(String usuario, String raza,String casta) throws SQLException {
+		PreparedStatement statement=null;
+		try {
+			statement = conexion.prepareStatement(ACTUALIZARRAZACASTA);
+			statement.setString(1, raza);
+			statement.setString(2, casta);
+			statement.setString(3, usuario);
+			statement.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			try {
+				statement.close();
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
+			
+		}
+		
+	}
+	
+	@Override
+	public void actualizarEnergia(String usuario, int energia) throws SQLException {
+		PreparedStatement statement=null;
+		statement = conexion.prepareStatement(ACTUALIZARENERGIA);
 
-		statement.setString(1, raza);
-		statement.setString(2, casta);
+		statement.setInt(1, energia);
 		statement.setString(3, usuario);
 		statement.executeUpdate();
 	}
 	
+	@SuppressWarnings("finally")
 	@Override
 	public boolean buscar(String user) throws SQLException {
-
-		statement = conexion.prepareStatement(BUSCAR);
+		PreparedStatement statement=null;
+		try {
+			statement = conexion.prepareStatement(BUSCAR);
 		statement.setString(1, user);
 		ResultSet res = statement.executeQuery();
-		if(!res.next())
-			return false;	
+		if(!res.next()){
+			statement.close();
+			return false;
+		}
+		statement.close();		
 		return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			try {
+				statement.close();
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}finally {
+				return false;
+			}
+			
+		}
 	}
 
 	@Override
 	public void borrar(String user) throws SQLException {
-		statement = conexion.prepareStatement(ELIMINAR);
+		PreparedStatement statement=null;
+		try {
+			statement = conexion.prepareStatement(ELIMINAR);
 		
 		statement.setString(1, user);
 		statement.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			try {
+				statement.close();
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
+		}
+		
 		
 	}
 	
 	//podria devolver un ArrayList de Jugadores...
 	@Override
 	public void listarDatos() throws SQLException {
+		PreparedStatement statement=null;
 		ResultSet res;
 		statement = conexion.prepareStatement(VER_TODOS);
 		
@@ -124,6 +242,7 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 		while(res.next()) {
 			System.out.println(res.getString(1) + "|" + res.getString(2) + "|"  + res.getDouble(3) + "|" + res.getString(4) + "|" + res.getString(5));
 		}
+		statement.close();
 	}
 	
 	@Override
@@ -137,12 +256,17 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 
 	@Override
 	public String seleccionarUsuario(String usuario) throws SQLException {
+		PreparedStatement statement=null;
 		ResultSet res;
 		statement=conexion.prepareStatement(VER_REGISTRO);
 		statement.setString(1, usuario);
 		res = statement.executeQuery();
-		if( res.next())
-			return res.getString(1) + " " + res.getString(2) + " "  + res.getDouble(3) + " " + res.getString(4) + " " + res.getString(5) + " " + res.getString(6) + " " + res.getString(7) + " " + res.getString(8) + " " + res.getString(9) + " " + res.getString(10) + " " + res.getString(11) + " " + res.getString(12);
+		if( res.next()){
+			String result=res.getString(1) + " " + res.getString(2) + " "  + res.getDouble(3) + " " + res.getString(4) + " " + res.getString(5) + " " + res.getString(6) + " " + res.getString(7) + " " + res.getString(8) + " " + res.getString(9) + " " + res.getString(10) + " " + res.getString(11) + " " + res.getString(12);
+			statement.close();
+			return result;
+		}
+		statement.close();
 		return null;
 	}
 	

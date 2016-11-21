@@ -9,6 +9,8 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Scanner;
 
+import javax.swing.JOptionPane;
+
 import com.google.gson.Gson;
 //import com.google.gson.JsonObject;
 
@@ -32,7 +34,10 @@ public class Cliente {
 		try {
 			this.cliente = new Socket(this.host, this.puerto);
 		} catch (IOException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "No se pudo establecer conexión con el servidor. "
+					+ "\n*Verifique que tenga conexion.\n*Que el archivo de configuración sea el correcto. \n*Que el servidor este correctamente abierto.",
+					"ERROR AL CONECTAR",JOptionPane.ERROR_MESSAGE);
+			System.exit(1);
 		}
 	}
 	

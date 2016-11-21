@@ -1,7 +1,7 @@
 package servidor;
 
 import java.net.Socket;
-import dao.DAO;
+import dao.DAOJUGADOR;
 import dao.DAOPERSONAJE;
 import dao.JugadorDAO;
 import dao.PersonajeDAO;
@@ -11,14 +11,13 @@ public class MainServidor {
         Socket socket = null;
         Servidor servidor = null;
         int maximoConexiones = 1020;
-        DAO daoJugador;
+        DAOJUGADOR daoJugador;
         DAOPERSONAJE daoPersonaje;
         
         servidor = new Servidor(maximoConexiones);
  
         daoJugador = new JugadorDAO();
         daoPersonaje = new PersonajeDAO();
-        		
         while (true) {
             socket = servidor.aceptarConexion();
 

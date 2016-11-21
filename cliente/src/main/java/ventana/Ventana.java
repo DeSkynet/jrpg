@@ -1,4 +1,4 @@
-package pantalla;
+package ventana;
 
 import java.awt.Canvas;
 import java.awt.Dimension;

@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -15,6 +16,7 @@ import javax.swing.border.EmptyBorder;
 
 import cliente.Cliente;
 import cliente.HiloCliente;
+import herramientas.Constantes;
 import mensajes.Mensaje;
 import mensajes.MensajeLogIn;
 import pantalla.Juego;
@@ -38,6 +40,7 @@ public class VentanaPrincipal extends JFrame {
 		
 		this.cliente = cliente;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setIconImage(new ImageIcon(Constantes.PATH_ICONO).getImage());
 		setSize(600, 600);
 		contentPane = new JPanel();
 		setTitle("The Alliance");
@@ -46,6 +49,7 @@ public class VentanaPrincipal extends JFrame {
 		contentPane.setLayout(null);
 		setLocationRelativeTo(null);
 		setResizable(false);
+		
 		
 		JLabel lblUsuario = new JLabel("USUARIO");
 		lblUsuario.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -76,7 +80,9 @@ public class VentanaPrincipal extends JFrame {
 		botonIniciar = new JButton("INICIAR SESION");
 		botonIniciar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(!usuario.getText().isEmpty() && !usuario.getText().isEmpty()) {
+				usuario.setText(usuario.getText().trim());
+				pass.setText(pass.getText().trim());
+				if(!usuario.getText().isEmpty() && !pass.getText().isEmpty()) {
 					envioSession(usuario.getText(),pass.getText());
 					Mensaje mensaje=recibirConfirmacionDeAcceso();
 					if(mensaje.getTipoMensaje().equals("MensajeConfirmacion"))
@@ -105,7 +111,7 @@ public class VentanaPrincipal extends JFrame {
 					
 				}
 				else
-					JOptionPane.showMessageDialog(null, "Los campos no pueden quedar vacios.", "Advertencia", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Los campos no pueden quedar vacios.", "Advertencia", JOptionPane.WARNING_MESSAGE);
 			}
 		});
 		botonIniciar.setFont(new Font("Tahoma", Font.BOLD, 16));

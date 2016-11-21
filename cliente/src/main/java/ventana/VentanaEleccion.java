@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import cliente.Cliente;
+import herramientas.Constantes;
 import mensajes.MensajeEleccionPersonaje;
 import pantalla.Juego;
 
@@ -13,6 +14,7 @@ import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -39,6 +41,7 @@ public class VentanaEleccion extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		setTitle("The Alliance - Selecciona Personaje");
+		setIconImage(new ImageIcon(Constantes.PATH_ICONO).getImage());
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -159,7 +162,6 @@ public class VentanaEleccion extends JFrame {
 				if(!eleccionCasta.isEmpty() && !eleccionRaza.isEmpty()){
 					enviaElecionPersonaje(eleccionRaza,eleccionCasta);
 				}else JOptionPane.showMessageDialog(btnAlien, "Debe seleccionar al menos una raza y una casta.");
-				JOptionPane.showMessageDialog(null, "AREA A CONECTAR CON EL JUEGO...");
 				//ABRO LA PROXIMA VENTANA DEL JUEGO.
 				Juego juego = new Juego();
 				juego.iniciar();

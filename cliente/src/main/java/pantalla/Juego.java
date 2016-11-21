@@ -9,6 +9,7 @@ import graficos.Mapa;
 import graficos.Sprite;
 import herramientas.Constantes;
 import herramientas.MousePoint;
+import ventana.Ventana;
 
 public class Juego implements Runnable{
 	

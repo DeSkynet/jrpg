@@ -1,6 +1,7 @@
 package graficos;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -15,9 +16,9 @@ public class Cuadro {
 		this.anchoTile = anchoTile;
 		this.altoTile = altoTile;
 		this.atravesable = atravesable;
-		
+		File imagen=new File(pathImg);
 		try {
-			this.img = ImageIO.read(BufferedImage.class.getResource(pathImg));
+			this.img = ImageIO.read(imagen);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

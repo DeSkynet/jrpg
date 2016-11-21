@@ -5,12 +5,14 @@ public class Constantes {
 	public static final int ALTO_PANTALLA = 600;
 	
 	public static final String NOMBRE_JUEGO = "The Alliance";
-	public static final String PATH_ICONO = "../Assets/icono/icono.png";
+	public static final String PATH_ICONO = "Assets/icono/icono.png";
 	public static final String PATH_MAPA_UNO = "Assets/mapas/mapaUno.txt";
 	
 	public static final String PATH_AGUA = "Assets/sprites/agua.png";
 	public static final String PATH_ROCA = "Assets/sprites/roca.png";
 	public static final String PATH_CESPED = "Assets/sprites/cesped.png";
+
+	public static final String SPRITE_MAGO = "Assets/sprites/werewolf.png";
 	
 	public static final int ANCHO_CUADRO = 256;
 	public static final int ALTO_CUADRO = 128;

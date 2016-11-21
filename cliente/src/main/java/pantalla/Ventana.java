@@ -39,7 +39,7 @@ public class Ventana{
 	
 	public Ventana() {
 		pantalla = new JFrame();
-		icono = new ImageIcon(getClass().getResource(Constantes.PATH_ICONO));
+		icono = new ImageIcon(Constantes.PATH_ICONO);
 		pantalla.setSize(Constantes.ANCHO_PANTALLA, Constantes.ALTO_PANTALLA);
 		pantalla.setResizable(false);
 		pantalla.setIconImage(icono.getImage());

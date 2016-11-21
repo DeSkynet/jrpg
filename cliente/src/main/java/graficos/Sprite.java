@@ -2,6 +2,7 @@ package graficos;
 
 import java.awt.Point;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 
@@ -42,7 +43,7 @@ public static void cargar() {
 		alto = 256;
 		
 		
-		HojaSprite spriteMago = new HojaSprite(cargarImagen("/sprites/werewolf.png"));
+		HojaSprite spriteMago = new HojaSprite(cargarImagen(Constantes.SPRITE_MAGO));
 		
 		magoIzq = new BufferedImage[4];
 		magoArribaIzq = new BufferedImage[4];
@@ -111,7 +112,8 @@ public static void cargar() {
 
 	public static BufferedImage cargarImagen(String path) {
 		try {
-			return ImageIO.read(Sprite.class.getResource(path));
+			File imagen=new File(path);
+			return ImageIO.read(imagen);
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(1);

@@ -115,7 +115,7 @@ public class VentanaPrincipal extends JFrame {
 			}
 		});
 		botonIniciar.setFont(new Font("Tahoma", Font.BOLD, 16));
-		botonIniciar.setBounds(301, 416, 167, 35);
+		botonIniciar.setBounds(289, 416, 179, 35);
 		contentPane.add(botonIniciar);
 		
 		registrarUsuario = new JButton("REGISTRAR");

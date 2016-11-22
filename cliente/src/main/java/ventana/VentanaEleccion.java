@@ -7,6 +7,7 @@ import javax.swing.border.EmptyBorder;
 import cliente.Cliente;
 import herramientas.Constantes;
 import mensajes.MensajeEleccionPersonaje;
+import mensajes.MensajeEleccionTerreno;
 import pantalla.Juego;
 
 import javax.swing.JLabel;
@@ -22,8 +23,9 @@ import java.awt.event.ActionEvent;
 public class VentanaEleccion extends JFrame {
 
 	private JPanel contentPane;
-	private String eleccionRaza;
-	private String eleccionCasta;
+	private String eleccionRaza=null;
+	private String eleccionCasta=null;
+	private String eleccionMapa=null;
 	private JButton btnHumano;
 	private JButton btnRobot;
 	private JButton btnSuperheroe;
@@ -31,6 +33,9 @@ public class VentanaEleccion extends JFrame {
 	private JButton btnLuchador;
 	private JButton btnLadron;
 	private JButton btnHechicero;
+	private JButton btnDesierto;
+	private JButton btnPlaya;
+	private JButton btnCampo;
 	private JButton btnJugar;
 	private Cliente cliente;
 	private String usuario;
@@ -156,16 +161,64 @@ public class VentanaEleccion extends JFrame {
 		btnHechicero.setBounds(400, 211, 120, 23);
 		contentPane.add(btnHechicero);
 		
+		JLabel lblMapa = new JLabel("MAPA");
+		lblMapa.setHorizontalAlignment(SwingConstants.CENTER);
+		lblMapa.setFont(new Font("Arial", Font.PLAIN, 19));
+		lblMapa.setBounds(37, 307, 70, 30);
+		contentPane.add(lblMapa);
+		
+		btnCampo = new JButton("Campo");
+		btnCampo.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnCampo.setBounds(100, 348, 120, 23);
+		btnCampo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				eleccionMapa = btnCampo.getText();
+				btnCampo.setEnabled(false);
+				btnDesierto.setEnabled(true);
+				btnPlaya.setEnabled(true);
+			}
+		});
+		contentPane.add(btnCampo);
+		
+		
+		btnPlaya = new JButton("Playa");
+		btnPlaya.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnPlaya.setBounds(250, 348, 120, 23);
+		btnPlaya.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				eleccionMapa = btnPlaya.getText();
+				btnPlaya.setEnabled(false);
+				btnDesierto.setEnabled(true);
+				btnCampo.setEnabled(true);
+			}
+		});
+		contentPane.add(btnPlaya);
+		
+		btnDesierto = new JButton("Desierto");
+		btnDesierto.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnDesierto.setBounds(400, 348, 120, 23);
+		btnDesierto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				eleccionMapa = btnDesierto.getText();
+				//TILDO EL DE DESIERTO Y DESTILDO LOS OTROS. 
+				btnDesierto.setEnabled(false);
+				btnCampo.setEnabled(true);
+				btnPlaya.setEnabled(true);
+			}
+		});
+		contentPane.add(btnDesierto);
+		
 		btnJugar = new JButton("Jugar");
 		btnJugar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(!eleccionCasta.isEmpty() && !eleccionRaza.isEmpty()){
-					enviaElecionPersonaje(eleccionRaza,eleccionCasta);
-				}else JOptionPane.showMessageDialog(btnAlien, "Debe seleccionar al menos una raza y una casta.");
-				//ABRO LA PROXIMA VENTANA DEL JUEGO.
-				Juego juego = new Juego();
-				juego.iniciar();
-				dispose();
+				if(eleccionCasta!=null && eleccionRaza!=null && eleccionMapa!=null ){
+					enviaElecionPersonaje(eleccionRaza,eleccionCasta,eleccionMapa);
+					//ABRO LA PROXIMA VENTANA DEL JUEGO.
+					Juego juego = new Juego();
+					juego.iniciar();
+					dispose();
+				}else JOptionPane.showMessageDialog(null, "Debe seleccionar al menos una raza y una casta.");
+
 			}
 		});
 		btnJugar.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -175,8 +228,9 @@ public class VentanaEleccion extends JFrame {
 	
 	}
 	
-	private void enviaElecionPersonaje(String eleccionRaza, String eleccionCasta) {
+	private void enviaElecionPersonaje(String eleccionRaza, String eleccionCasta,String eleccionMapa) {
 		this.cliente.enviarMensaje("MensajeEleccionPersonaje", new MensajeEleccionPersonaje(usuario, eleccionRaza, eleccionCasta));
+		this.cliente.enviarMensaje("MensajeEleccionTerreno", new MensajeEleccionTerreno(usuario, eleccionMapa));
 		
 	}
 }

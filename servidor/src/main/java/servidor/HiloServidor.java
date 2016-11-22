@@ -69,7 +69,12 @@ public class HiloServidor extends Thread {
                     		break;
 	                    case "Movimiento":
 		                    MensajePosicion movi=gson.fromJson(mensajeResivido.getObjeto().toString(), MensajePosicion.class);
-	//	                    this.leerMovimiento(movi.getUsuario(),movi.getCordenadaX(),movi.getCordenadaY());	//Actualizo la Bd
+		                    try {
+								personaje.actualizarCordenadasXY(movi.getUsuario(),movi.getCordenadaX(),movi.getCordenadaY());	//Actualizo la Bd
+							} catch (Exception e) {
+								// TODO: handle exception
+							}
+		                    
 	//	                    this.distribuirMovimiento(movi.getUsuario(),movi.getCordenadaX(),movi.getCordenadaY());
 		                    break;
 	
@@ -115,17 +120,34 @@ public class HiloServidor extends Thread {
 	                    	                   
 	                    case "MensajeEleccionTerreno":
 	                    	MensajeEleccionTerreno terreno=gson.fromJson(mensajeResivido.getObjeto().toString(), MensajeEleccionTerreno.class);
-	//                    	cambioEnBD(terreno.getUsuario(),terreno.getMapa());
-	                    	
+	                    	if(terreno.getMapa().equals("Campo") || terreno.getMapa().equals("Playa") || terreno.getMapa().equals("Desierto")){
+	                    		try {
+	                    			personaje.actualizarMapa(terreno.getUsuario(), terreno.getMapa());
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+	                    	}
 	                    	break;
 	                    	
 	                    case "MensajeAtaque":
 	                    	MensajeAtaque ataque=gson.fromJson(mensajeResivido.getObjeto().toString(), MensajeAtaque.class);
 	                    	//FALTA
 	                    	break;
+	                    	
+	                    case "MensajeIncrementoExperiencia":
+	                    	MensajeIncrementoExperiencia incExperiencia=gson.fromJson(mensajeResivido.getObjeto().toString(), MensajeIncrementoExperiencia.class);
+	                    	try {
+								String dato[]=personaje.seleccionarUsuario(incExperiencia.getUsuario()).split(" ");
+								//DEBERIA FIJARSE SI PUEDE SUBIR DE NIVEL.
+								personaje.actualizarExperiencia(incExperiencia.getUsuario(), Integer.parseInt(dato[4])+incExperiencia.getIncremento());
+							} catch (Exception e) {
+								// TODO: handle exception
+							}
+	                    		
+	                    	break;
 	                    default: System.out.println ("El tipo especificado no es un mensaje.."); break;
 
-                }
+                    }
                    
                 }
                 // indico que el flujo de informacion provenga del usuario de
@@ -154,8 +176,6 @@ public class HiloServidor extends Thread {
 							e2.printStackTrace();
 						}
             	 }
-                 	
-                
 			}
            
         }
@@ -166,8 +186,7 @@ public class HiloServidor extends Thread {
     	Mensaje mensaje=new Mensaje(string,true);
     	Gson gson = new Gson();
 		String mensajeParaEnviar = gson.toJson(mensaje);
-
-    	PrintStream ps;
+		PrintStream ps;
     	
     	try {
 			ps = new PrintStream(socket.getOutputStream());

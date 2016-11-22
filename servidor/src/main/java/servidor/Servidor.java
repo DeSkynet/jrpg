@@ -102,7 +102,7 @@ public class Servidor {
             JOptionPane.showMessageDialog(null, "Error al aceptar conexiones, Cerrando el Servidor...");
         	System.exit(1);
         }
-
+        
         return cliente; //devuelvo el socket del cliente
     }
     

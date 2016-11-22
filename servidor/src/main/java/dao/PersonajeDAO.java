@@ -14,17 +14,17 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 //	private static final String PATH_CONNECTION = "jdbc:sqlite:src/main/resources/bd/Personaje.bd";
 	private static final String INSERTAR = "Insert into Personaje values(?,?,?,?,?,?,?,?,?,?,?,?,?);";
 	private static final String BUSCAR = "select *from Personaje where Usuario = ?;";
+	
 	private static final String ACTUALIZARCOORDENADAXY = "update Personaje set CordenadaX = ? set CordenadaY = ? where Usuario = ?;";
 	private static final String ACTUALIZAREXPERIENCIA = "update Personaje set Experiencia = ? where Usuario = ?;";
 	private static final String ACTUALIZARNIVEL = "update Personaje set Nivel = ? where Usuario = ?;";
-	
 	private static final String ACTUALIZARDESTREZA = "update Personaje set Destreza = ? where Usuario = ?;";
 	private static final String ACTUALIZARFUERZA = "update Personaje set Fuerza = ? where Usuario = ?;";
 	private static final String ACTUALIZARINTELIGENCIA = "update Personaje set Inteligencia = ? where Usuario = ?;";
 	private static final String ACTUALIZARENERGIA = "update Personaje set Energia = ? where Usuario = ?;";
 	private static final String ACTUALIZARSALUD = "update Personaje set Salud = ? where Usuario = ?;";
 	private static final String ACTUALIZARRAZACASTA = "update Personaje set Raza = ? set Casta = ? where Usuario = ?;";
-	
+	private static final String ACTUALIZARMAPA = "update Personaje set Mapa = ? where Usuario = ?;";
 	
 	
 	private static final String ELIMINAR = "delete from Personaje where Usuario = ?;";
@@ -199,9 +199,26 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 				// TODO: handle exception
 			}
 		}
-		
-		
 	}	
+	
+	@Override
+	public void actualizarMapa(String usuario, String mapa) throws SQLException {
+		PreparedStatement statement=null;
+		try {
+			statement = conexion.prepareStatement(ACTUALIZARMAPA);
+			statement.setString(1, mapa);
+			statement.setString(2, usuario);
+			statement.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			try {
+				statement.close();
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
+		}
+	}
 	
 	@Override
 	public void actualizarNivel(String usuario, int nivel) throws SQLException {

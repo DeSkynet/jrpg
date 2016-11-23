@@ -14,24 +14,37 @@ public class Sprite {
 	private static int ancho;
 	private static int alto;
 
-
-	public static LinkedList<BufferedImage[]> mago = new LinkedList<>();
-	private static BufferedImage[] magoIzq;
-	private static BufferedImage[] magoArribaIzq; 
-	private static BufferedImage[] magoArriba;
-	private static BufferedImage[] magoArribaDer;
-	private static BufferedImage[] magoDer;
-	private static BufferedImage[] magoAbajoDer;
-	private static BufferedImage[] magoAbajo;
-	private static BufferedImage[] magoAbajoIzq;
+	public static LinkedList<BufferedImage[]> sprite = new LinkedList<>();
+	private static BufferedImage[] izq;
+	private static BufferedImage[] arribaIzq; 
+	private static BufferedImage[] arriba;
+	private static BufferedImage[] arribaDer;
+	private static BufferedImage[] der;
+	private static BufferedImage[] abajoDer;
+	private static BufferedImage[] abajo;
+	private static BufferedImage[] abajoIzq;
 	
 	
 	public static BufferedImage cuadroCesped;
 	public static BufferedImage cuadroAgua;
 	public static BufferedImage cuadroRoca;
 	
-public static void cargar() {
-		
+public static void cargar(String tipoAcargar) {
+		switch (tipoAcargar) {
+		case "Robot" :
+			cargarRobot();
+			break;
+		case "Alien" :
+			cargarMago();
+			break;
+		case "SuperHeroe" :
+			cargarSuper();
+			break;	
+		case "Humano":
+			cargarHumano();
+		default:
+			break;
+		}
 		cargarMago();
 	}
 
@@ -45,63 +58,63 @@ public static void cargar() {
 		
 		HojaSprite spriteMago = new HojaSprite(cargarImagen(Constantes.SPRITE_MAGO));
 		
-		magoIzq = new BufferedImage[4];
-		magoArribaIzq = new BufferedImage[4];
-		magoArriba = new BufferedImage[4];
-		magoArribaDer = new BufferedImage[4];
-		magoDer = new BufferedImage[4];
-		magoAbajoDer = new BufferedImage[4];
-		magoAbajo = new BufferedImage[4];
-		magoAbajoIzq = new BufferedImage[4];
+		izq = new BufferedImage[4];
+		arribaIzq = new BufferedImage[4];
+		arriba = new BufferedImage[4];
+		arribaDer = new BufferedImage[4];
+		der = new BufferedImage[4];
+		abajoDer = new BufferedImage[4];
+		abajo = new BufferedImage[4];
+		abajoIzq = new BufferedImage[4];
 		
 		for(int i = 0; i < 4; i++) {
 			Point punto = new Point(ancho*i, 0);
-			magoIzq[i] = spriteMago.obtenerCuadro(punto, ancho, alto);
+			izq[i] = spriteMago.obtenerCuadro(punto, ancho, alto);
 		}
 		
 		for(int i = 0; i < 4; i++) {
 			Point punto = new Point(ancho*i, alto);
-			magoArribaIzq[i] = spriteMago.obtenerCuadro(punto, ancho, alto);
+			arribaIzq[i] = spriteMago.obtenerCuadro(punto, ancho, alto);
 		}
 		
 		for(int i = 0; i < 4; i++) {
 			Point punto = new Point(ancho*i, alto*2);
-			magoArriba[i] = spriteMago.obtenerCuadro(punto, ancho, alto);
+			arriba[i] = spriteMago.obtenerCuadro(punto, ancho, alto);
 		}
 		
 		for(int i = 0; i < 4; i++) {
 			Point punto = new Point(ancho*i, alto*3);
-			magoArribaDer[i] = spriteMago.obtenerCuadro(punto, ancho, alto);
+			arribaDer[i] = spriteMago.obtenerCuadro(punto, ancho, alto);
 		}
 		
 		for(int i = 0; i < 4; i++) {
 			Point punto = new Point(ancho*i, alto*4);
-			magoDer[i] = spriteMago.obtenerCuadro(punto, ancho, alto);
+			der[i] = spriteMago.obtenerCuadro(punto, ancho, alto);
 		}
 		
 		for(int i = 0; i < 4; i++) {
 			Point punto = new Point(ancho*i, alto*5);
-			magoAbajoDer[i] = spriteMago.obtenerCuadro(punto, ancho, alto);
+			abajoDer[i] = spriteMago.obtenerCuadro(punto, ancho, alto);
 		}
 		
 		for(int i = 0; i < 4; i++) {
 			Point punto = new Point(ancho*i, alto*6);
-			magoAbajo[i] = spriteMago.obtenerCuadro(punto, ancho, alto);
+			abajo[i] = spriteMago.obtenerCuadro(punto, ancho, alto);
 		}
 		
 		for(int i = 0; i < 4; i++) {
 			Point punto = new Point(ancho*i, alto*7);
-			magoAbajoIzq[i] = spriteMago.obtenerCuadro(punto, ancho, alto);
+			abajoIzq[i] = spriteMago.obtenerCuadro(punto, ancho, alto);
 		}
 		
-		 mago.add(magoIzq);
-		 mago.add(magoArribaIzq);
-		 mago.add(magoArriba);
-		 mago.add(magoArribaDer);
-		 mago.add(magoDer);
-		 mago.add(magoAbajoDer);
-		 mago.add(magoAbajo);
-		 mago.add(magoAbajoIzq);
+		 sprite.add(izq);
+		 sprite.add(arribaIzq);
+		 sprite.add(arriba);
+		 sprite.add(arribaDer);
+		 sprite.add(der);
+		 sprite.add(abajoDer);
+		 sprite.add(abajo);
+		 sprite.add(abajoIzq);
 		 
 		 
 		 cuadroCesped = cargarImagen(Constantes.PATH_CESPED);
@@ -109,6 +122,222 @@ public static void cargar() {
 		 cuadroRoca = cargarImagen(Constantes.PATH_ROCA);
 }
 
+public static void cargarRobot() {
+		
+		ancho = 256;
+		alto = 256;
+		
+		
+		HojaSprite spriteRobot = new HojaSprite(cargarImagen(Constantes.SPRITE_ROBOT));
+		
+		izq = new BufferedImage[4];
+		arribaIzq = new BufferedImage[4];
+		arriba = new BufferedImage[4];
+		arribaDer = new BufferedImage[4];
+		der = new BufferedImage[4];
+		abajoDer = new BufferedImage[4];
+		abajo = new BufferedImage[4];
+		abajoIzq = new BufferedImage[4];
+		
+		for(int i = 0; i < 4; i++) {
+			Point punto = new Point(ancho*i, 0);
+			izq[i] = spriteRobot.obtenerCuadro(punto, ancho, alto);
+		}
+		
+		for(int i = 0; i < 4; i++) {
+			Point punto = new Point(ancho*i, alto);
+			arribaIzq[i] = spriteRobot.obtenerCuadro(punto, ancho, alto);
+		}
+		
+		for(int i = 0; i < 4; i++) {
+			Point punto = new Point(ancho*i, alto*2);
+			arriba[i] = spriteRobot.obtenerCuadro(punto, ancho, alto);
+		}
+		
+		for(int i = 0; i < 4; i++) {
+			Point punto = new Point(ancho*i, alto*3);
+			arribaDer[i] = spriteRobot.obtenerCuadro(punto, ancho, alto);
+		}
+		
+		for(int i = 0; i < 4; i++) {
+			Point punto = new Point(ancho*i, alto*4);
+			der[i] = spriteRobot.obtenerCuadro(punto, ancho, alto);
+		}
+		
+		for(int i = 0; i < 4; i++) {
+			Point punto = new Point(ancho*i, alto*5);
+			abajoDer[i] = spriteRobot.obtenerCuadro(punto, ancho, alto);
+		}
+		
+		for(int i = 0; i < 4; i++) {
+			Point punto = new Point(ancho*i, alto*6);
+			abajo[i] = spriteRobot.obtenerCuadro(punto, ancho, alto);
+		}
+		
+		for(int i = 0; i < 4; i++) {
+			Point punto = new Point(ancho*i, alto*7);
+			abajoIzq[i] = spriteRobot.obtenerCuadro(punto, ancho, alto);
+		}
+		
+		 sprite.add(izq);
+		 sprite.add(arribaIzq);
+		 sprite.add(arriba);
+		 sprite.add(arribaDer);
+		 sprite.add(der);
+		 sprite.add(abajoDer);
+		 sprite.add(abajo);
+		 sprite.add(abajoIzq);
+		 
+		 
+		 cuadroCesped = cargarImagen(Constantes.PATH_CESPED);
+		 cuadroAgua = cargarImagen(Constantes.PATH_AGUA);
+		 cuadroRoca = cargarImagen(Constantes.PATH_ROCA);
+}
+	
+public static void cargarHumano() {
+	
+	ancho = 256;
+	alto = 256;
+	
+	
+	HojaSprite spriteHumano = new HojaSprite(cargarImagen(Constantes.SPRITE_HUMANO));
+	
+	izq = new BufferedImage[4];
+	arribaIzq = new BufferedImage[4];
+	arriba = new BufferedImage[4];
+	arribaDer = new BufferedImage[4];
+	der = new BufferedImage[4];
+	abajoDer = new BufferedImage[4];
+	abajo = new BufferedImage[4];
+	abajoIzq = new BufferedImage[4];
+	
+	for(int i = 0; i < 4; i++) {
+		Point punto = new Point(ancho*i, 0);
+		izq[i] = spriteHumano.obtenerCuadro(punto, ancho, alto);
+	}
+	
+	for(int i = 0; i < 4; i++) {
+		Point punto = new Point(ancho*i, alto);
+		arribaIzq[i] = spriteHumano.obtenerCuadro(punto, ancho, alto);
+	}
+	
+	for(int i = 0; i < 4; i++) {
+		Point punto = new Point(ancho*i, alto*2);
+		arriba[i] = spriteHumano.obtenerCuadro(punto, ancho, alto);
+	}
+	
+	for(int i = 0; i < 4; i++) {
+		Point punto = new Point(ancho*i, alto*3);
+		arribaDer[i] = spriteHumano.obtenerCuadro(punto, ancho, alto);
+	}
+	
+	for(int i = 0; i < 4; i++) {
+		Point punto = new Point(ancho*i, alto*4);
+		der[i] = spriteHumano.obtenerCuadro(punto, ancho, alto);
+	}
+	
+	for(int i = 0; i < 4; i++) {
+		Point punto = new Point(ancho*i, alto*5);
+		abajoDer[i] = spriteHumano.obtenerCuadro(punto, ancho, alto);
+	}
+	
+	for(int i = 0; i < 4; i++) {
+		Point punto = new Point(ancho*i, alto*6);
+		abajo[i] = spriteHumano.obtenerCuadro(punto, ancho, alto);
+	}
+	
+	for(int i = 0; i < 4; i++) {
+		Point punto = new Point(ancho*i, alto*7);
+		abajoIzq[i] = spriteHumano.obtenerCuadro(punto, ancho, alto);
+	}
+	
+	 sprite.add(izq);
+	 sprite.add(arribaIzq);
+	 sprite.add(arriba);
+	 sprite.add(arribaDer);
+	 sprite.add(der);
+	 sprite.add(abajoDer);
+	 sprite.add(abajo);
+	 sprite.add(abajoIzq);
+	 
+	 
+	 cuadroCesped = cargarImagen(Constantes.PATH_CESPED);
+	 cuadroAgua = cargarImagen(Constantes.PATH_AGUA);
+	 cuadroRoca = cargarImagen(Constantes.PATH_ROCA);
+}
+
+
+public static void cargarSuper() {
+
+	ancho = 256;
+	alto = 256;
+	
+	
+	HojaSprite spriteSuper = new HojaSprite(cargarImagen(Constantes.SPRITE_SUPER));
+	
+	izq = new BufferedImage[4];
+	arribaIzq = new BufferedImage[4];
+	arriba = new BufferedImage[4];
+	arribaDer = new BufferedImage[4];
+	der = new BufferedImage[4];
+	abajoDer = new BufferedImage[4];
+	abajo = new BufferedImage[4];
+	abajoIzq = new BufferedImage[4];
+	
+	for(int i = 0; i < 4; i++) {
+		Point punto = new Point(ancho*i, 0);
+		izq[i] = spriteSuper.obtenerCuadro(punto, ancho, alto);
+	}
+	
+	for(int i = 0; i < 4; i++) {
+		Point punto = new Point(ancho*i, alto);
+		arribaIzq[i] = spriteSuper.obtenerCuadro(punto, ancho, alto);
+	}
+	
+	for(int i = 0; i < 4; i++) {
+		Point punto = new Point(ancho*i, alto*2);
+		arriba[i] = spriteSuper.obtenerCuadro(punto, ancho, alto);
+	}
+	
+	for(int i = 0; i < 4; i++) {
+		Point punto = new Point(ancho*i, alto*3);
+		arribaDer[i] = spriteSuper.obtenerCuadro(punto, ancho, alto);
+	}
+	
+	for(int i = 0; i < 4; i++) {
+		Point punto = new Point(ancho*i, alto*4);
+		der[i] = spriteSuper.obtenerCuadro(punto, ancho, alto);
+	}
+	
+	for(int i = 0; i < 4; i++) {
+		Point punto = new Point(ancho*i, alto*5);
+		abajoDer[i] = spriteSuper.obtenerCuadro(punto, ancho, alto);
+	}
+	
+	for(int i = 0; i < 4; i++) {
+		Point punto = new Point(ancho*i, alto*6);
+		abajo[i] = spriteSuper.obtenerCuadro(punto, ancho, alto);
+	}
+	
+	for(int i = 0; i < 4; i++) {
+		Point punto = new Point(ancho*i, alto*7);
+		abajoIzq[i] = spriteSuper.obtenerCuadro(punto, ancho, alto);
+	}
+	
+	 sprite.add(izq);
+	 sprite.add(arribaIzq);
+	 sprite.add(arriba);
+	 sprite.add(arribaDer);
+	 sprite.add(der);
+	 sprite.add(abajoDer);
+	 sprite.add(abajo);
+	 sprite.add(abajoIzq);
+	 
+	 
+	 cuadroCesped = cargarImagen(Constantes.PATH_CESPED);
+	 cuadroAgua = cargarImagen(Constantes.PATH_AGUA);
+	 cuadroRoca = cargarImagen(Constantes.PATH_ROCA);
+}
 
 	public static BufferedImage cargarImagen(String path) {
 		try {
@@ -122,7 +351,7 @@ public static void cargar() {
 	}
 
 	public static LinkedList<BufferedImage[]> getMago() {
-		return mago;
+		return sprite;
 	}
 	
 }

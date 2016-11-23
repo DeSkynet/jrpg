@@ -26,6 +26,7 @@ public class Cliente {
     private String mapaActual;
     private Mensaje mensaje;
     private boolean nuevoMensaje=false;
+    
 //    private Personaje personaje;
    	//CONSTRUCTOR DE CLIENTE
 	public Cliente(String nombre) {
@@ -160,6 +161,12 @@ public class Cliente {
 		enviarMensaje("MensajeAtaque", ataquePersonaje);
 	}
     
+//    public void RecivePersonaje(){
+//    	Mensaje men=recibeMensaje();
+//    	Mensaje mensaje = new Mensaje(this.nombre,ataque,atacado);
+//		enviarMensaje("MensajeAtaque", ataquePersonaje);
+//    }
+    
     public void cerrarCliente() {
         try {
             cliente.close();
@@ -213,5 +220,26 @@ public class Cliente {
 	public void setNuevoMensaje(boolean nuevoMensaje) {
 		this.nuevoMensaje = nuevoMensaje;
 	}
+
+
+	public String getNombre() {
+		return nombre;
+	}
+
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+
+	public String getMapaActual() {
+		return mapaActual;
+	}
+
+
+	public void setMapaActual(String mapaActual) {
+		this.mapaActual = mapaActual;
+	}
+	
 	
 }

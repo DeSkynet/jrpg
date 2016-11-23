@@ -3,6 +3,7 @@ package pantalla;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
+import cliente.Cliente;
 import estado.Estado;
 import estado.EstadoJuego;
 import graficos.Mapa;
@@ -12,9 +13,9 @@ import herramientas.MousePoint;
 import ventana.Ventana;
 
 public class Juego implements Runnable{
-	
-	private Ventana ventana;				//--> aqui se va a dibujar el juego
-	private MousePoint mouse;				//--> me va a devolver los puntos de coordenadas del mouse
+	Cliente cliente;
+	private Ventana ventana;				//Es la ventana principal del juego
+	private MousePoint mouse;				//tengo 2 variables.. POSICIONACTUAL,PUNTO y click.. si click es true, tengo que mirar a donde se hizo click(en punto=	
 	private Thread hiloEjecucion;			//--> hilo de ejecucion para el juego
 	private volatile boolean estaEjecutando = false;	 //--> me indica si el juego esta detenido para detener el hilo ejecutante.
 	// --> volatile evita que se corrompa la variable, si un metodo esta R/W otro metodo no lo podra hacer
@@ -24,8 +25,8 @@ public class Juego implements Runnable{
 	private Estado estado;
 	private Camara camaraPersonaje;
 	
-	
-	public Juego() {
+	public Juego(Cliente cliente) {
+		this.cliente=cliente;
 		this.mouse = new MousePoint();
 		
 		//this.ventana.addMouseListener(mouse);	//--> le indico que lo que pase en la pantalla lo  va a escuchar el mouse
@@ -37,9 +38,21 @@ public class Juego implements Runnable{
 		
 		ventana.getCanvas().addMouseListener(mouse);
 		
-		Sprite.cargar();
+		Sprite.cargar("Robot");	//carga el sprite que quiero jugar..
 		
-		this.estado = new EstadoJuego(this, new Mapa(Constantes.PATH_MAPA_UNO));
+//		switch (cliente.getMapaActual()) {
+		switch ("Campo") {
+		case "Campo":
+			this.estado = new EstadoJuego(this, new Mapa(Constantes.PATH_MAPA_CAMPO));
+			break;
+		case "Playa":
+			this.estado = new EstadoJuego(this, new Mapa(Constantes.PATH_MAPA_PLAYA));
+			break;
+		case "Desierto":
+			this.estado = new EstadoJuego(this, new Mapa(Constantes.PATH_MAPA_DESIERTO));
+		default:
+			break;
+		}
 		Estado.setEstado(estado);
 		
 		this.estaEjecutando = true;

@@ -214,7 +214,7 @@ public class VentanaEleccion extends JFrame {
 				if(eleccionCasta!=null && eleccionRaza!=null && eleccionMapa!=null ){
 					enviaElecionPersonaje(eleccionRaza,eleccionCasta,eleccionMapa);
 					//ABRO LA PROXIMA VENTANA DEL JUEGO.
-					Juego juego = new Juego();
+					Juego juego = new Juego(VentanaEleccion.this.cliente);
 					juego.iniciar();
 					dispose();
 				}else JOptionPane.showMessageDialog(null, "Debe seleccionar al menos una raza y una casta.");

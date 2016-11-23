@@ -60,7 +60,7 @@ public class Mapa {
 	}
 	
 	public void actualizar() {
-		
+		//SUPONGO QUE SE VA A USAR CUANDO TENGA MAS PERSONAJES.
 	}
 	
 	

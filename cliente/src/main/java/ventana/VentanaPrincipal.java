@@ -89,7 +89,8 @@ public class VentanaPrincipal extends JFrame {
 						if(mensaje.getObjeto().equals(true)){
 							JOptionPane.showMessageDialog(null, "Iniciar Sesion.");
 							//ABRO LA PROXIMA VENTANA DEL JUEGO.
-							Juego juego = new Juego();
+							VentanaPrincipal.this.cliente.setNombre(usuario.getText());
+							Juego juego = new Juego(VentanaPrincipal.this.cliente);
 							juego.iniciar();
 							crearHiloEscucha();
 							dispose();

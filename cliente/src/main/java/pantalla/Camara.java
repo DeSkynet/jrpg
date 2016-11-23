@@ -21,8 +21,8 @@ public class Camara {
 	}
 	
 	public void Centrar(Ente ente) {
-		movimientoX = ente.getPunto().getX() - (Constantes.ANCHO_PANTALLA/2 + ente.getAncho()/32);
-		movimientoY = ente.getPunto().getY() - (Constantes.ALTO_PANTALLA/2 + ente.getAlto()/32);
+		movimientoX = ente.getPunto().getX() - (Constantes.ANCHO_PANTALLA/2 + ente.getAncho()/33);
+		movimientoY = ente.getPunto().getY() - (Constantes.ALTO_PANTALLA/2 + ente.getAlto()/33);
 	}
 
 	public double getMovimientoX() {

@@ -21,7 +21,7 @@ public class EstadoJuego extends Estado {
 	public EstadoJuego(Juego juego, Mapa mapa) {
 		super(juego);
 		this.mapa = mapa;
-		ente = new Ente(juego, mapa, 128 , 128, 0, 0 , Sprite.mago, 200);
+		ente = new Ente(juego, mapa, Constantes.ANCHO_ENTE , Constantes.ALTO_ENTE, 0, 0 , Sprite.sprite, Constantes.VELOCIDAD_ANIMACION);
 	}
 	
 	@Override

@@ -41,7 +41,10 @@ public class Ventana{
 		pantalla = new JFrame();
 		icono = new ImageIcon(Constantes.PATH_ICONO);
 		pantalla.setSize(Constantes.ANCHO_PANTALLA, Constantes.ALTO_PANTALLA);
+//		pantalla.isMaximumSizeSet();
+		pantalla.isMinimumSizeSet();
 		pantalla.setResizable(false);
+
 		pantalla.setIconImage(icono.getImage());
 		pantalla.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pantalla.setLocationRelativeTo(null);

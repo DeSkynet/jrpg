@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 
 import com.google.gson.Gson;
 
+import log.Log;
 import mensajes.Mensaje;
 import mensajes.MensajeLogIn;
 import mensajes.MensajeNuevoJugador;
@@ -47,7 +48,7 @@ public class Servidor {
     	return tipoMensaje;
     }
 
-    public Servidor(int maxConexiones) {
+    public Servidor(int maxConexiones) throws IOException {
 
         leerArchivoConfig();
         maxClientes = maxConexiones;
@@ -64,7 +65,7 @@ public class Servidor {
     }
     
     //LEE ARCHIVO DE CONFIGURACIÓN QUE INDICA EL IP Y EL PUERTO A CONECTAR.
-    private void leerArchivoConfig() {
+    private void leerArchivoConfig() throws IOException {
     	Scanner entrada = null;
     	try {
 			entrada = new Scanner(new File(PATH_CONFIGURACION));
@@ -75,7 +76,7 @@ public class Servidor {
 			}
 			
 		} catch (FileNotFoundException e) {
-				System.err.println(e.getLocalizedMessage());
+				Log.crearLog("Error: En lectura del archivo de Configuración." + e.getMessage());
 		} finally {
 			entrada.close();
 		}
@@ -110,11 +111,11 @@ public class Servidor {
 		return cliente;
 	}
 
-	public void pararServidor() {
+	public void pararServidor() throws IOException {
         try {
             servidor.close();
         } catch (IOException e) {
-            e.printStackTrace();
+           Log.crearLog("Error: En operación cerrar Servidor." + e.getMessage());
         }
     }
 	

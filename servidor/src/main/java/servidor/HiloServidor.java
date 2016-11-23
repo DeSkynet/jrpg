@@ -7,23 +7,18 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.sql.SQLException;
 import java.util.Iterator;
-
-import javax.swing.JOptionPane;
-
 import com.google.gson.Gson;
-
 import dao.DAOJUGADOR;
 import dao.DAOPERSONAJE;
+import log.Log;
 import mensajes.*;
-import personaje.Humano;
-import personaje.castas.Hechicero;
 
 public class HiloServidor extends Thread {
 	
     private Socket socket;
-    private String nombreMapa;
+	private String nombreMapa;
     private boolean isLogIn;
-    private DAOJUGADOR jugador;
+	private DAOJUGADOR jugador;
     private DAOPERSONAJE personaje;
     private String usuario=null;
     
@@ -63,7 +58,7 @@ public class HiloServidor extends Thread {
                     			}
                     			else envioConfirmacion(socket, false);
 							} catch (SQLException e1) {
-								e1.printStackTrace();
+								Log.crearLog("Error: No se pudo realizar operacion en la BBDD." + e1.getMessage());
 								envioConfirmacion(socket, false);
 							}
                     		break;
@@ -72,7 +67,7 @@ public class HiloServidor extends Thread {
 		                    try {
 								personaje.actualizarCordenadasXY(movi.getUsuario(),movi.getCordenadaX(),movi.getCordenadaY());	//Actualizo la Bd
 							} catch (Exception e) {
-								// TODO: handle exception
+								Log.crearLog("Error: No se pudo actualizar posición." + e.getMessage());
 							}
 		                    
 	//	                    this.distribuirMovimiento(movi.getUsuario(),movi.getCordenadaX(),movi.getCordenadaY());
@@ -103,7 +98,7 @@ public class HiloServidor extends Thread {
 									}
 
 								} catch (SQLException e) {
-									e.printStackTrace();
+									Log.crearLog("Error: No se pudo realizar operacion en la BBDD." + e.getMessage());
 								}
 	                    	break;
 	                    	
@@ -114,7 +109,7 @@ public class HiloServidor extends Thread {
 							personaje.insertar(persona.getUsuario(), persona.getRaza(), persona.getCasta());
 //                    		envioElPersonaje(this.socket);
 						} catch (SQLException e) {
-							e.printStackTrace();
+							Log.crearLog("Error: No se pudo realizar operacion en la BBDD." + e.getMessage());
 						}
 	                    	break;
 	                    	                   
@@ -124,7 +119,7 @@ public class HiloServidor extends Thread {
 	                    		try {
 	                    			personaje.actualizarMapa(terreno.getUsuario(), terreno.getMapa());
 								} catch (Exception e) {
-									e.printStackTrace();
+									Log.crearLog("Error: Seleccion de mapa erronea." + e.getMessage());
 								}
 	                    	}
 	                    	break;
@@ -141,7 +136,7 @@ public class HiloServidor extends Thread {
 								//DEBERIA FIJARSE SI PUEDE SUBIR DE NIVEL.
 								personaje.actualizarExperiencia(incExperiencia.getUsuario(), Integer.parseInt(dato[4])+incExperiencia.getIncremento());
 							} catch (Exception e) {
-								// TODO: handle exception
+								Log.crearLog("Error: Actualización de experiencia." + e.getMessage());
 							}
 	                    		
 	                    	break;
@@ -158,21 +153,24 @@ public class HiloServidor extends Thread {
 
             Servidor.cantActualClientes--;
 //            map.get(nombreMapa).remove(socket);	//No Existe mas el map..
-            System.out.println("Un cliente se ha desconectado.");
         } catch (IOException e) {
             try {
                 Servidor.cantActualClientes--;
 //                map.get(nombreMapa).remove(socket);	//Soluciona problema de parar servidor.
                 socket.close();
             } catch (IOException e1) {
-                e1.printStackTrace();
+    			try {
+					Log.crearLog("Error: Error en operación de Hilo Servidor." + e.getMessage());
+				} catch (IOException e2) {
+					e2.printStackTrace();
+				}
             }
             finally {
             	 if(this.jugador!=null){
             		 try{
            			 System.out.println("La conexion ha finalizado.");
             		 jugador.actualizar(this.usuario, false);
-            		 } catch (SQLException e2) {
+            		 } catch (SQLException | IOException e2) {
 							e2.printStackTrace();
 						}
             	 }
@@ -182,7 +180,7 @@ public class HiloServidor extends Thread {
     }
     
     
-    private void envioMensaje(Socket socket2, String string) {
+    private void envioMensaje(Socket socket2, String string) throws IOException {
     	Mensaje mensaje=new Mensaje(string,true);
     	Gson gson = new Gson();
 		String mensajeParaEnviar = gson.toJson(mensaje);
@@ -193,13 +191,13 @@ public class HiloServidor extends Thread {
 			ps.println(mensajeParaEnviar);
 			
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.crearLog("Error: No se pudo enviar correctamente el mensaje." + e.getMessage());
 		}
 		
 	}
 
 
-	private void envioConfirmacion(Socket socket, boolean confirmacion) {
+	private void envioConfirmacion(Socket socket, boolean confirmacion) throws IOException {
     	Mensaje mensaje=new Mensaje("MensajeConfirmacion",confirmacion);
     	Gson gson = new Gson();
 		String mensajeParaEnviar = gson.toJson(mensaje);
@@ -211,7 +209,7 @@ public class HiloServidor extends Thread {
 			ps.println(mensajeParaEnviar);
 			
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.crearLog("Error: No se pudo enviar correctamente el mensaje confirmación." + e.getMessage());
 		}
 		
 	}

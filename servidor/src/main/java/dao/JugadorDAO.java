@@ -1,16 +1,16 @@
 package dao;
 
+import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import log.Log;
 import personaje.Personaje;
 
 public class JugadorDAO extends DAOJUGADOR<Personaje>{
 	private Connection conexion = null;
-	private static final String PATH_CONNECTION = "jdbc:sqlite:src/main/resources/bd/Jugadores.bd";
 	private static final String INSERTAR = "Insert into Jugador values(?,?,?);";
 	private static final String BUSCAR = "select *from Jugador where Usuario = ?;";
 	private static final String ACTUALIZAR = "Update Jugador set Activo = ? where Usuario = ?;";
@@ -19,19 +19,12 @@ public class JugadorDAO extends DAOJUGADOR<Personaje>{
 	private static final String VER_REGISTRO = "select *from Jugador where Usuario = ?;";
 	
 	
-	public JugadorDAO() {
-//		if(conexion==null) {
-//			try {
-//				conexion = DriverManager.getConnection(PATH_CONNECTION);
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
+	public JugadorDAO() throws IOException {
 		conexion=SQLiteConnection.getConnection();
 	}
 	
 	@Override
-	public void insertar(String user, String pass, Personaje obj) throws SQLException {
+	public void insertar(String user, String pass, Personaje obj) throws SQLException, IOException {
 		PreparedStatement statement=null;
 		try{
 		statement = conexion.prepareStatement(INSERTAR);
@@ -42,19 +35,19 @@ public class JugadorDAO extends DAOJUGADOR<Personaje>{
 		statement.execute();
 		}
 		catch (Exception e) {
-			System.out.println("El Servidor no ha podido insertar un usuario a la base de datos.");
+				Log.crearLog("Error: No se pudo insertar correctamente en la BBDD." + e.getMessage());
 		}finally {
 			try {
 				statement.close();
 			} catch (Exception e2) {
-				System.out.println("No se pudo cerrar el statment.");
+				Log.crearLog("Error: No se pudo cerrar correctamente el Statement." + e2.getMessage());
 			}
 		}
 		
 	}
 
 	@Override
-	public void actualizar(String usuario, boolean activo) throws SQLException {
+	public void actualizar(String usuario, boolean activo) throws SQLException, IOException {
 		PreparedStatement statement=null;
 		try {
 			statement = conexion.prepareStatement(ACTUALIZAR);
@@ -63,12 +56,12 @@ public class JugadorDAO extends DAOJUGADOR<Personaje>{
 			
 			statement.executeUpdate();
 		} catch (Exception e) {
-			System.out.println("El Servidor no ha podido actualizar un usuario a la base de datos.");
+			Log.crearLog("Error: No se pudo actualizar correctamente en la BBDD." + e.getMessage());
 		}finally {
 			try {
 				statement.close();
 			} catch (Exception e2) {
-				// TODO: handle exception
+				Log.crearLog("Error: No se pudo cerrar correctamente el Statement." + e2.getMessage());
 			}
 		}
 		
@@ -90,19 +83,19 @@ public class JugadorDAO extends DAOJUGADOR<Personaje>{
 	}
 
 	@Override
-	public void borrar(String user) throws SQLException {
+	public void borrar(String user) throws SQLException, IOException {
 		PreparedStatement statement=null;
 		try {
 			statement = conexion.prepareStatement(ELIMINAR);
 			statement.setString(1, user);
 			statement.executeUpdate();
 		} catch (Exception e) {
-			System.out.println("El Servidor no ha podido borrar al usuario "+user+" de la base de datos.");
+			Log.crearLog("Error: No se pudo eliminar correctamente en la BBDD." + e.getMessage());
 		}finally {
 			try {
 				statement.close();
 			} catch (Exception e2) {
-				// TODO: handle exception
+				Log.crearLog("Error: No se pudo cerrar correctamente el Statement." + e2.getMessage());
 			}
 		}
 		
@@ -124,11 +117,12 @@ public class JugadorDAO extends DAOJUGADOR<Personaje>{
 	}
 
 	@Override
-	public void cerrar() {
+	public void cerrar() throws IOException {
 		try {
 			conexion.close();
 		} catch (SQLException e) {
-			System.out.println("No se ha podido cerrar la conexion.");
+			Log.crearLog("Error: No se pudo cerrar correctamente la BBDD." + e.getMessage());
+
 		}
 	}
 
@@ -148,7 +142,7 @@ public class JugadorDAO extends DAOJUGADOR<Personaje>{
 			try {
 				statement.close();
 			} catch (Exception e) {
-				// TODO: handle exception
+				Log.crearLog("Error: No se pudo cerrar correctamente el Statement." + e.getMessage());
 			}
 			finally {
 				return result;	

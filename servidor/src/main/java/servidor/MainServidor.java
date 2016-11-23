@@ -1,5 +1,6 @@
 package servidor;
 
+import java.io.IOException;
 import java.net.Socket;
 import dao.DAOJUGADOR;
 import dao.DAOPERSONAJE;
@@ -7,7 +8,9 @@ import dao.JugadorDAO;
 import dao.PersonajeDAO;
 
 public class MainServidor {
-    public static void main(String[] args) {
+	
+    @SuppressWarnings("rawtypes")
+	public static void main(String[] args) throws IOException {
         Socket socket = null;
         Servidor servidor = null;
         int maximoConexiones = 1020;

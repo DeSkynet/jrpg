@@ -1,17 +1,17 @@
 package dao;
 
+import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import log.Log;
 import personaje.Personaje;
 
 
 public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 	private Connection conexion = null;
-//	private static final String PATH_CONNECTION = "jdbc:sqlite:src/main/resources/bd/Personaje.bd";
 	private static final String INSERTAR = "Insert into Personaje values(?,?,?,?,?,?,?,?,?,?,?,?,?);";
 	private static final String BUSCAR = "select *from Personaje where Usuario = ?;";
 	
@@ -31,19 +31,12 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 	private static final String VER_TODOS = "select *from Personaje;";
 	private static final String VER_REGISTRO = "select *from Personaje where Usuario = ?;";
 	
-	public PersonajeDAO() {
-//		if(conexion==null) {
-//			try {
-//				conexion = DriverManager.getConnection(PATH_CONNECTION);
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
+	public PersonajeDAO() throws IOException {
 		conexion=SQLiteConnection.getConnection();
 	}
 	
 	@Override
-	public void insertar(String user, String raza, String casta) throws SQLException {
+	public void insertar(String user, String raza, String casta) throws SQLException, IOException {
 		PreparedStatement statement=null;
 		try {
 			statement = conexion.prepareStatement(INSERTAR);
@@ -62,12 +55,12 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 			statement.setString(13, "");	//Raza	
 			statement.execute();
 		} catch (Exception e) {
-			// TODO: handle exception
+			Log.crearLog("Error: No se pudo insertar correctamente en la BBDD." + e.getMessage());
 		}finally {
 			try {
 				statement.close();
 			} catch (Exception e2) {
-				// TODO: handle exception
+				Log.crearLog("Error: No se pudo cerrar correctamente el Statement." + e2.getMessage());
 			}
 		}
 		
@@ -75,7 +68,7 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 	}
 
 	@Override
-	public void actualizarDestreza(String usuario, int destreza) throws SQLException {
+	public void actualizarDestreza(String usuario, int destreza) throws SQLException, IOException {
 		PreparedStatement statement=null;
 		try {
 			statement = conexion.prepareStatement(ACTUALIZARDESTREZA);
@@ -83,12 +76,12 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 			statement.setString(3, usuario);
 			statement.executeUpdate();
 		} catch (Exception e) {
-			// TODO: handle exception
+			Log.crearLog("Error: No se pudo actualizar correctamente en la BBDD." + e.getMessage());
 		}finally {
 			try {
 				statement.close();
 			} catch (Exception e2) {
-				// TODO: handle exception
+				Log.crearLog("Error: No se pudo cerrar correctamente el Statement." + e2.getMessage());
 			}
 		}
 		
@@ -96,7 +89,7 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 	}
 	
 	@Override
-	public void actualizarFuerza(String usuario, int fuerza) throws SQLException {
+	public void actualizarFuerza(String usuario, int fuerza) throws SQLException, IOException {
 		PreparedStatement statement=null;
 		try {
 			statement = conexion.prepareStatement(ACTUALIZARFUERZA);
@@ -104,12 +97,12 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 			statement.setString(3, usuario);
 			statement.executeUpdate();
 		} catch (Exception e) {
-			// TODO: handle exception
+			Log.crearLog("Error: No se pudo actualizar correctamente en la BBDD." + e.getMessage());
 		}finally {
 			try {
 				statement.close();
 			} catch (Exception e2) {
-				// TODO: handle exception
+				Log.crearLog("Error: No se pudo cerrar correctamente el Statement." + e2.getMessage());
 			}
 		}
 		
@@ -117,7 +110,7 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 	}
 	
 	@Override
-	public void actualizarExperiencia(String usuario, int experiencia) throws SQLException {
+	public void actualizarExperiencia(String usuario, int experiencia) throws SQLException, IOException {
 		PreparedStatement statement=null;
 		try {
 			statement = conexion.prepareStatement(ACTUALIZAREXPERIENCIA);
@@ -125,12 +118,12 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 			statement.setString(3, usuario);
 			statement.executeUpdate();
 		} catch (Exception e) {
-			// TODO: handle exception
+			Log.crearLog("Error: No se pudo actualizar correctamente en la BBDD." + e.getMessage());
 		}finally {
 			try {
 				statement.close();
 			} catch (Exception e2) {
-				// TODO: handle exception
+				Log.crearLog("Error: No se pudo cerrar correctamente el Statement." + e2.getMessage());
 			}
 		}
 		
@@ -138,7 +131,7 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 	}
 	
 	@Override
-	public void actualizarSalud(String usuario, int salud) throws SQLException {
+	public void actualizarSalud(String usuario, int salud) throws SQLException, IOException {
 		PreparedStatement statement=null;
 		try {
 			statement = conexion.prepareStatement(ACTUALIZARSALUD);
@@ -147,12 +140,12 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 			statement.executeUpdate();
 			
 		} catch (Exception e) {
-			// TODO: handle exception
+			Log.crearLog("Error: No se pudo actualizar correctamente en la BBDD." + e.getMessage());
 		}finally {
 			try {
 				statement.close();
 			} catch (Exception e2) {
-				// TODO: handle exception
+				Log.crearLog("Error: No se pudo cerrar correctamente el Statement." + e2.getMessage());
 			}
 		}
 		
@@ -160,7 +153,7 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 	}
 	
 	@Override
-	public void actualizarInteligencia(String usuario, int inteligencia) throws SQLException {
+	public void actualizarInteligencia(String usuario, int inteligencia) throws SQLException, IOException {
 		PreparedStatement statement=null;
 		try {
 			statement = conexion.prepareStatement(ACTUALIZARINTELIGENCIA);
@@ -169,12 +162,13 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 		statement.setString(3, usuario);
 		statement.executeUpdate();
 		} catch (Exception e) {
-			// TODO: handle exception
+			Log.crearLog("Error: No se pudo actualizar correctamente en la BBDD." + e.getMessage());
 		}finally {
 			try {
 				statement.close();
 			} catch (Exception e2) {
-				
+				Log.crearLog("Error: No se pudo cerrar correctamente el Statement." + e2.getMessage());
+
 			}
 		}
 		
@@ -182,7 +176,7 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 	}
 	
 	@Override
-	public void actualizarCordenadasXY(String usuario, int cordX, int cordY) throws SQLException {
+	public void actualizarCordenadasXY(String usuario, int cordX, int cordY) throws SQLException, IOException {
 		PreparedStatement statement=null;
 		try {
 			statement = conexion.prepareStatement(ACTUALIZARCOORDENADAXY);
@@ -191,18 +185,18 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 			statement.setString(3, usuario);
 			statement.executeUpdate();
 		} catch (Exception e) {
-			// TODO: handle exception
+			Log.crearLog("Error: No se pudo actualizar correctamente en la BBDD." + e.getMessage());
 		}finally {
 			try {
 				statement.close();
 			} catch (Exception e2) {
-				// TODO: handle exception
+				Log.crearLog("Error: No se pudo cerrar correctamente el Statement." + e2.getMessage());
 			}
 		}
 	}	
 	
 	@Override
-	public void actualizarMapa(String usuario, String mapa) throws SQLException {
+	public void actualizarMapa(String usuario, String mapa) throws SQLException, IOException {
 		PreparedStatement statement=null;
 		try {
 			statement = conexion.prepareStatement(ACTUALIZARMAPA);
@@ -210,18 +204,18 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 			statement.setString(2, usuario);
 			statement.executeUpdate();
 		} catch (Exception e) {
-			// TODO: handle exception
+			Log.crearLog("Error: No se pudo actualizar correctamente en la BBDD." + e.getMessage());
 		}finally {
 			try {
 				statement.close();
 			} catch (Exception e2) {
-				// TODO: handle exception
+				Log.crearLog("Error: No se pudo cerrar correctamente el Statement." + e2.getMessage());
 			}
 		}
 	}
 	
 	@Override
-	public void actualizarNivel(String usuario, int nivel) throws SQLException {
+	public void actualizarNivel(String usuario, int nivel) throws SQLException, IOException {
 		PreparedStatement statement=null;
 		try {
 			statement = conexion.prepareStatement(ACTUALIZARNIVEL);
@@ -229,12 +223,12 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 			statement.setString(2, usuario);
 			statement.executeUpdate();
 		} catch (Exception e) {
-			// TODO: handle exception
+			Log.crearLog("Error: No se pudo actualizar correctamente en la BBDD." + e.getMessage());
 		}finally {
 			try {
 				statement.close();
 			} catch (Exception e2) {
-				// TODO: handle exception
+				Log.crearLog("Error: No se pudo cerrar correctamente el Statement." + e2.getMessage());
 			}
 			
 		}
@@ -242,7 +236,7 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 	}
 	
 	@Override
-	public void actualizarRazaCasta(String usuario, String raza,String casta) throws SQLException {
+	public void actualizarRazaCasta(String usuario, String raza,String casta) throws SQLException, IOException {
 		PreparedStatement statement=null;
 		try {
 			statement = conexion.prepareStatement(ACTUALIZARRAZACASTA);
@@ -251,12 +245,12 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 			statement.setString(3, usuario);
 			statement.executeUpdate();
 		} catch (Exception e) {
-			// TODO: handle exception
+			Log.crearLog("Error: No se pudo actualizar correctamente en la BBDD." + e.getMessage());
 		}finally {
 			try {
 				statement.close();
 			} catch (Exception e2) {
-				// TODO: handle exception
+				Log.crearLog("Error: No se pudo cerrar correctamente el Statement." + e2.getMessage());
 			}
 			
 		}
@@ -264,7 +258,7 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 	}
 	
 	@Override
-	public void actualizarEnergia(String usuario, int energia) throws SQLException {
+	public void actualizarEnergia(String usuario, int energia) throws SQLException, IOException {
 		PreparedStatement statement=null;
 		
 		try {
@@ -273,12 +267,12 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 			statement.setString(3, usuario);
 			statement.executeUpdate();
 		} catch (Exception e) {
-			// TODO: handle exception
+			Log.crearLog("Error: No se pudo actualizar correctamente en la BBDD." + e.getMessage());
 		}finally {
 			try {
 				statement.close();
 			} catch (Exception e2) {
-				// TODO: handle exception
+				Log.crearLog("Error: No se pudo cerrar correctamente el Statement." + e2.getMessage());
 			}
 		}
 		
@@ -311,19 +305,19 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 	}
 
 	@Override
-	public void borrar(String user) throws SQLException {
+	public void borrar(String user) throws SQLException, IOException {
 		PreparedStatement statement=null;
 		try {
 			statement = conexion.prepareStatement(ELIMINAR);
 			statement.setString(1, user);
 			statement.executeUpdate();
 		} catch (Exception e) {
-			// TODO: handle exception
+			Log.crearLog("Error: No se pudo eliminar correctamente en la BBDD." + e.getMessage());
 		}finally {
 			try {
 				statement.close();
 			} catch (Exception e2) {
-				// TODO: handle exception
+				Log.crearLog("Error: No se pudo cerrar correctamente el Statement." + e2.getMessage());
 			}
 		}
 		
@@ -332,7 +326,7 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 	
 	//podria devolver un ArrayList de Jugadores...
 	@Override
-	public void listarDatos() throws SQLException {
+	public void listarDatos() throws SQLException, IOException {
 		PreparedStatement statement=null;
 		ResultSet res;
 		try {	
@@ -343,7 +337,7 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 			}
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			Log.crearLog("Error: No se pudo listar correctamente en la BBDD." + e.getMessage());
 		}finally {
 			statement.close();
 		}
@@ -351,11 +345,11 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 	}
 	
 	@Override
-	public void cerrar() {
+	public void cerrar() throws IOException {
 		try {
 			conexion.close();
 		} catch (SQLException e) {
-			e.getSQLState();
+			Log.crearLog("Error: No se pudo cerrar correctamente la BBDD." + e.getMessage());
 		}
 	}
 

@@ -92,6 +92,7 @@ public class HiloServidor extends Thread {
 												envioMensaje(socket,"EleccionPersonaje");
 											}else{
 												envioConfirmacion(socket, true);
+												envioPersonaje(new Mensaje("EnvioPersonaje", reciboPersonajeDeBD(usuario)));
 											}
 										}
 										else envioConfirmacion(socket, false);
@@ -180,7 +181,22 @@ public class HiloServidor extends Thread {
     }
     
     
-    private void envioMensaje(Socket socket2, String string) throws IOException {
+    private Object reciboPersonajeDeBD(String usuario2) throws IOException {
+    	try {
+			String[] perso=personaje.seleccionarUsuario(usuario2).split(" ");
+			MensajePersonaje per=new MensajePersonaje(perso[0], Integer.parseInt(perso[1]), Integer.parseInt(perso[2]), Integer.parseInt(perso[3]), Integer.parseInt(perso[4]), Integer.parseInt(perso[5]), Integer.parseInt(perso[6]), Integer.parseInt(perso[7]), Integer.parseInt(perso[8]), Integer.parseInt(perso[9]), perso[10], perso[11], perso[12]);
+			return per;
+			
+		} catch (SQLException e) {
+			Log.crearLog("Error: No se pudo separar correctamente el Personaje." + e.getMessage());
+		} catch (IOException e) {
+			Log.crearLog("Error: No se pudo separar correctamente el Personaje." + e.getMessage());
+		}
+		return null;
+	}
+
+
+	private void envioMensaje(Socket socket2, String string) throws IOException {
     	Mensaje mensaje=new Mensaje(string,true);
     	Gson gson = new Gson();
 		String mensajeParaEnviar = gson.toJson(mensaje);
@@ -196,6 +212,20 @@ public class HiloServidor extends Thread {
 		
 	}
 
+    private void envioPersonaje(Mensaje men) throws IOException {
+    	Gson gson = new Gson();
+		String mensajeParaEnviar = gson.toJson(men);
+		PrintStream ps;
+    	
+    	try {
+			ps = new PrintStream(socket.getOutputStream());
+			ps.println(mensajeParaEnviar);
+			
+		} catch (IOException e) {
+			Log.crearLog("Error: No se pudo enviar correctamente el Personaje." + e.getMessage());
+		}
+		
+	}
 
 	private void envioConfirmacion(Socket socket, boolean confirmacion) throws IOException {
     	Mensaje mensaje=new Mensaje("MensajeConfirmacion",confirmacion);

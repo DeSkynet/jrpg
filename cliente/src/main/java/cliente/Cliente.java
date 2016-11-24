@@ -26,11 +26,12 @@ public class Cliente {
     private String mapaActual;
     private Mensaje mensaje;
     private boolean nuevoMensaje=false;
-    
+    private Persona persona=null;
 //    private Personaje personaje;
    	//CONSTRUCTOR DE CLIENTE
 	public Cliente(String nombre) {
 		this.nombre = nombre;
+
 		leerArchivoConfig();
 		try {
 			this.cliente = new Socket(this.host, this.puerto);
@@ -161,11 +162,26 @@ public class Cliente {
 		enviarMensaje("MensajeAtaque", ataquePersonaje);
 	}
     
-//    public void RecivePersonaje(){
-//    	Mensaje men=recibeMensaje();
-//    	Mensaje mensaje = new Mensaje(this.nombre,ataque,atacado);
-//		enviarMensaje("MensajeAtaque", ataquePersonaje);
-//    }
+    public void RecibePersonaje(){
+    	Gson gson = new Gson();
+    	Mensaje men=recibeMensaje();
+		this.persona=new Persona();
+		MensajePersonaje per = gson.fromJson(men.getObjeto().toString(), MensajePersonaje.class);
+    	persona.setCasta(per.getCasta());
+    	persona.setRaza(per.getRaza());
+    	persona.setCoordX(per.getCoordX());
+    	persona.setCoordY(per.getCoordY());
+    	persona.setDestreza(per.getDestreza());
+    	persona.setEnergia(per.getEnergia());
+    	persona.setSalud(per.getSalud());
+    	persona.setUsuario(per.getUsuario());
+    	persona.setFuerza(per.getFuerza());
+    	persona.setMapa(per.getMapa());
+    	persona.setExperiencia(per.getExperiencia());
+    	persona.setInteligencia(per.getInteligencia());
+    	persona.setNivel(per.getNivel());
+    	
+    }
     
     public void cerrarCliente() {
         try {
@@ -239,6 +255,11 @@ public class Cliente {
 
 	public void setMapaActual(String mapaActual) {
 		this.mapaActual = mapaActual;
+	}
+
+
+	public Persona getPersona() {
+		return persona;
 	}
 	
 	

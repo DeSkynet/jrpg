@@ -1,6 +1,6 @@
-package mensajes;
+package cliente;
 
-public class MensajePersonaje {
+public class Persona {
 	String usuario;
 	int coordX;
 	int coordY;
@@ -14,23 +14,6 @@ public class MensajePersonaje {
 	String casta;
 	String raza;
 	String mapa;
-	
-	public MensajePersonaje(String usuario, int coordX, int coordY, int experiencia, int nivel, int destreza,
-			int fuerza, int inteligencia, int energia, int salud, String casta, String raza, String mapa) {
-		this.usuario = usuario;
-		this.coordX = coordX;
-		this.coordY = coordY;
-		this.experiencia = experiencia;
-		this.nivel = nivel;
-		this.destreza = destreza;
-		this.fuerza = fuerza;
-		this.inteligencia = inteligencia;
-		this.energia = energia;
-		this.salud = salud;
-		this.casta = casta;
-		this.raza = raza;
-		this.mapa = mapa;
-	}
 	
 	public String getUsuario() {
 		return usuario;
@@ -110,6 +93,4 @@ public class MensajePersonaje {
 	public void setMapa(String mapa) {
 		this.mapa = mapa;
 	}
-	
-	
 }

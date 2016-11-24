@@ -333,7 +333,7 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 			statement = conexion.prepareStatement(VER_TODOS);
 			res = statement.executeQuery();
 			while(res.next()) {
-				System.out.println(res.getString(1) + "|" + res.getString(2) + "|"  + res.getDouble(3) + "|" + res.getString(4) + "|" + res.getString(5));
+				System.out.println(res.getString(1) + "|" + res.getString(2) + "|"  + res.getString(3) + "|" + res.getString(4) + "|" + res.getString(5));
 			}
 
 		} catch (Exception e) {
@@ -363,7 +363,7 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 			statement.setString(1, usuario);
 			res = statement.executeQuery();
 			if( res.next()){
-				String result=res.getString(1) + " " + res.getString(2) + " "  + res.getDouble(3) + " " + res.getString(4) + " " + res.getString(5) + " " + res.getString(6) + " " + res.getString(7) + " " + res.getString(8) + " " + res.getString(9) + " " + res.getString(10) + " " + res.getString(11) + " " + res.getString(12);
+				String result=res.getString(1) + " " + res.getString(2) + " "  + res.getString(3) + " " + res.getString(4) + " " + res.getString(5) + " " + res.getString(6) + " " + res.getString(7) + " " + res.getString(8) + " " + res.getString(9) + " " + res.getString(10) + " " + res.getString(11) + " " + res.getString(12)+ " " + res.getString(13);
 				statement.close();
 				return result;
 			}

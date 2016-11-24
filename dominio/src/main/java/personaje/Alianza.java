@@ -6,7 +6,7 @@ import java.util.List;
 
 import personaje.Personaje;
 
-public class Alianza {
+public class Alianza implements Cloneable {
 	private String nombreAlianza; 
 	public List<Personaje> alianza = new LinkedList<Personaje>();
 	static final int CANTIDAD_MAXIMA_DE_ALIADOS = 5;
@@ -17,12 +17,12 @@ public class Alianza {
 	
 	public Alianza(Alianza alianza){
 		alianza.nombreAlianza = this.nombreAlianza;
-		Iterator<Personaje> it = this.alianza.iterator();
-//		while(it.hasNext()){
-//			it.next().alianza.
-//		}
 	}
 	
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		return super.clone();
+	}
 		
 	public boolean aliar(Personaje per) {
 		if(per.alianza == null && this.cantidadDeAliados() < CANTIDAD_MAXIMA_DE_ALIADOS) {

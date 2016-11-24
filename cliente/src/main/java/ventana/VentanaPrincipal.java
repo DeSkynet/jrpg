@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -27,7 +28,7 @@ public class VentanaPrincipal extends JFrame {
 	private Cliente cliente;
 	private JPanel contentPane;
 	private JTextField usuario;
-	private JTextField pass;
+	private JPasswordField pass;
 	private JButton botonIniciar;
 	private JButton registrarUsuario;
 	private VentanaRegistro ventanaRegistro;
@@ -72,7 +73,7 @@ public class VentanaPrincipal extends JFrame {
 		contentPane.add(usuario);
 		usuario.setColumns(10);
 		
-		pass = new JTextField();
+		pass = new JPasswordField();
 		pass.setBounds(258, 252, 210, 35);
 		contentPane.add(pass);
 		pass.setColumns(10);

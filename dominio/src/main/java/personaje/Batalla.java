@@ -53,6 +53,33 @@ public class Batalla {
 			alianzaEnemiga = null; 
 		}
 	}
+	
+	public void batallaAutomatica(){
+		
+		cargarCola(atacante, enemigo);
+		
+		Personaje atacante = null;
+		Personaje atacado = null;
+		
+		while(!colaDeTurnos.isEmpty()){
+			
+				atacante = colaDeTurnos.poll();
+				atacado = colaDeTurnos.poll();
+
+			if(atacante != null && atacado != null){
+				atacante.atacar(atacado);
+				atacado.atacar(atacante);
+			}
+			if(atacante.getSalud()>0 && atacado.getSalud()>0){
+				colaDeTurnos.add(atacante);
+				colaDeTurnos.add(atacado);
+			}
+		}
+		ganador = determinarGanador();
+		CalcularRecompensas();
+		repartirExperiencia();
+
+	}
 		
 	public void Batallar(){
 		
@@ -79,8 +106,23 @@ public class Batalla {
 	private void despuesDeBatalla() {
 		//Despues de batalla todos los atributos que se modificaron (por las habilidades) vuelven a la normalidad
 		// A excepcion de salud, y la energia
+		Iterator<Personaje> it = alianzaAtacante.alianza.iterator();
+		Iterator<Personaje> it2 = atacante.alianza.alianza.iterator();
 		
-	
+		while(it.hasNext() && it2.hasNext()){
+			it2.next().fuerza = it.next().fuerza;
+			it2.next().destreza = it.next().destreza;
+			it2.next().inteligencia = it.next().inteligencia;
+		}
+		
+		Iterator<Personaje> it3 = alianzaEnemiga.alianza.iterator();
+		Iterator<Personaje> it4 = enemigo.alianza.alianza.iterator();
+		
+		while(it3.hasNext() && it4.hasNext()){
+			it4.next().fuerza = it3.next().fuerza;
+			it4.next().destreza = it3.next().destreza;
+			it4.next().inteligencia = it3.next().inteligencia;
+		}
 	}
 
 	private void repartirExperiencia() {
@@ -98,7 +140,23 @@ public class Batalla {
 	private void CalcularRecompensas() {
 		//ACA HAY QUE CALCULAR QUE ITEMS DESEQUIPAR, PARA TERMINARLO NECESITO ANDANDO EL DESEQUIPAR DECORADOR
 		//PROPONGO UN SISTEMA DE VALORACION DE ITEMS Q DETERMINE CUAL TIRAR
-		
+		if(ganador.equals(alianzaAtacante)){
+			
+			Iterator<Personaje> it = enemigo.alianza.alianza.iterator();
+			Iterator<Personaje> it2 = atacante.alianza.alianza.iterator();
+			
+			while(it2.hasNext() && it.hasNext()){
+				it2.next().equipamiento = it.next().quitarItemMayor();
+			}
+		}
+		else{
+			Iterator<Personaje> it3 = enemigo.alianza.alianza.iterator();
+			Iterator<Personaje> it4 = atacante.alianza.alianza.iterator();
+			
+			while(it3.hasNext() && it4.hasNext()){
+				it3.next().equipamiento = it4.next().quitarItemMayor();
+			}
+		}
 	}
 
 	private void realizarAccion(Personaje personajeDeTurno, Personaje victima, String accion) {

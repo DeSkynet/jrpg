@@ -15,7 +15,7 @@ public abstract class Personaje implements Atacable {
 	protected int destreza;	///INDICA BENEFICIOS AL PERSONAJE EN LA BATALLA, COMO ESQUIVAR...
 	protected int fuerza;
 	protected int inteligencia;
-	protected int energia = 100;
+	protected int energia = 200;
 	protected int salud = 100;
 	protected String nombre;
 	protected String mapa;

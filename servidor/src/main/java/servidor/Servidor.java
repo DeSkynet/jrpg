@@ -119,5 +119,5 @@ public class Servidor {
         }
     }
 	
-	private static final String PATH_CONFIGURACION = "src/main/resources/config/conexion.config";
+	private static final String PATH_CONFIGURACION = "config/conexion.config";
 }

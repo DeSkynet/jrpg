@@ -19,7 +19,7 @@ public class SQLiteConnection {
 		try {
 			if (conexion == null) {
 				Class.forName("org.sqlite.JDBC");
-				conexion = DriverManager.getConnection("jdbc:sqlite:src/main/resources/bd/Jugadores.bd");
+				conexion = DriverManager.getConnection("jdbc:sqlite:bd/Jugadores.bd");
 				Log.crearLog("Conexion Exitosa" );
 			} 
 		} catch (ClassNotFoundException cnfe) {

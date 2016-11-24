@@ -20,9 +20,9 @@ public class Log {
 				(fechaActual.get(Calendar.MONTH)+1) + "/" + fechaActual.get(Calendar.YEAR)
 				+ ";" + fechaActual.get(Calendar.HOUR_OF_DAY) + ":" + fechaActual.get(Calendar.MINUTE)
 				+ ":" + fechaActual.get(Calendar.SECOND) + ";");
-		salida.write(operacion);
+		salida.write(operacion + System.lineSeparator());
 		salida.close();
 	}
 	
-	public static final String PATH_ARCHIVO = "src/main/resources/log.prop";
+	public static final String PATH_ARCHIVO = "log.prop";
 }

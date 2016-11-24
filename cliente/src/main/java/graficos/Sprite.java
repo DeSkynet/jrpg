@@ -28,6 +28,8 @@ public class Sprite {
 	public static BufferedImage cuadroCesped;
 	public static BufferedImage cuadroAgua;
 	public static BufferedImage cuadroRoca;
+	public static BufferedImage cuadroPiedraNo;
+	public static BufferedImage CuadroTierra;
 	
 public static void cargar(String tipoAcargar) {
 		switch (tipoAcargar) {
@@ -56,7 +58,7 @@ public static void cargar(String tipoAcargar) {
 		alto = 256;
 		
 		
-		HojaSprite spriteMago = new HojaSprite(cargarImagen(Constantes.SPRITE_MAGO));
+		HojaSprite spriteMago = new HojaSprite(cargarImagen(Constantes.SPRITE_ALIEN));
 		
 		izq = new BufferedImage[4];
 		arribaIzq = new BufferedImage[4];
@@ -120,6 +122,8 @@ public static void cargar(String tipoAcargar) {
 		 cuadroCesped = cargarImagen(Constantes.PATH_CESPED);
 		 cuadroAgua = cargarImagen(Constantes.PATH_AGUA);
 		 cuadroRoca = cargarImagen(Constantes.PATH_ROCA);
+		 cuadroPiedraNo = cargarImagen(Constantes.PATH_PIEDRAN);
+		 CuadroTierra = cargarImagen(Constantes.PATH_TIERRA);
 }
 
 public static void cargarRobot() {
@@ -192,6 +196,8 @@ public static void cargarRobot() {
 		 cuadroCesped = cargarImagen(Constantes.PATH_CESPED);
 		 cuadroAgua = cargarImagen(Constantes.PATH_AGUA);
 		 cuadroRoca = cargarImagen(Constantes.PATH_ROCA);
+		 cuadroPiedraNo = cargarImagen(Constantes.PATH_PIEDRAN);
+		 CuadroTierra = cargarImagen(Constantes.PATH_TIERRA);
 }
 	
 public static void cargarHumano() {
@@ -264,6 +270,8 @@ public static void cargarHumano() {
 	 cuadroCesped = cargarImagen(Constantes.PATH_CESPED);
 	 cuadroAgua = cargarImagen(Constantes.PATH_AGUA);
 	 cuadroRoca = cargarImagen(Constantes.PATH_ROCA);
+	 cuadroPiedraNo = cargarImagen(Constantes.PATH_PIEDRAN);
+	 CuadroTierra = cargarImagen(Constantes.PATH_TIERRA);
 }
 
 
@@ -337,6 +345,8 @@ public static void cargarSuper() {
 	 cuadroCesped = cargarImagen(Constantes.PATH_CESPED);
 	 cuadroAgua = cargarImagen(Constantes.PATH_AGUA);
 	 cuadroRoca = cargarImagen(Constantes.PATH_ROCA);
+	 cuadroPiedraNo = cargarImagen(Constantes.PATH_PIEDRAN);
+	 CuadroTierra = cargarImagen(Constantes.PATH_TIERRA);
 }
 
 	public static BufferedImage cargarImagen(String path) {
@@ -350,7 +360,7 @@ public static void cargarSuper() {
 		return null;
 	}
 
-	public static LinkedList<BufferedImage[]> getMago() {
+	public static LinkedList<BufferedImage[]> getSprite() {
 		return sprite;
 	}
 	

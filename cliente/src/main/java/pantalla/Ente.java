@@ -11,6 +11,56 @@ import graficos.Sprite;
 import herramientas.HerramientasGraficas;
 
 public class Ente {
+//	Juego juego;
+//
+//	// Tamaño de la entidad
+//	private int ancho;
+//	private int alto;
+//
+//	// Posiciones
+//	private Point punto; 	// Posicion del personaje en el juego (x,y)
+//	private float dx;		//
+//	private float dy;		//
+//	private float xInicial;	// Posicion de inicio del personaje en x
+//	private float yInicial;	// Posicion de inicio del personaje en y
+//	private float xFinal;	// Posicion final del personaje en x
+//	private float yFinal;	// Psociion final del personaje en y
+//	private int desplzamientoX;	// Desplazamiento de la camara en x
+//	private int desplazamientoY;	// Desplazamiento de la camara en y
+//	private int dibujarX;		// Dibujo en la coordenada x
+//	private int dibujarY;		// Dibujo en la coordenada y
+//	private Point posMouse;	// Posicion del mouse en (x,y)
+//	private Point cuadro;	// Posicion en el cuadro (x,y)
+//
+//	// Calculo de movimiento
+//	private float diferencialX;		// diferencial x para el calculo del movimiento en diagonal
+//	private float diferencialY;		// diferencial y para el calculo del movimiento en diagonal
+//	private float relacion;	// relacion entre el diferencial x e y
+//
+//	// Posicion final del movimiento del personaje en (x,y)
+//	private Point posicionFinal;	
+//
+//	// Movimiento actual del personaje 
+//	private boolean enMovimiento;	
+//	private boolean horizontal;	
+//	private boolean vertical;		
+//	private boolean diagonalInferiorIzquierda;	
+//	private boolean diagonalInferiorDerecha;
+//	private boolean diagonalSuperiorIzquierda;
+//	private boolean diagonalSuperiorDerecha;
+//
+//	// Animaciones del perosnaje
+//	private LinkedList<BufferedImage[]> animaciones;
+//	private final Animacion moverIzquierda;
+//	private final Animacion moverArribaIzquierda;
+//	private final Animacion moverArriba;
+//	private final Animacion moverArribaDerecha;
+//	private final Animacion moverDerecha;
+//	private final Animacion moverAbajoDerecha;
+//	private final Animacion moverAbajo;
+//	private final Animacion moverAbajoIzquierda;
+//
+//	private Mapa mapa;
 	Juego juego;
 
 	// Tamaño de la entidad
@@ -23,9 +73,11 @@ public class Ente {
 	private float dy;		//
 	private float xInicial;	// Posicion de inicio del personaje en x
 	private float yInicial;	// Posicion de inicio del personaje en y
-	private float xFinal;	// Posicion final del personaje en x
+	private float xFinal;	// Posicion final del personaje en x.DONDE QUIERE LLEGAR
 	private float yFinal;	// Psociion final del personaje en y
 	private int desplzamientoX;	// Desplazamiento de la camara en x
+	
+
 	private int desplazamientoY;	// Desplazamiento de la camara en y
 	private int dibujarX;		// Dibujo en la coordenada x
 	private int dibujarY;		// Dibujo en la coordenada y
@@ -38,7 +90,7 @@ public class Ente {
 	private float relacion;	// relacion entre el diferencial x e y
 
 	// Posicion final del movimiento del personaje en (x,y)
-	private Point posicionFinal;	
+//	private Point posicionFinal;	
 
 	// Movimiento actual del personaje 
 	private boolean enMovimiento;	
@@ -61,7 +113,8 @@ public class Ente {
 	private final Animacion moverAbajoIzquierda;
 
 	private Mapa mapa;
-
+	
+	
 	public Ente(Juego juego, Mapa mapa, int ancho, int alto, int puntoX, int puntoY, LinkedList<BufferedImage[]> animaciones, int velAnimacion) {
 		this.juego = juego;
 		this.ancho = ancho;
@@ -160,69 +213,67 @@ public class Ente {
 			if (vertical) {
 				if (yFinal > punto.y) {
 					dy++;
-					mapa.moverYAbajo();
+					cuadro =   HerramientasGraficas.clickACuadro(new Point(punto.x+15,punto.y+(int)dy+16));
+//					mapa.moverYAbajo();
 				} else {
 					dy--;
-					mapa.moverYArriba();
+					cuadro =   HerramientasGraficas.clickACuadro(new Point(punto.x+(int)dx+15,punto.y+(int)dy+14));
+//					mapa.moverYArriba();
 				}
 			}
 
 			if (horizontal) {
 				if (xFinal > punto.x) {
 					dx++;
-					mapa.moverXIzquierda();
+					cuadro =   HerramientasGraficas.clickACuadro(new Point(punto.x+(int)dx+15,punto.y+15));
+//					mapa.moverXIzquierda();
 				} else {
 					dx--;
-					mapa.moverXDerecha();
+					cuadro =   HerramientasGraficas.clickACuadro(new Point(punto.x+(int)dx-15,punto.y+15));
+//					mapa.moverXDerecha();
 				}
 			}
 
 			if (diagonalInferiorDerecha) {
-				dx += relacion;
+				dx += 1;
 				dy++;
+				cuadro =   HerramientasGraficas.clickACuadro(new Point(punto.x+(int)dx+15 ,punto.y+(int)dy+15));
 			} else if (diagonalInferiorIzquierda) {
-				dx -= relacion;
+				dx -= 1;
 				dy++;
+				cuadro =   HerramientasGraficas.clickACuadro(new Point(punto.x+(int)dx-15,punto.y+(int)dy+15));
 			} else if (diagonalSuperiorDerecha) {
-				dx += relacion;
+				dx += 1;
 				dy--;
+				cuadro =   HerramientasGraficas.clickACuadro(new Point(punto.x+(int)dx+15,punto.y+(int)dy-15));
 			} else if (diagonalSuperiorIzquierda) {
-				dx -= relacion;
+				dx -= 1;
 				dy--;
+				cuadro =   HerramientasGraficas.clickACuadro(new Point(punto.x+(int)dx-15 , punto.y+(int)dy-15));
+				
 			}
-			posicionFinal = new Point();
-			posicionFinal.x += dx;
-			posicionFinal.y += dy;
-			System.out.println(dx+"pos final");
-			if(horizontal && dx > punto.x || vertical && dy < punto.y || diagonalInferiorDerecha || diagonalInferiorIzquierda) {
-				posicionFinal.y += 15;
-			}
-			
-			cuadro =   HerramientasGraficas.clickACuadro(posicionFinal);
-		
-			if (!mapa.getCuadro(HerramientasGraficas.clickACuadro(cuadro)).esAtravesable()) {
+//			ut.println(mapa.getCuadro(cuadro).noEsAtravesable());
+			if (mapa.getCuadro(cuadro).noEsAtravesable()) {
 				xFinal = punto.x;
 				yFinal = punto.y;
-				posicionFinal.x = punto.x;
-				posicionFinal.y = punto.y;
+
 			} else {
 				punto.x += dx;
 				punto.y += dy;
-				posicionFinal.x = (int) Math.round(punto.x);
-				posicionFinal.y = (int) Math.round(punto.y);
+
 			}
 
 			if (horizontal || vertical) {
-				if (posicionFinal.x == xFinal) {
+				if (punto.x == xFinal) {
 					horizontal = false;
 				}
 
-				if (posicionFinal.y == yFinal) {
+				if (punto.y == yFinal) {
 					vertical = false;
 				}
 			}
 	
-			if (posicionFinal.x == xFinal && posicionFinal.y == yFinal) {
+			if (punto.x == xFinal && punto.y == yFinal) {
 				diagonalInferiorIzquierda = false;
 				diagonalInferiorDerecha = false;
 				diagonalSuperiorIzquierda = false;
@@ -256,7 +307,7 @@ public class Ente {
 		} else if (diagonalSuperiorDerecha) {
 			return moverArribaDerecha.getFrameActual();
 		}
-		return Sprite.getMago().get(6)[0];
+		return Sprite.getSprite().get(6)[0];
 		
 	}
 
@@ -283,5 +334,11 @@ public class Ente {
 	public void setPunto(Point punto) {
 		this.punto = punto;
 	}
-	
+	public int getDesplzamientoX() {
+		return desplzamientoX;
+	}
+
+	public int getDesplazamientoY() {
+		return desplazamientoY;
+	}
 }

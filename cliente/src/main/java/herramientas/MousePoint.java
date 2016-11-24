@@ -30,7 +30,7 @@ public class MousePoint implements MouseListener{
 		setearPosicionMouse(e);
 		
 		click = true;
-		System.out.println("X: " + punto.x + "--" + "Y: " + punto.y);
+//		System.out.println("X: " + punto.x + "--" + "Y: " + punto.y);
 		
 	}
 

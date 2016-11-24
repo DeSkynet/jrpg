@@ -38,7 +38,9 @@ public class EstadoJuego extends Estado {
 		ente.graficar(g);
 		
 	}
-	
+	public Ente getEnte() {
+		return ente;
+	}
 	
 
 }

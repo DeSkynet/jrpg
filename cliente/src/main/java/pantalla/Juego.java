@@ -22,11 +22,17 @@ public class Juego implements Runnable{
 	private int aps;
 	private long fps;
 	private Graphics graficos;
-	private Estado estado;
+	private EstadoJuego estado;
+//	private EstadoJuego estadoJuego;
 	private Camara camaraPersonaje;
+	private BufferStrategy estrategia; 
 	
 	public Juego(Cliente cliente) {
 		this.cliente=cliente;
+		//RECIBIR PERSONAJE
+		cliente.RecibePersonaje();
+		cliente.setMapaActual(cliente.getPersona().getMapa());
+		cliente.setNombre(cliente.getPersona().getUsuario());
 		this.mouse = new MousePoint();
 		
 		//this.ventana.addMouseListener(mouse);	//--> le indico que lo que pase en la pantalla lo  va a escuchar el mouse
@@ -37,21 +43,23 @@ public class Juego implements Runnable{
 		this.ventana = new Ventana();
 		
 		ventana.getCanvas().addMouseListener(mouse);
-		
-		Sprite.cargar("Robot");	//carga el sprite que quiero jugar..
-		
-//		switch (cliente.getMapaActual()) {
-		switch ("Campo") {
-		case "Campo":
-			this.estado = new EstadoJuego(this, new Mapa(Constantes.PATH_MAPA_CAMPO));
-			break;
-		case "Playa":
-			this.estado = new EstadoJuego(this, new Mapa(Constantes.PATH_MAPA_PLAYA));
-			break;
-		case "Desierto":
-			this.estado = new EstadoJuego(this, new Mapa(Constantes.PATH_MAPA_DESIERTO));
-		default:
-			break;
+//		System.out.println(this.cliente.getPersona().getRaza());
+		Sprite.cargar(this.cliente.getPersona().getRaza());	//carga el sprite que quiero jugar..
+		try{
+			switch (cliente.getMapaActual()) {
+			case "Campo":
+				this.estado = new EstadoJuego(this, new Mapa(this,Constantes.PATH_MAPA_CAMPO));
+				break;
+			case "Playa":
+				this.estado = new EstadoJuego(this, new Mapa(this,Constantes.PATH_MAPA_PLAYA));
+				break;
+			case "Desierto":
+				this.estado = new EstadoJuego(this, new Mapa(this,Constantes.PATH_MAPA_DESIERTO));
+			default:
+				break;
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
 		}
 		Estado.setEstado(estado);
 		
@@ -77,13 +85,15 @@ public class Juego implements Runnable{
 	// --> actualiza todo, graficos, jugadores, vida, items, etc.
 	private void actualizar() {
 		mouse.actualizar();
-		estado.actualizar();
+		if (Estado.getEstado() != null) {
+			Estado.getEstado().actualizar();
+		}
 		aps++;
 	}
 	
 	// --> muestra en pantalla todo lo de actualizar.
 	private void mostrar() {
-		BufferStrategy estrategia = ventana.getCanvas().getBufferStrategy();
+		 estrategia = ventana.getCanvas().getBufferStrategy();
 		
 		if(estrategia==null) {
 			ventana.getCanvas().createBufferStrategy(3);
@@ -94,8 +104,11 @@ public class Juego implements Runnable{
 		
 		///limpio la pantalla para q el juego no deje estela
 		graficos.clearRect(0, 0, Constantes.ANCHO_PANTALLA,  Constantes.ALTO_PANTALLA);
+		if(Estado.getEstado()!=null){
+			estado.graficar(graficos);	//llama al metodo de graficar de EstadoJuego.java
+	
+		}
 		
-		estado.graficar(graficos);	//llama al metodo de graficar de EstadoJuego.java
 		estrategia.show();
 		graficos.dispose();
 		fps++;
@@ -143,6 +156,10 @@ public class Juego implements Runnable{
 
 	public MousePoint getMouse() {
 		return mouse;
+	}
+	
+	public EstadoJuego getEstadoJuego() {
+		return estado;
 	}
 	
 }

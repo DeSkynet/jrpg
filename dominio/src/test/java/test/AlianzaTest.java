@@ -179,21 +179,21 @@ public class AlianzaTest {
 	@Test
 	public void pruebaColaBatalla(){
 		Personaje gordoValor9 = new SuperHeroe(new Ladron(), "Gordo Valor"); //11 destreza
-		Personaje vitete9 = new Humano(new Hechicero(), "Vitete"); //2/7
+//		Personaje vitete9 = new Humano(new Hechicero(), "Vitete"); //2/7
 		Personaje willy9 = new Humano(new Luchador(), "willy");//5
-		Personaje laGarzaSosa9 = new Humano(new Ladron(), "Garza Sosa");//7
-		Personaje aliBaba9 = new Alien(new Ladron(), "Alí Babá");//10
+//		Personaje laGarzaSosa9 = new Humano(new Ladron(), "Garza Sosa");//7
+//		Personaje aliBaba9 = new Alien(new Ladron(), "Alí Babá");//10
 		
 		gordoValor9.crearAlianza("Los Piratas");
 		
-		gordoValor9.aliar(vitete9);
-		vitete9.aliar(laGarzaSosa9);
+//		gordoValor9.aliar(vitete9);
+//		vitete9.aliar(laGarzaSosa9);
 		
 		willy9.crearAlianza("Los Indestructibles");
-		willy9.aliar(aliBaba9);
+//		willy9.aliar(aliBaba9);
 		
 		Batalla uno = new Batalla(gordoValor9, willy9);
-		uno.Batallar();
+		uno.batallaAutomatica();
 	
 	}
 }

@@ -10,10 +10,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JPasswordField;
 
 import cliente.Cliente;
 import cliente.HiloCliente;
@@ -90,10 +90,9 @@ public class VentanaPrincipal extends JFrame {
 						if(mensaje.getObjeto().equals(true)){
 							JOptionPane.showMessageDialog(null, "Iniciar Sesion.");
 							//ABRO LA PROXIMA VENTANA DEL JUEGO.
-							VentanaPrincipal.this.cliente.setNombre(usuario.getText());
+							VentanaPrincipal.this.cliente.setUsuario(usuario.getText());
 							Juego juego = new Juego(VentanaPrincipal.this.cliente);
 							juego.iniciar();
-							crearHiloEscucha();
 							dispose();
 						}
 						else{
@@ -106,7 +105,7 @@ public class VentanaPrincipal extends JFrame {
 						JOptionPane.showMessageDialog(null, "Iniciar Sesion.");
 						ventanaEleccion = new VentanaEleccion(usuario.getText(),getCliente());
 						ventanaEleccion.setVisible(true);
-						crearHiloEscucha();
+//						crearHiloEscucha();
 						dispose();
 						
 					}
@@ -161,11 +160,9 @@ public class VentanaPrincipal extends JFrame {
 		return false;
 	}
 	
-	public void crearHiloEscucha(){
-		HiloCliente hiloCliente = new HiloCliente(cliente,cliente.getSocket());
-	    hiloCliente.start();
-	}
+
 	protected Cliente getCliente(){
 		return this.cliente;
 	}
 }
+

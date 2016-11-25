@@ -8,16 +8,18 @@ import java.net.Socket;
 import com.google.gson.Gson;
 
 import mensajes.Mensaje;
+import pantalla.Juego;
 
 public class HiloCliente extends Thread {
     private Socket socket;
     private Cliente cliente;
+    private Juego juego;
 
-
-    public HiloCliente(Cliente cliente, Socket socket) {
+    public HiloCliente(Cliente cliente, Socket socket, Juego juego) {
         super("ThreadCliente");
         this.cliente=cliente;
         this.socket = socket;
+        this.juego=juego;
     }
 
 

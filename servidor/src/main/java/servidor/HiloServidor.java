@@ -62,10 +62,10 @@ public class HiloServidor extends Thread {
 								envioConfirmacion(socket, false);
 							}
                     		break;
-	                    case "Movimiento":
+	                    case "MensajePosicion":
 		                    MensajePosicion movi=gson.fromJson(mensajeResivido.getObjeto().toString(), MensajePosicion.class);
 		                    try {
-								personaje.actualizarCordenadasXY(movi.getUsuario(),movi.getCordenadaX(),movi.getCordenadaY());	//Actualizo la Bd
+		                    	personaje.actualizarCordenadasXY(movi.getUsuario(),movi.getCordenadaX(),movi.getCordenadaY());	//Actualizo la Bd
 							} catch (Exception e) {
 								Log.crearLog("Error: No se pudo actualizar posición." + e.getMessage());
 							}
@@ -108,7 +108,6 @@ public class HiloServidor extends Thread {
 	                    	MensajeEleccionPersonaje persona=gson.fromJson(mensajeResivido.getObjeto().toString(), MensajeEleccionPersonaje.class);
 						try {
 							personaje.insertar(persona.getUsuario(), persona.getRaza(), persona.getCasta());
-//                    		envioElPersonaje(this.socket);
 						} catch (SQLException e) {
 							Log.crearLog("Error: No se pudo realizar operacion en la BBDD." + e.getMessage());
 						}
@@ -119,10 +118,12 @@ public class HiloServidor extends Thread {
 	                    	if(terreno.getMapa().equals("Campo") || terreno.getMapa().equals("Playa") || terreno.getMapa().equals("Desierto")){
 	                    		try {
 	                    			personaje.actualizarMapa(terreno.getUsuario(), terreno.getMapa());
+	                    			envioPersonaje(new Mensaje("EnvioPersonaje", reciboPersonajeDeBD(usuario)));
 								} catch (Exception e) {
 									Log.crearLog("Error: Seleccion de mapa erronea." + e.getMessage());
 								}
 	                    	}
+
 	                    	break;
 	                    	
 	                    case "MensajeAtaque":

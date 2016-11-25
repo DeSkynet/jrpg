@@ -6,6 +6,7 @@ public class MensajePosicion {
 	private int cordenadaY;
 	
 	public MensajePosicion(String usuario,int x,int y){
+		this.usuario=usuario;
 		this.cordenadaX=x;
 		this.cordenadaY=y;
 	}

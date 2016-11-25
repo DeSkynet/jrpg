@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
 import cliente.Cliente;
+import cliente.HiloCliente;
 import estado.Estado;
 import estado.EstadoJuego;
 import graficos.Mapa;
@@ -26,13 +27,17 @@ public class Juego implements Runnable{
 //	private EstadoJuego estadoJuego;
 	private Camara camaraPersonaje;
 	private BufferStrategy estrategia; 
+	HiloCliente hiloCliente;
 	
 	public Juego(Cliente cliente) {
 		this.cliente=cliente;
 		//RECIBIR PERSONAJE
 		cliente.RecibePersonaje();
+		hiloCliente = new HiloCliente(cliente,cliente.getSocket(),this);
+	    hiloCliente.start();
+	    cliente.setHiloCliente(hiloCliente);
 		cliente.setMapaActual(cliente.getPersona().getMapa());
-		cliente.setNombre(cliente.getPersona().getUsuario());
+		cliente.setUsuario(cliente.getPersona().getUsuario());
 		this.mouse = new MousePoint();
 		
 		//this.ventana.addMouseListener(mouse);	//--> le indico que lo que pase en la pantalla lo  va a escuchar el mouse
@@ -87,6 +92,9 @@ public class Juego implements Runnable{
 		mouse.actualizar();
 		if (Estado.getEstado() != null) {
 			Estado.getEstado().actualizar();
+		}
+		if(estado.getEnte().isEnMovimiento()){
+			cliente.setPersonaPosicion(estado.getEnte().getPunto().x, estado.getEnte().getPunto().y);
 		}
 		aps++;
 	}

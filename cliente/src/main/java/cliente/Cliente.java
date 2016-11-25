@@ -20,17 +20,18 @@ public class Cliente {
 	private static final String PATH_ARCHIVO_CONFIG = "config/conexion.config";
 	
 	private Socket cliente;
-	private String nombre = null;
+	private String usuario = null;
     private String host;
     private int puerto;
     private String mapaActual;
     private Mensaje mensaje;
     private boolean nuevoMensaje=false;
     private Persona persona=null;
+    HiloCliente hiloCliente;
 //    private Personaje personaje;
    	//CONSTRUCTOR DE CLIENTE
 	public Cliente(String nombre) {
-		this.nombre = nombre;
+		this.usuario = nombre;
 
 		leerArchivoConfig();
 		try {
@@ -141,24 +142,24 @@ public class Cliente {
 
 
    public void elegirPersonaje(String raza, String casta) {
-    	MensajeEleccionPersonaje eleccionPersonaje = new MensajeEleccionPersonaje(this.nombre,raza,casta);
+    	MensajeEleccionPersonaje eleccionPersonaje = new MensajeEleccionPersonaje(this.usuario,raza,casta);
     	enviarMensaje("MensajeEleccionPersonaje", eleccionPersonaje);
     }
     
-    public void posicionDelPersonaje(int coordX, int coordY) {
-    	MensajePosicion posicionPersonaje = new MensajePosicion(this.nombre,coordX,coordY);
+    public void posicionDelPersonaje() {
+    	MensajePosicion posicionPersonaje = new MensajePosicion(this.usuario,persona.getCoordX(),persona.getCoordY());
     	enviarMensaje("MensajePosicion", posicionPersonaje);
     }
     
     public void elegirMapa(String mapa) {
     	this.mapaActual=mapa;
-		MensajeEleccionTerreno terreno = new MensajeEleccionTerreno(this.nombre,this.mapaActual);
+		MensajeEleccionTerreno terreno = new MensajeEleccionTerreno(this.usuario,this.mapaActual);
 		enviarMensaje("MensajeEleccionTerreno", terreno);
 	}
     
     
     public void Ataque(String ataque, String atacado) {
-		MensajeAtaque ataquePersonaje = new MensajeAtaque(this.nombre,ataque,atacado);
+		MensajeAtaque ataquePersonaje = new MensajeAtaque(this.usuario,ataque,atacado);
 		enviarMensaje("MensajeAtaque", ataquePersonaje);
 	}
     
@@ -204,7 +205,7 @@ public class Cliente {
 		
 		
 	       	//SEREALIZO EL MENSAJE CON GSON.
-	           MensajeEleccionTerreno mensajeJson=new MensajeEleccionTerreno(nombre,this.mapaActual);
+	           MensajeEleccionTerreno mensajeJson=new MensajeEleccionTerreno(usuario,this.mapaActual);
 	           Gson gson = new Gson();
 	           String mensajeParaEnviar = gson.toJson(mensajeJson);
 	       	
@@ -238,13 +239,13 @@ public class Cliente {
 	}
 
 
-	public String getNombre() {
-		return nombre;
+	public String getUsuario() {
+		return usuario;
 	}
 
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
 	}
 
 
@@ -260,6 +261,20 @@ public class Cliente {
 
 	public Persona getPersona() {
 		return persona;
+	}
+	
+	public HiloCliente getHiloCliente() {
+		return hiloCliente;
+	}
+
+	public void setHiloCliente(HiloCliente hiloCliente) {
+		this.hiloCliente = hiloCliente;
+	}
+
+	public void setPersonaPosicion(int x, int y) {
+		persona.setCoordX(x);
+		persona.setCoordY(y);
+		
 	}
 	
 	

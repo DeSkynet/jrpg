@@ -11,56 +11,6 @@ import graficos.Sprite;
 import herramientas.HerramientasGraficas;
 
 public class Ente {
-//	Juego juego;
-//
-//	// Tamaño de la entidad
-//	private int ancho;
-//	private int alto;
-//
-//	// Posiciones
-//	private Point punto; 	// Posicion del personaje en el juego (x,y)
-//	private float dx;		//
-//	private float dy;		//
-//	private float xInicial;	// Posicion de inicio del personaje en x
-//	private float yInicial;	// Posicion de inicio del personaje en y
-//	private float xFinal;	// Posicion final del personaje en x
-//	private float yFinal;	// Psociion final del personaje en y
-//	private int desplzamientoX;	// Desplazamiento de la camara en x
-//	private int desplazamientoY;	// Desplazamiento de la camara en y
-//	private int dibujarX;		// Dibujo en la coordenada x
-//	private int dibujarY;		// Dibujo en la coordenada y
-//	private Point posMouse;	// Posicion del mouse en (x,y)
-//	private Point cuadro;	// Posicion en el cuadro (x,y)
-//
-//	// Calculo de movimiento
-//	private float diferencialX;		// diferencial x para el calculo del movimiento en diagonal
-//	private float diferencialY;		// diferencial y para el calculo del movimiento en diagonal
-//	private float relacion;	// relacion entre el diferencial x e y
-//
-//	// Posicion final del movimiento del personaje en (x,y)
-//	private Point posicionFinal;	
-//
-//	// Movimiento actual del personaje 
-//	private boolean enMovimiento;	
-//	private boolean horizontal;	
-//	private boolean vertical;		
-//	private boolean diagonalInferiorIzquierda;	
-//	private boolean diagonalInferiorDerecha;
-//	private boolean diagonalSuperiorIzquierda;
-//	private boolean diagonalSuperiorDerecha;
-//
-//	// Animaciones del perosnaje
-//	private LinkedList<BufferedImage[]> animaciones;
-//	private final Animacion moverIzquierda;
-//	private final Animacion moverArribaIzquierda;
-//	private final Animacion moverArriba;
-//	private final Animacion moverArribaDerecha;
-//	private final Animacion moverDerecha;
-//	private final Animacion moverAbajoDerecha;
-//	private final Animacion moverAbajo;
-//	private final Animacion moverAbajoIzquierda;
-//
-//	private Mapa mapa;
 	Juego juego;
 
 	// Tamaño de la entidad
@@ -147,6 +97,9 @@ public class Ente {
 		moverAbajoIzquierda.actualizar();
 		getEntrada();
 		mover();
+		if(enMovimiento){
+			juego.cliente.posicionDelPersonaje();
+		}
 		juego.getCamaraPersonaje().Centrar(this);
 	}
 
@@ -235,24 +188,25 @@ public class Ente {
 			}
 
 			if (diagonalInferiorDerecha) {
-				dx += 1;
+				dx += relacion;
 				dy++;
 				cuadro =   HerramientasGraficas.clickACuadro(new Point(punto.x+(int)dx+15 ,punto.y+(int)dy+15));
 			} else if (diagonalInferiorIzquierda) {
-				dx -= 1;
+				dx -= relacion;
 				dy++;
 				cuadro =   HerramientasGraficas.clickACuadro(new Point(punto.x+(int)dx-15,punto.y+(int)dy+15));
 			} else if (diagonalSuperiorDerecha) {
-				dx += 1;
+				dx += relacion;
 				dy--;
 				cuadro =   HerramientasGraficas.clickACuadro(new Point(punto.x+(int)dx+15,punto.y+(int)dy-15));
 			} else if (diagonalSuperiorIzquierda) {
-				dx -= 1;
+				dx -= relacion;
 				dy--;
 				cuadro =   HerramientasGraficas.clickACuadro(new Point(punto.x+(int)dx-15 , punto.y+(int)dy-15));
 				
 			}
-//			ut.println(mapa.getCuadro(cuadro).noEsAtravesable());
+
+//			System.out.println(xFinal+" "+ yFinal+" "+xInicial+" "+punto.x+" "+punto.y);
 			if (mapa.getCuadro(cuadro).noEsAtravesable()) {
 				xFinal = punto.x;
 				yFinal = punto.y;
@@ -273,7 +227,7 @@ public class Ente {
 				}
 			}
 	
-			if (punto.x == xFinal && punto.y == yFinal) {
+			if (Math.round(punto.x) == xFinal && Math.round(punto.y) == yFinal) {
 				diagonalInferiorIzquierda = false;
 				diagonalInferiorDerecha = false;
 				diagonalSuperiorIzquierda = false;
@@ -341,4 +295,13 @@ public class Ente {
 	public int getDesplazamientoY() {
 		return desplazamientoY;
 	}
+
+	public boolean isEnMovimiento() {
+		return enMovimiento;
+	}
+
+	public void setEnMovimiento(boolean enMovimiento) {
+		this.enMovimiento = enMovimiento;
+	}
+
 }

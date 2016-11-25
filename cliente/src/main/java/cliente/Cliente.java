@@ -1,6 +1,7 @@
 package cliente;
 
 
+import java.awt.Point;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -146,8 +147,10 @@ public class Cliente {
     	enviarMensaje("MensajeEleccionPersonaje", eleccionPersonaje);
     }
     
-    public void posicionDelPersonaje() {
-    	MensajePosicion posicionPersonaje = new MensajePosicion(this.usuario,persona.getCoordX(),persona.getCoordY());
+    public void posicionDelPersonaje(Point punto) {
+    	persona.setCoordX(punto.x);
+    	persona.setCoordY(punto.y);
+    	MensajePosicion posicionPersonaje = new MensajePosicion(this.usuario,punto.x,punto.y);
     	enviarMensaje("MensajePosicion", posicionPersonaje);
     }
     

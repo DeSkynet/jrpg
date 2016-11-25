@@ -39,7 +39,7 @@ public static void cargar(String tipoAcargar) {
 		case "Alien" :
 			cargarMago();
 			break;
-		case "SuperHeroe" :
+		case "Superheroe" :
 			cargarSuper();
 			break;	
 		case "Humano":
@@ -47,7 +47,6 @@ public static void cargar(String tipoAcargar) {
 		default:
 			break;
 		}
-		cargarMago();
 	}
 
 	

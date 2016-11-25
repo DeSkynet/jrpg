@@ -33,6 +33,8 @@ public class Ente {
 	private int dibujarY;		// Dibujo en la coordenada y
 	private Point posMouse;	// Posicion del mouse en (x,y)
 	private Point cuadro;	// Posicion en el cuadro (x,y)
+	private Point ulti=new Point(0, 0);
+	private boolean ultimo=false;
 
 	// Calculo de movimiento
 	private float diferencialX;		// diferencial x para el calculo del movimiento en diagonal
@@ -97,8 +99,12 @@ public class Ente {
 		moverAbajoIzquierda.actualizar();
 		getEntrada();
 		mover();
-		if(enMovimiento){
-			juego.cliente.posicionDelPersonaje();
+		if(( punto.x!=xFinal || punto.y!=yFinal || ulti.x !=punto.x || ulti.y!=punto.y) && ultimo==true){
+			ulti=new Point(punto.x, punto.y);
+			if(punto.x== xFinal && punto.y==yFinal)
+				ultimo=false;
+			juego.cliente.posicionDelPersonaje(punto);
+			
 		}
 		juego.getCamaraPersonaje().Centrar(this);
 	}
@@ -106,8 +112,9 @@ public class Ente {
 	public void getEntrada() {
 
 		posMouse = new Point(juego.getMouse().obtenerPosicionMouse());
-
+		System.out.println(punto.x+" "+punto.y);
 		if (juego.getMouse().obtenerClick()) {
+			ultimo=true;
 			diagonalInferiorIzquierda = false;
 			diagonalInferiorDerecha = false;
 			diagonalSuperiorIzquierda = false;
@@ -206,7 +213,7 @@ public class Ente {
 				
 			}
 
-//			System.out.println(xFinal+" "+ yFinal+" "+xInicial+" "+punto.x+" "+punto.y);
+			System.out.println(xFinal+" "+ yFinal+" "+xInicial+" "+punto.x+" "+punto.y);
 			if (mapa.getCuadro(cuadro).noEsAtravesable()) {
 				xFinal = punto.x;
 				yFinal = punto.y;
@@ -234,6 +241,7 @@ public class Ente {
 				diagonalSuperiorDerecha = false;
 				enMovimiento = false;
 			}
+
 		}
 	}
 

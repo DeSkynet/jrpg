@@ -9,6 +9,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+
+import javax.swing.JOptionPane;
+
 import com.google.gson.Gson;
 import dao.DAOJUGADOR;
 import dao.DAOPERSONAJE;
@@ -99,6 +102,7 @@ public class HiloServidor extends Thread {
 											}else{
 												envioConfirmacion(socket, true);
 												envioPersonaje(new Mensaje("EnvioPersonaje", reciboPersonajeDeBD(usuario)));
+												agregoPersonajeAHash(this.usuario,socket);
 											}
 										}
 										else envioConfirmacion(socket, false);
@@ -124,6 +128,7 @@ public class HiloServidor extends Thread {
 	                    	if(terreno.getMapa().equals("Campo") || terreno.getMapa().equals("Playa") || terreno.getMapa().equals("Desierto")){
 	                    		try {
 	                    			personaje.actualizarMapa(terreno.getUsuario(), terreno.getMapa());
+	                    			agregoPersonajeAHash(this.usuario,socket,terreno.getMapa());
 	                    			envioPersonaje(new Mensaje("EnvioPersonaje", reciboPersonajeDeBD(usuario)));
 								} catch (Exception e) {
 									Log.crearLog("Error: Seleccion de mapa erronea." + e.getMessage());
@@ -183,12 +188,34 @@ public class HiloServidor extends Thread {
 						}
             	 }
 			}
-           
         }
     }
     
     
-    private Object reciboPersonajeDeBD(String usuario2) throws IOException {
+    private void agregoPersonajeAHash(String usuario2, Socket socket2) throws IOException {
+    	String mapa=null;
+    	try {
+    		String[] perso=personaje.seleccionarUsuario(usuario2).split(" ");
+    		mapa=perso[12];
+		} catch (Exception e) {
+			Log.crearLog("Error: No se pudo agregar correctamente el Personaje al hash.");
+		}
+    	
+    	if(mapa!=null){
+    		if(jugadoresEnMapa.containsKey(mapa) ==false)
+    			jugadoresEnMapa.put(mapa, new ArrayList<Socket>() );
+    		jugadoresEnMapa.get(mapa).add(socket2); 
+    	}
+	}
+    
+    private void agregoPersonajeAHash(String usuario2, Socket socket2, String mapa) throws IOException {
+    	if(jugadoresEnMapa.containsKey(mapa) ==false)
+			jugadoresEnMapa.put(mapa, new ArrayList<Socket>() );
+		jugadoresEnMapa.get(mapa).add(socket2); 
+	}
+
+
+	private Object reciboPersonajeDeBD(String usuario2) throws IOException {
     	try {
 			String[] perso=personaje.seleccionarUsuario(usuario2).split(" ");
 			MensajePersonaje per=new MensajePersonaje(perso[0], Integer.parseInt(perso[1]), Integer.parseInt(perso[2]), Integer.parseInt(perso[3]), Integer.parseInt(perso[4]), Integer.parseInt(perso[5]), Integer.parseInt(perso[6]), Integer.parseInt(perso[7]), Integer.parseInt(perso[8]), Integer.parseInt(perso[9]), perso[10], perso[11], perso[12]);
@@ -251,7 +278,7 @@ public class HiloServidor extends Thread {
 
 	// DISTRIBUYE A TODOS LOS JUGADORES DE UN PLANO ACTIVOS, LA NUEVA COORDENADA DE X e Y.
 	// TRAE EL ARRAYLIST DE JUGADORES CONECTADOS DE UN MAPA Y  LUEGO LO RECORRE PARA ENVIAR A TODOS LOS JUGADORES ACTIVOS...
-		private void distribuirMovimiento(String usuario, int cordX,int cordY) {
+		private void distribuirMovimiento(String usuario, int cordX,int cordY) throws IOException {
 			ArrayList<Socket> lista = jugadoresEnMapa.get(this.nombreMapa);
 			Iterator<Socket> iterador = lista.iterator();
 			Mensaje mensajeAEnviar = new Mensaje("Movimiento", new MensajePosicion(usuario, cordX, cordY));
@@ -276,7 +303,7 @@ public class HiloServidor extends Thread {
 	                                    // correspondiente socket.
 	                }
 	            } catch (IOException e) {
-	                e.printStackTrace();
+	            	Log.crearLog("No se pudo distribuir un movimiento.");
 	            }
 	        }
 

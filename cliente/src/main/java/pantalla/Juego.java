@@ -93,9 +93,6 @@ public class Juego implements Runnable{
 		if (Estado.getEstado() != null) {
 			Estado.getEstado().actualizar();
 		}
-		if(estado.getEnte().isEnMovimiento()){
-			cliente.setPersonaPosicion(estado.getEnte().getPunto().x, estado.getEnte().getPunto().y);
-		}
 		aps++;
 	}
 	

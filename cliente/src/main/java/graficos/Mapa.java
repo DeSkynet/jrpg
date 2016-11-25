@@ -36,9 +36,7 @@ public class Mapa {
 	public Mapa(Juego juego, String pathArchivo) throws Exception {
 		this.juego = juego;
 		cargarMapa(pathArchivo);
-//		this.anchoMapa = 4;
-//		this.altoMapa = 4;
-//		this.cuadroCesped = new Cuadro(Constantes.ANCHO_CESPED, Constantes.ALTO_CESPED, Constantes.PATH_CESPED);
+
 	}
 	
 	

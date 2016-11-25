@@ -8,6 +8,8 @@ import java.net.Socket;
 import com.google.gson.Gson;
 
 import mensajes.Mensaje;
+import mensajes.MensajePosicion;
+import mensajes.MensajePosicionOtroPersonaje;
 import pantalla.Juego;
 
 public class HiloCliente extends Thread {
@@ -37,7 +39,10 @@ public class HiloCliente extends Thread {
             	//DESEREALIZO EL MENSAJE DE JSON
         		gson = new Gson();
         		mensajeRecuperado = gson.fromJson(mensaje, Mensaje.class);
-        		System.out.println(mensajeRecuperado.getTipoMensaje() + " " + mensajeRecuperado.getObjeto());
+        		if(mensajeRecuperado.getTipoMensaje().equals("MensajePosicionOtroPersonaje")){
+        			MensajePosicionOtroPersonaje movi=gson.fromJson(mensajeRecuperado.getObjeto().toString(), MensajePosicionOtroPersonaje.class);
+        			cargoOActualizoOtroJugadorAMiMapa(movi);
+        		}
         		cliente.setMensaje(mensajeRecuperado);
         		cliente.setNuevoMensaje(true);
         		
@@ -48,6 +53,12 @@ public class HiloCliente extends Thread {
         }
     }
 	
+	private void cargoOActualizoOtroJugadorAMiMapa(MensajePosicionOtroPersonaje movi) {
+		juego.getEstadoJuego().setOtroPersonaje(movi.getUsuario(),movi.getRaza(),movi.getCoordX(),movi.getCoordY(),movi.getNivel());
+		
+	}
+
+
 	public void cerrarSocket(){
     	try {
             socket.close();

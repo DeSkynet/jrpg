@@ -34,7 +34,7 @@ public class HiloServidor extends Thread {
         super("ThreadServer");
         this.socket = socket;
         this.jugador = jugador;
-        this.personaje=personaje;
+        this.personaje=personaje;        
         this.jugadoresEnMapa = jugadoresEnMapa;
         this.jugadoresConectados = jugadoresConectados;
     }
@@ -78,7 +78,7 @@ public class HiloServidor extends Thread {
 								Log.crearLog("Error: No se pudo actualizar posición." + e.getMessage());
 							}
 		                    
-	//	                    this.distribuirMovimiento(movi.getUsuario(),movi.getCordenadaX(),movi.getCordenadaY());
+		                    this.distribuirMovimiento(movi.getUsuario(),movi.getCordenadaX(),movi.getCordenadaY());
 		                    break;
 	
 	                    case "MensajeLogIn":
@@ -197,6 +197,7 @@ public class HiloServidor extends Thread {
     	try {
     		String[] perso=personaje.seleccionarUsuario(usuario2).split(" ");
     		mapa=perso[12];
+
 		} catch (Exception e) {
 			Log.crearLog("Error: No se pudo agregar correctamente el Personaje al hash.");
 		}
@@ -218,6 +219,7 @@ public class HiloServidor extends Thread {
 	private Object reciboPersonajeDeBD(String usuario2) throws IOException {
     	try {
 			String[] perso=personaje.seleccionarUsuario(usuario2).split(" ");
+			this.nombreMapa=perso[12];
 			MensajePersonaje per=new MensajePersonaje(perso[0], Integer.parseInt(perso[1]), Integer.parseInt(perso[2]), Integer.parseInt(perso[3]), Integer.parseInt(perso[4]), Integer.parseInt(perso[5]), Integer.parseInt(perso[6]), Integer.parseInt(perso[7]), Integer.parseInt(perso[8]), Integer.parseInt(perso[9]), perso[10], perso[11], perso[12]);
 			return per;
 			
@@ -281,31 +283,38 @@ public class HiloServidor extends Thread {
 		private void distribuirMovimiento(String usuario, int cordX,int cordY) throws IOException {
 			ArrayList<Socket> lista = jugadoresEnMapa.get(this.nombreMapa);
 			Iterator<Socket> iterador = lista.iterator();
-			Mensaje mensajeAEnviar = new Mensaje("Movimiento", new MensajePosicion(usuario, cordX, cordY));
-			Gson gson = new Gson();
-			final String mensaje = gson.toJson(mensajeAEnviar, Mensaje.class);
 			
-			//Pido a la BD todos los que esten EN this.mapaActual Y Esten ACTIVOS.
-	    	//CREO UN INTERADOR Y DE A UNO VOY HACIENDO EL WHILE.
-	        while (iterador .hasNext()) {
-	            Socket cliente = iterador.next(); //le pido un cliente de la coleccion.
-	            try {
+			String[] dato;
+			try {
+				dato = personaje.seleccionarUsuario(usuario).split(" "); //PIDO NIVEL Y RAZA.
+				Mensaje mensajeAEnviar = new Mensaje("MensajePosicionOtroPersonaje", new MensajePosicionOtroPersonaje(usuario,dato[11],cordX, cordY,Integer.parseInt(dato[4])));
+				Gson gson = new Gson();
+				final String mensaje = gson.toJson(mensajeAEnviar, Mensaje.class);
+				
+				//Pido a la BD todos los que esten EN this.mapaActual Y Esten ACTIVOS.
+		    	//CREO UN INTERADOR Y DE A UNO VOY HACIENDO EL WHILE.
+		        while (iterador .hasNext()) {
+		            Socket cliente = iterador.next(); //le pido un cliente de la coleccion.
+		            try {
 
-	                // si el socket extraido es distinto al socket del
-	                // hilo
-	                // se enviara el msg a todos los usuarios de la
-	                // coleccion menos el que envio dicho msg.
-	                if (!cliente.equals(this.socket)) {
-	                    PrintStream ps = new PrintStream(
-	                            cliente.getOutputStream());                              
-	                    
-	                    ps.println(mensaje);// envia el mensaje al
-	                                    // correspondiente socket.
-	                }
-	            } catch (IOException e) {
-	            	Log.crearLog("No se pudo distribuir un movimiento.");
-	            }
-	        }
+		                // si el socket extraido es distinto al socket del
+		                // hilo
+		                // se enviara el msg a todos los usuarios de la
+		                // coleccion menos el que envio dicho msg.
+		                if (!cliente.equals(this.socket)) {
+		                    PrintStream ps = new PrintStream(
+		                            cliente.getOutputStream());                              
+		                    
+		                    ps.println(mensaje);// envia el mensaje al
+		                                    // correspondiente socket.
+		                }
+		            } catch (IOException e) {
+		            	Log.crearLog("No se pudo distribuir un movimiento.");
+		            }
+		        }
+			} catch (SQLException e1) {
+				Log.crearLog("Error: No se pudo enviar correctamente la distribucion del movimiento.");
+			}
 
 		}
 }

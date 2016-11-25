@@ -280,5 +280,8 @@ public class Cliente {
 		
 	}
 	
+	public String getNombre() {
+		return usuario;
+	}
 	
 }

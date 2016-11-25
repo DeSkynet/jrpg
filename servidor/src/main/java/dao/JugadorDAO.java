@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import log.Log;
 import personaje.Personaje;
 
-public class JugadorDAO extends DAOJUGADOR<Personaje>{
+public class JugadorDAO extends DAOJUGADOR{
 	private Connection conexion = null;
 	private static final String INSERTAR = "Insert into Jugador values(?,?,?);";
 	private static final String BUSCAR = "select *from Jugador where Usuario = ?;";
@@ -24,14 +24,14 @@ public class JugadorDAO extends DAOJUGADOR<Personaje>{
 	}
 	
 	@Override
-	public void insertar(String user, String pass, Personaje obj) throws SQLException, IOException {
+	public void insertar(String user, String pass, boolean activo) throws SQLException, IOException {
 		PreparedStatement statement=null;
 		try{
 		statement = conexion.prepareStatement(INSERTAR);
 		
 		statement.setString(1, user);
 		statement.setString(2, pass);
-		statement.setBoolean(3, false);
+		statement.setBoolean(3, activo);
 		statement.execute();
 		}
 		catch (Exception e) {

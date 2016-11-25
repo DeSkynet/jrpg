@@ -27,7 +27,8 @@ public class Servidor {
     private ServerSocket servidor;
     private Socket cliente;
     public static int cantActualClientes;
-    private Map <String, ArrayList<Socket>> mapSalas; //Map de Salas
+    private HashMap <String, ArrayList<Socket>> jugadoresEnMapa; //HashMap de jugadores en un mapa
+    private HashMap<Socket, String> jugadoresConectados;	//HashMap de jugadoresConectados
     private int maxClientes;
     private int puerto;
     private String IPServidor;
@@ -54,7 +55,8 @@ public class Servidor {
         maxClientes = maxConexiones;
 
         cantActualClientes = 0;
-        mapSalas=new HashMap<String,ArrayList<Socket>>(); //creo el map.
+        jugadoresEnMapa=new HashMap<String,ArrayList<Socket>>(); //creo el map.
+        jugadoresConectados = new HashMap<>();
 
         try {
             servidor = new ServerSocket(puerto);
@@ -83,10 +85,8 @@ public class Servidor {
     	entrada.close();
     }
 
-    public Map<String, ArrayList<Socket>> getLista() {
-        return mapSalas;  //le devuelve el array segun la sala.
-    }
-
+    
+    
     public Socket aceptarConexion() {
 
         cantActualClientes++;
@@ -95,7 +95,9 @@ public class Servidor {
             cliente = servidor.accept();	//Se Queda esperando clientes.
             if (cantActualClientes > maxClientes) {
                 PrintStream ps = new PrintStream(cliente.getOutputStream()); //para enviar algo al cliente.
-                ps.println("Servidor Lleno");
+                ps.println("Lo sentimos, el Servidor se encuentra Lleno");
+                Log.crearLog("El Servidor rechazo un cliente.");
+                
                 cliente.close(); //cierra el socket.
                 return null;
             }
@@ -118,6 +120,13 @@ public class Servidor {
            Log.crearLog("Error: En operación cerrar Servidor." + e.getMessage());
         }
     }
-	
+	public HashMap<String, ArrayList<Socket>> getJugadoresEnMapa() {
+        return this.jugadoresEnMapa;  //le devuelve el array segun la sala.
+    }
+    
+    public HashMap<Socket, String> getJugadoresConectados() {
+        return this.jugadoresConectados;  //le devuelve el array segun la sala.
+    }
+    
 	private static final String PATH_CONFIGURACION = "config/conexion.config";
 }

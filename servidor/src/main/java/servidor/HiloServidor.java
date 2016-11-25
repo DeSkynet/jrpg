@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import com.google.gson.Gson;
 import dao.DAOJUGADOR;
@@ -16,19 +18,22 @@ import mensajes.*;
 public class HiloServidor extends Thread {
 	
     private Socket socket;
-	private String nombreMapa;
+	private String nombreMapa=null;
     private boolean isLogIn;
 	private DAOJUGADOR jugador;
     private DAOPERSONAJE personaje;
     private String usuario=null;
+    HashMap<String, ArrayList<Socket>> jugadoresEnMapa; 	///jugadores por mapa
+    HashMap<Socket, String> jugadoresConectados;			///jugadores online al juego...LO DEJE POR LAS DUDAS, SACAR SI ES UN POTUS...
+
     
-    public HiloServidor(Socket socket, String nombreMapa, boolean isLogIn, DAOJUGADOR jugador, DAOPERSONAJE personaje) {
+    public HiloServidor(Socket socket,HashMap<String, ArrayList<Socket>> jugadoresEnMapa, HashMap<Socket, String> jugadoresConectados, DAOJUGADOR jugador, DAOPERSONAJE personaje) {
         super("ThreadServer");
         this.socket = socket;
-        this.nombreMapa=nombreMapa;
-        this.isLogIn=isLogIn;
         this.jugador = jugador;
         this.personaje=personaje;
+        this.jugadoresEnMapa = jugadoresEnMapa;
+        this.jugadoresConectados = jugadoresConectados;
     }
 
 
@@ -53,7 +58,7 @@ public class HiloServidor extends Thread {
                     		
                     		try {
                     			if(!jugador.buscar(reg.getUsuario())) {
-									jugador.insertar(reg.getUsuario(), reg.getContraseña(), null);
+									jugador.insertar(reg.getUsuario(), reg.getContraseña(), false);
 									envioConfirmacion(socket, true);
                     			}
                     			else envioConfirmacion(socket, false);
@@ -86,6 +91,7 @@ public class HiloServidor extends Thread {
 										String []datos=registro.split(" ");
 										if(datos[1].equals(nuevo.getContraseña())){
 											//INSERTO LOGICA DE PREGUNTAR SI LA RAZA Y LA CASTA ESTAN INICIALIZADAS,
+//											jugadoresEnMapa.put(this.socket, this.usuario);	//agrego al Hash de jugadores Conectado al jugador...no voy a agregar a un perro :).
 											this.usuario=nuevo.getUsuario();
 											jugador.actualizar(usuario, true);
 											if(!personaje.buscar(nuevo.getUsuario())){
@@ -142,7 +148,7 @@ public class HiloServidor extends Thread {
 							}
 	                    		
 	                    	break;
-	                    default: System.out.println ("El tipo especificado no es un mensaje.."); break;
+	                    default: Log.crearLog("Error: Llego un mensaje no compatible con los tipos de mensajes."); break;
 
                     }
                    
@@ -154,11 +160,11 @@ public class HiloServidor extends Thread {
             } while ((mensaje = data.readLine()) != null);
 
             Servidor.cantActualClientes--;
-//            map.get(nombreMapa).remove(socket);	//No Existe mas el map..
+            jugadoresEnMapa.get(nombreMapa).remove(socket);	//No Existe mas EN el map..
         } catch (IOException e) {
             try {
                 Servidor.cantActualClientes--;
-//                map.get(nombreMapa).remove(socket);	//Soluciona problema de parar servidor.
+//                jugadoresEnMapa.get(nombreMapa).remove(socket);	//Soluciona problema de parar servidor.
                 socket.close();
             } catch (IOException e1) {
     			try {
@@ -170,8 +176,8 @@ public class HiloServidor extends Thread {
             finally {
             	 if(this.jugador!=null){
             		 try{
-           			 System.out.println("La conexion ha finalizado.");
-            		 jugador.actualizar(this.usuario, false);
+            			 Log.crearLog("Un cliente ha finalizado su conexion.");
+           			 jugador.actualizar(this.usuario, false);
             		 } catch (SQLException | IOException e2) {
 							e2.printStackTrace();
 						}
@@ -188,9 +194,7 @@ public class HiloServidor extends Thread {
 			MensajePersonaje per=new MensajePersonaje(perso[0], Integer.parseInt(perso[1]), Integer.parseInt(perso[2]), Integer.parseInt(perso[3]), Integer.parseInt(perso[4]), Integer.parseInt(perso[5]), Integer.parseInt(perso[6]), Integer.parseInt(perso[7]), Integer.parseInt(perso[8]), Integer.parseInt(perso[9]), perso[10], perso[11], perso[12]);
 			return per;
 			
-		} catch (SQLException e) {
-			Log.crearLog("Error: No se pudo separar correctamente el Personaje." + e.getMessage());
-		} catch (IOException e) {
+		} catch (Exception e) {
 			Log.crearLog("Error: No se pudo separar correctamente el Personaje." + e.getMessage());
 		}
 		return null;
@@ -245,29 +249,36 @@ public class HiloServidor extends Thread {
 		
 	}
 
-////DISTRIBUYE A TODOS LOS JUGADORES DE UN PLANO ACTIVOS, LA NUEVA COORDENADA DE X e Y.
-//	private void distribuirMovimiento(String usuario, int cordX,int cordY) {
-//       //Pido a la BD todos los que esten EN this.mapaActual Y Esten ACTIVOS.
-//    	//CREO UN INTERADOR Y DE A UNO VOY HACIENDO EL WHILE.
-//        while (iterador.hasNext()) {
-//            Socket cliente = iterador.next(); //le pido un cliente de la coleccion.
-//            try {
-//
-//                // si el socket extraido es distinto al socket del
-//                // hilo
-//                // se enviara el msg a todos los usuarios de la
-//                // coleccion menos el que envio dicho msg.
-//                if (!cliente.equals(socket)) {
-//                    PrintStream ps = new PrintStream(
-//                            cliente.getOutputStream());                              
-//                    
-//                    ps.println(mensaje);// envia el mensaje al
-//                                    // correspondiente socket.
-//                }
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//
-//	}
+	// DISTRIBUYE A TODOS LOS JUGADORES DE UN PLANO ACTIVOS, LA NUEVA COORDENADA DE X e Y.
+	// TRAE EL ARRAYLIST DE JUGADORES CONECTADOS DE UN MAPA Y  LUEGO LO RECORRE PARA ENVIAR A TODOS LOS JUGADORES ACTIVOS...
+		private void distribuirMovimiento(String usuario, int cordX,int cordY) {
+			ArrayList<Socket> lista = jugadoresEnMapa.get(this.nombreMapa);
+			Iterator<Socket> iterador = lista.iterator();
+			Mensaje mensajeAEnviar = new Mensaje("Movimiento", new MensajePosicion(usuario, cordX, cordY));
+			Gson gson = new Gson();
+			final String mensaje = gson.toJson(mensajeAEnviar, Mensaje.class);
+			
+			//Pido a la BD todos los que esten EN this.mapaActual Y Esten ACTIVOS.
+	    	//CREO UN INTERADOR Y DE A UNO VOY HACIENDO EL WHILE.
+	        while (iterador .hasNext()) {
+	            Socket cliente = iterador.next(); //le pido un cliente de la coleccion.
+	            try {
+
+	                // si el socket extraido es distinto al socket del
+	                // hilo
+	                // se enviara el msg a todos los usuarios de la
+	                // coleccion menos el que envio dicho msg.
+	                if (!cliente.equals(this.socket)) {
+	                    PrintStream ps = new PrintStream(
+	                            cliente.getOutputStream());                              
+	                    
+	                    ps.println(mensaje);// envia el mensaje al
+	                                    // correspondiente socket.
+	                }
+	            } catch (IOException e) {
+	                e.printStackTrace();
+	            }
+	        }
+
+		}
 }

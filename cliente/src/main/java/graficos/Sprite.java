@@ -42,8 +42,9 @@ public static void cargar(String tipoAcargar) {
 		case "Superheroe" :
 			sprite=cargarSuper();
 			break;	
-		case "Humano":
+		case "Humano" :
 			sprite=cargarHumano();
+			break;
 		default:
 			break;
 		}
@@ -51,6 +52,7 @@ public static void cargar(String tipoAcargar) {
 
 public static LinkedList<BufferedImage[]> cargarOtroPersonaje(String tipoAcargar) {
 	LinkedList<BufferedImage[]> sprite2 = new LinkedList<>();
+	System.out.println(tipoAcargar);
 	switch (tipoAcargar) {
 	case "Robot" :
 		sprite2=cargarRobot();
@@ -61,10 +63,11 @@ public static LinkedList<BufferedImage[]> cargarOtroPersonaje(String tipoAcargar
 	case "Superheroe" :
 		sprite2=cargarSuper();
 		break;	
-	case "Humano":
+	case "Humano" :
 		sprite2=cargarHumano();
+		break;
 	default:
-		sprite2=cargarRobot();
+		sprite2=cargarMago();
 		break;
 	}
 	return sprite2;

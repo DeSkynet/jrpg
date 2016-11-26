@@ -10,60 +10,60 @@ import graficos.Mapa;
 import herramientas.HerramientasGraficas;
 
 public class Ente {
-	Juego juego;
+	protected Juego juego;
 
 	// Tamaño de la entidad
-	private int ancho;
-	private int alto;
+	protected int ancho;
+	protected int alto;
 
 	// Posiciones
-	private Point punto; 	// Posicion del personaje en el juego (x,y)
-	private float dx;		//
-	private float dy;		//
-	private float xInicial;	// Posicion de inicio del personaje en x
-	private float yInicial;	// Posicion de inicio del personaje en y
-	private float xFinal;	// Posicion final del personaje en x.DONDE QUIERE LLEGAR
-	private float yFinal;	// Psociion final del personaje en y
-	private int desplzamientoX;	// Desplazamiento de la camara en x
+	protected Point punto; 	// Posicion del personaje en el juego (x,y)
+	protected float dx;		//
+	protected float dy;		//
+	protected float xInicial;	// Posicion de inicio del personaje en x
+	protected float yInicial;	// Posicion de inicio del personaje en y
+	protected float xFinal;	// Posicion final del personaje en x.DONDE QUIERE LLEGAR
+	protected float yFinal;	// Psociion final del personaje en y
+	protected int desplzamientoX;	// Desplazamiento de la camara en x
 	
 
-	private int desplazamientoY;	// Desplazamiento de la camara en y
-	private int dibujarX;		// Dibujo en la coordenada x
-	private int dibujarY;		// Dibujo en la coordenada y
-	private Point posMouse;	// Posicion del mouse en (x,y)
-	private Point cuadro;	// Posicion en el cuadro (x,y)
-	private Point ulti=new Point(0, 0);
-	private boolean ultimo=false;
+	protected int desplazamientoY;	// Desplazamiento de la camara en y
+	protected int dibujarX;		// Dibujo en la coordenada x
+	protected int dibujarY;		// Dibujo en la coordenada y
+	protected Point posMouse;	// Posicion del mouse en (x,y)
+	protected Point cuadro;	// Posicion en el cuadro (x,y)
+	protected Point ulti=new Point(0, 0);
+	protected boolean ultimo=false;
 
 	// Calculo de movimiento
-	private float diferencialX;		// diferencial x para el calculo del movimiento en diagonal
-	private float diferencialY;		// diferencial y para el calculo del movimiento en diagonal
-	private float relacion;	// relacion entre el diferencial x e y
+	protected float diferencialX;		// diferencial x para el calculo del movimiento en diagonal
+	protected float diferencialY;		// diferencial y para el calculo del movimiento en diagonal
+	protected float relacion;	// relacion entre el diferencial x e y
 
 	// Posicion final del movimiento del personaje en (x,y)
 //	private Point posicionFinal;	
 
 	// Movimiento actual del personaje 
-	private boolean enMovimiento;	
-	private boolean horizontal;	
-	private boolean vertical;		
-	private boolean diagonalInferiorIzquierda;	
-	private boolean diagonalInferiorDerecha;
-	private boolean diagonalSuperiorIzquierda;
-	private boolean diagonalSuperiorDerecha;
+	protected boolean enMovimiento;	
+	protected boolean horizontal;	
+	protected boolean vertical;		
+	protected boolean diagonalInferiorIzquierda;	
+	protected boolean diagonalInferiorDerecha;
+	protected boolean diagonalSuperiorIzquierda;
+	protected boolean diagonalSuperiorDerecha;
 
 	// Animaciones del perosnaje
-	private LinkedList<BufferedImage[]> animaciones;
-	private final Animacion moverIzquierda;
-	private final Animacion moverArribaIzquierda;
-	private final Animacion moverArriba;
-	private final Animacion moverArribaDerecha;
-	private final Animacion moverDerecha;
-	private final Animacion moverAbajoDerecha;
-	private final Animacion moverAbajo;
-	private final Animacion moverAbajoIzquierda;
+	protected LinkedList<BufferedImage[]> animaciones;
+	protected final Animacion moverIzquierda;
+	protected final Animacion moverArribaIzquierda;
+	protected final Animacion moverArriba;
+	protected final Animacion moverArribaDerecha;
+	protected final Animacion moverDerecha;
+	protected final Animacion moverAbajoDerecha;
+	protected final Animacion moverAbajo;
+	protected final Animacion moverAbajoIzquierda;
 
-	private Mapa mapa;
+	protected Mapa mapa;
 	
 	
 	public Ente(Juego juego, Mapa mapa, int ancho, int alto, int puntoX, int puntoY, LinkedList<BufferedImage[]> animaciones, int velAnimacion) {
@@ -247,28 +247,28 @@ public class Ente {
 	public void graficar(Graphics g) {
 		dibujarX = (int) (punto.x - juego.getCamaraPersonaje().getMovimientoX());
 		dibujarY = (int) (punto.y - juego.getCamaraPersonaje().getMovimientoY());
-		g.drawImage(getFrameAnimacionActual(), dibujarX, dibujarY, ancho, alto, null);
+		g.drawImage(this.getFrameAnimacionActual(), dibujarX, dibujarY, ancho, alto, null);
 	}
 
-	private BufferedImage getFrameAnimacionActual() {
+	protected BufferedImage getFrameAnimacionActual() {
 		if (horizontal && punto.x > xFinal) {
-			return moverIzquierda.getFrameActual();
+			return this.moverIzquierda.getFrameActual();
 		} else if (horizontal && punto.x < xFinal) {
-			return moverDerecha.getFrameActual();
+			return this.moverDerecha.getFrameActual();
 		} else if (vertical && punto.y > yFinal) {
-			return moverArriba.getFrameActual();
+			return this.moverArriba.getFrameActual();
 		} else if (vertical && punto.y < yFinal) {
-			return moverAbajo.getFrameActual();
+			return this.moverAbajo.getFrameActual();
 		} else if (diagonalInferiorIzquierda) {
-			return moverAbajoIzquierda.getFrameActual();
+			return this.moverAbajoIzquierda.getFrameActual();
 		} else if (diagonalInferiorDerecha) {
-			return moverAbajoDerecha.getFrameActual();
+			return this.moverAbajoDerecha.getFrameActual();
 		} else if (diagonalSuperiorIzquierda) {
-			return moverArribaIzquierda.getFrameActual();
+			return this.moverArribaIzquierda.getFrameActual();
 		} else if (diagonalSuperiorDerecha) {
-			return moverArribaDerecha.getFrameActual();
+			return this.moverArribaDerecha.getFrameActual();
 		}
-		return animaciones.get(6)[0];
+		return this.animaciones.get(6)[0];
 		
 	}
 
@@ -310,5 +310,11 @@ public class Ente {
 	public void setEnMovimiento(boolean enMovimiento) {
 		this.enMovimiento = enMovimiento;
 	}
-
+	public Juego getJuego(){
+		return this.juego;
+	}
+	public void setXYFinal(int x,int y){
+		xFinal=x;
+		yFinal=y;
+	}
 }

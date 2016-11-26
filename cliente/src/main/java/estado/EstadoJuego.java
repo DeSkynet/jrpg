@@ -2,6 +2,7 @@ package estado;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -74,7 +75,12 @@ public class EstadoJuego extends Estado {
 	public void setOtroPersonaje(String usuario, String raza, int coordX, int coordY, int nivel){
 		OtrosPersonajes per=new OtrosPersonajes(usuario, raza, coordX, coordY, nivel,super.juego,mapa);
 		per.setAliado(false);
-		otroPersonajes.put(per.getUsuario(), per);
+		if(otroPersonajes.containsKey(usuario)){
+			OtrosPersonajes pers=otroPersonajes.get(per.getUsuario());
+			pers.setXYFinal(coordX,coordY);
+		}else{
+			otroPersonajes.put(per.getUsuario(), per);
+		}
 		System.out.println("per "+ per.getCoordX()+ per.getCoordY());
 		System.out.println("RECIBI LA POSICION DEL RIVAL:"+ coordX+ " "+coordY);
 		//DEBERIA REALIZAR LA ACTUALIZACION EN EL MAPA.	

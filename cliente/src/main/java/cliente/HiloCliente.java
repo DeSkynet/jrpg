@@ -55,6 +55,7 @@ public class HiloCliente extends Thread {
 	
 	private void cargoOActualizoOtroJugadorAMiMapa(MensajePosicionOtroPersonaje movi) {
 		juego.getEstadoJuego().setOtroPersonaje(movi.getUsuario(),movi.getRaza(),movi.getCoordX(),movi.getCoordY(),movi.getNivel());
+//		juego.getEstadoJuego().|
 		
 	}
 

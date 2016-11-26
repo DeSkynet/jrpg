@@ -1,6 +1,13 @@
 package graficos;
 
-public class OtrosPersonajes {
+import java.awt.image.BufferedImage;
+import java.util.LinkedList;
+
+import herramientas.Constantes;
+import pantalla.Ente;
+import pantalla.Juego;
+
+public class OtrosPersonajes extends Ente{
 		private String usuario;
 		private String raza;
 		int coordX;
@@ -8,7 +15,8 @@ public class OtrosPersonajes {
 		int nivel;
 		boolean aliado;
 		
-		public OtrosPersonajes(String usuario, String raza, int coordX, int coordY, int nivel) {
+		public OtrosPersonajes(String usuario, String raza, int coordX, int coordY, int nivel,Juego juego,Mapa mapa) {
+			super(juego, mapa, Constantes.ANCHO_ENTE, Constantes.ALTO_ENTE, coordX, coordY,Sprite.cargarOtroPersonaje(raza), Constantes.VELOCIDAD_ANIMACION);
 			this.usuario = usuario;
 			this.raza = raza;
 			this.coordX = coordX;

@@ -14,7 +14,7 @@ public class Sprite {
 	private static int ancho;
 	private static int alto;
 
-	public static LinkedList<BufferedImage[]> sprite = new LinkedList<>();
+	public static LinkedList<BufferedImage[]> sprite;
 	private static BufferedImage[] izq;
 	private static BufferedImage[] arribaIzq; 
 	private static BufferedImage[] arriba;
@@ -34,25 +34,46 @@ public class Sprite {
 public static void cargar(String tipoAcargar) {
 		switch (tipoAcargar) {
 		case "Robot" :
-			cargarRobot();
+			sprite=cargarRobot();
 			break;
 		case "Alien" :
-			cargarMago();
+			sprite=cargarMago();
 			break;
 		case "Superheroe" :
-			cargarSuper();
+			sprite=cargarSuper();
 			break;	
 		case "Humano":
-			cargarHumano();
+			sprite=cargarHumano();
 		default:
 			break;
 		}
 	}
 
+public static LinkedList<BufferedImage[]> cargarOtroPersonaje(String tipoAcargar) {
+	LinkedList<BufferedImage[]> sprite2 = new LinkedList<>();
+	switch (tipoAcargar) {
+	case "Robot" :
+		sprite2=cargarRobot();
+		break;
+	case "Alien" :
+		sprite2=cargarMago();
+		break;
+	case "Superheroe" :
+		sprite2=cargarSuper();
+		break;	
+	case "Humano":
+		sprite2=cargarHumano();
+	default:
+		sprite2=cargarRobot();
+		break;
+	}
+	return sprite2;
+}
+
 	
 	
-	public static void cargarMago() {
-		
+	public static LinkedList<BufferedImage[]> cargarMago() {
+		LinkedList<BufferedImage[]> sprite2 = new LinkedList<>();
 		ancho = 256;
 		alto = 256;
 		
@@ -108,14 +129,14 @@ public static void cargar(String tipoAcargar) {
 			abajoIzq[i] = spriteMago.obtenerCuadro(punto, ancho, alto);
 		}
 		
-		 sprite.add(izq);
-		 sprite.add(arribaIzq);
-		 sprite.add(arriba);
-		 sprite.add(arribaDer);
-		 sprite.add(der);
-		 sprite.add(abajoDer);
-		 sprite.add(abajo);
-		 sprite.add(abajoIzq);
+		 sprite2.add(izq);
+		 sprite2.add(arribaIzq);
+		 sprite2.add(arriba);
+		 sprite2.add(arribaDer);
+		 sprite2.add(der);
+		 sprite2.add(abajoDer);
+		 sprite2.add(abajo);
+		 sprite2.add(abajoIzq);
 		 
 		 
 		 cuadroCesped = cargarImagen(Constantes.PATH_CESPED);
@@ -123,14 +144,15 @@ public static void cargar(String tipoAcargar) {
 		 cuadroRoca = cargarImagen(Constantes.PATH_ROCA);
 		 cuadroPiedraNo = cargarImagen(Constantes.PATH_PIEDRAN);
 		 CuadroTierra = cargarImagen(Constantes.PATH_TIERRA);
+		 return sprite2;
 }
 
-public static void cargarRobot() {
+public static LinkedList<BufferedImage[]> cargarRobot() {
 		
 		ancho = 256;
 		alto = 256;
 		
-		
+		LinkedList<BufferedImage[]> sprite2 = new LinkedList<>();
 		HojaSprite spriteRobot = new HojaSprite(cargarImagen(Constantes.SPRITE_ROBOT));
 		
 		izq = new BufferedImage[4];
@@ -182,14 +204,14 @@ public static void cargarRobot() {
 			abajoIzq[i] = spriteRobot.obtenerCuadro(punto, ancho, alto);
 		}
 		
-		 sprite.add(izq);
-		 sprite.add(arribaIzq);
-		 sprite.add(arriba);
-		 sprite.add(arribaDer);
-		 sprite.add(der);
-		 sprite.add(abajoDer);
-		 sprite.add(abajo);
-		 sprite.add(abajoIzq);
+		 sprite2.add(izq);
+		 sprite2.add(arribaIzq);
+		 sprite2.add(arriba);
+		 sprite2.add(arribaDer);
+		 sprite2.add(der);
+		 sprite2.add(abajoDer);
+		 sprite2.add(abajo);
+		 sprite2.add(abajoIzq);
 		 
 		 
 		 cuadroCesped = cargarImagen(Constantes.PATH_CESPED);
@@ -197,13 +219,15 @@ public static void cargarRobot() {
 		 cuadroRoca = cargarImagen(Constantes.PATH_ROCA);
 		 cuadroPiedraNo = cargarImagen(Constantes.PATH_PIEDRAN);
 		 CuadroTierra = cargarImagen(Constantes.PATH_TIERRA);
+		 return sprite2;
 }
 	
-public static void cargarHumano() {
+public static LinkedList<BufferedImage[]> cargarHumano() {
 	
 	ancho = 256;
 	alto = 256;
 	
+	LinkedList<BufferedImage[]> sprite2 = new LinkedList<>();
 	
 	HojaSprite spriteHumano = new HojaSprite(cargarImagen(Constantes.SPRITE_HUMANO));
 	
@@ -256,14 +280,14 @@ public static void cargarHumano() {
 		abajoIzq[i] = spriteHumano.obtenerCuadro(punto, ancho, alto);
 	}
 	
-	 sprite.add(izq);
-	 sprite.add(arribaIzq);
-	 sprite.add(arriba);
-	 sprite.add(arribaDer);
-	 sprite.add(der);
-	 sprite.add(abajoDer);
-	 sprite.add(abajo);
-	 sprite.add(abajoIzq);
+	 sprite2.add(izq);
+	 sprite2.add(arribaIzq);
+	 sprite2.add(arriba);
+	 sprite2.add(arribaDer);
+	 sprite2.add(der);
+	 sprite2.add(abajoDer);
+	 sprite2.add(abajo);
+	 sprite2.add(abajoIzq);
 	 
 	 
 	 cuadroCesped = cargarImagen(Constantes.PATH_CESPED);
@@ -271,13 +295,15 @@ public static void cargarHumano() {
 	 cuadroRoca = cargarImagen(Constantes.PATH_ROCA);
 	 cuadroPiedraNo = cargarImagen(Constantes.PATH_PIEDRAN);
 	 CuadroTierra = cargarImagen(Constantes.PATH_TIERRA);
+	 return sprite2;
 }
 
 
-public static void cargarSuper() {
+public static LinkedList<BufferedImage[]> cargarSuper() {
 
 	ancho = 256;
 	alto = 256;
+	LinkedList<BufferedImage[]> sprite2 = new LinkedList<>();
 	
 	
 	HojaSprite spriteSuper = new HojaSprite(cargarImagen(Constantes.SPRITE_SUPER));
@@ -331,14 +357,14 @@ public static void cargarSuper() {
 		abajoIzq[i] = spriteSuper.obtenerCuadro(punto, ancho, alto);
 	}
 	
-	 sprite.add(izq);
-	 sprite.add(arribaIzq);
-	 sprite.add(arriba);
-	 sprite.add(arribaDer);
-	 sprite.add(der);
-	 sprite.add(abajoDer);
-	 sprite.add(abajo);
-	 sprite.add(abajoIzq);
+	 sprite2.add(izq);
+	 sprite2.add(arribaIzq);
+	 sprite2.add(arriba);
+	 sprite2.add(arribaDer);
+	 sprite2.add(der);
+	 sprite2.add(abajoDer);
+	 sprite2.add(abajo);
+	 sprite2.add(abajoIzq);
 	 
 	 
 	 cuadroCesped = cargarImagen(Constantes.PATH_CESPED);
@@ -346,6 +372,7 @@ public static void cargarSuper() {
 	 cuadroRoca = cargarImagen(Constantes.PATH_ROCA);
 	 cuadroPiedraNo = cargarImagen(Constantes.PATH_PIEDRAN);
 	 CuadroTierra = cargarImagen(Constantes.PATH_TIERRA);
+	 return sprite2;
 }
 
 	public static BufferedImage cargarImagen(String path) {

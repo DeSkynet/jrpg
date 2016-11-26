@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import graficos.Cuadro;
 import graficos.Mapa;
@@ -34,6 +35,15 @@ public class EstadoJuego extends Estado {
 	public void actualizar() {
 		mapa.actualizar();
 		ente.actualizar();
+		if(!otroPersonajes.isEmpty()){
+			Iterator<String> key =otroPersonajes.keySet().iterator();
+			while(key.hasNext()){
+				String keey=key.next();
+				OtrosPersonajes otro=otroPersonajes.get(keey);
+				otro.actualizar();
+				
+			}
+		}
 	}
 
 	@Override
@@ -42,6 +52,18 @@ public class EstadoJuego extends Estado {
 		g.fill3DRect(0, 0, Constantes.ANCHO_PANTALLA, Constantes.ALTO_PANTALLA, false);
 		mapa.graficar(g);
 		ente.graficar(g);
+		//grafico otros personajes
+		if(!otroPersonajes.isEmpty()){
+			Iterator<String> key =otroPersonajes.keySet().iterator();
+			while(key.hasNext()){
+				String keey=key.next();
+				OtrosPersonajes otro=otroPersonajes.get(keey);
+				System.out.println(otro.getCoordX());
+				otro.graficar(g);
+				
+			}
+		}
+
 		
 	}
 	public Ente getEnte() {
@@ -50,9 +72,10 @@ public class EstadoJuego extends Estado {
 	
 	
 	public void setOtroPersonaje(String usuario, String raza, int coordX, int coordY, int nivel){
-		OtrosPersonajes per=new OtrosPersonajes(usuario, raza, coordX, coordY, nivel);
+		OtrosPersonajes per=new OtrosPersonajes(usuario, raza, coordX, coordY, nivel,super.juego,mapa);
 		per.setAliado(false);
 		otroPersonajes.put(per.getUsuario(), per);
+		System.out.println("per "+ per.getCoordX()+ per.getCoordY());
 		System.out.println("RECIBI LA POSICION DEL RIVAL:"+ coordX+ " "+coordY);
 		//DEBERIA REALIZAR LA ACTUALIZACION EN EL MAPA.	
 	}

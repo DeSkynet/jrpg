@@ -7,7 +7,6 @@ import java.util.LinkedList;
 
 import graficos.Animacion;
 import graficos.Mapa;
-import graficos.Sprite;
 import herramientas.HerramientasGraficas;
 
 public class Ente {
@@ -269,7 +268,7 @@ public class Ente {
 		} else if (diagonalSuperiorDerecha) {
 			return moverArribaDerecha.getFrameActual();
 		}
-		return Sprite.getSprite().get(6)[0];
+		return animaciones.get(6)[0];
 		
 	}
 

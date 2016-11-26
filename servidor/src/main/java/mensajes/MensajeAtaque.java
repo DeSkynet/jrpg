@@ -1,9 +1,9 @@
 package mensajes;
 
 public class MensajeAtaque {
-	String usuario;
-	String ataque;
-	String usuarioAtacado;
+	private String usuario;
+	private String ataque;
+	private String usuarioAtacado;
 	
 	public MensajeAtaque(String personaje,String ataque,String enemigo){
 		this.usuario=personaje;

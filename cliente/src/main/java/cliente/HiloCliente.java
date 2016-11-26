@@ -14,6 +14,7 @@ import mensajes.MensajeColision;
 import mensajes.MensajePosicion;
 import mensajes.MensajePosicionOtroPersonaje;
 import pantalla.Juego;
+import ventana.VentanaBatalla;
 
 public class HiloCliente extends Thread {
     private Socket socket;
@@ -59,8 +60,31 @@ public class HiloCliente extends Thread {
 						 break;
 					case "MensajeColicion" :
 						MensajeColision colision=gson.fromJson(mensajeRecuperado.getObjeto().toString(), MensajeColision.class);
-						JOptionPane.showConfirmDialog(null, "Coliciono con: "+ colision.getUsuarioOrigen());
-					break;
+
+						//						int seleccion = JOptionPane.showOptionDialog(
+//								   null,
+//								   "Desea unirse a la alianza?", 
+//								   "Selector de opciones",
+//								   JOptionPane.YES_NO_CANCEL_OPTION,
+//								   JOptionPane.QUESTION_MESSAGE,
+//								   null,    // null para icono por defecto.
+//								   new Object[] { "Aliarme", "Batallar" },   // null para YES, NO y CANCEL
+//								   "Uir");
+//
+//						if (seleccion == -1){
+//							int resp=JOptionPane.showConfirmDialog(null, "Esta seguro que desea Uir? Tu salud será 1 y te quedaras sin aliados.");
+//							if(resp==0 || resp==-1 || resp==2){
+//								//BAJAR SALUD
+//							}
+//							else{
+//								new VentanaBatalla();
+//							}
+//						}else if (seleccion == 1) {
+//							new VentanaBatalla();
+//						}else if(seleccion ==0){
+//							//SE alia.
+//						}
+						break;
 				default:
 					break;
 				}

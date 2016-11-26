@@ -13,6 +13,7 @@ import graficos.Mapa;
 import graficos.OtrosPersonajes;
 import herramientas.HerramientasGraficas;
 import mensajes.MensajeColision;
+import ventana.VentanaBatalla;
 
 public class Ente {
 	protected Juego juego;
@@ -117,7 +118,7 @@ public class Ente {
 	public void getEntrada() {
 
 		posMouse = new Point(juego.getMouse().obtenerPosicionMouse());
-		System.out.println(punto.x+" "+punto.y);
+//		System.out.println(punto.x+" "+punto.y);
 		if (juego.getMouse().obtenerClick()) {
 			ultimo=true;
 			diagonalInferiorIzquierda = false;
@@ -179,7 +180,32 @@ public class Ente {
 				if(eleccion==false){
 				eleccion=true;
 				enviaColicionAEnemigo(per.getUsuario());
-				JOptionPane.showConfirmDialog(null, "HAY COLICION con: "+per.getUsuario());
+
+				int seleccion = JOptionPane.showOptionDialog(
+						   null,
+						   "Desea unirse a la alianza?", 
+						   "Selector de opciones",
+						   JOptionPane.YES_NO_CANCEL_OPTION,
+						   JOptionPane.QUESTION_MESSAGE,
+						   null,    // null para icono por defecto.
+						   new Object[] { "Aliarme", "Batallar" },   // null para YES, NO y CANCEL
+						   "Uir");
+
+				if (seleccion == -1){
+					int resp=JOptionPane.showConfirmDialog(null, "Esta seguro que desea Uir? Tu salud será 1 y te quedaras sin aliados.");
+					if(resp==0 || resp==-1 || resp==2){
+						//BAJAR SALUD
+					}
+					else{
+						new VentanaBatalla();
+					}
+				}else if (seleccion == 1) {
+//					JOptionPane.showMessageDialog(null, "va a batalla!");
+					new VentanaBatalla();
+				}else if(seleccion ==0){
+					//SE alia.
+				}
+									
 				}
 			}else{
 				eleccion=false;

@@ -52,7 +52,7 @@ public static void cargar(String tipoAcargar) {
 
 public static LinkedList<BufferedImage[]> cargarOtroPersonaje(String tipoAcargar) {
 	LinkedList<BufferedImage[]> sprite2 = new LinkedList<>();
-	System.out.println(tipoAcargar);
+//	System.out.println(tipoAcargar);
 	switch (tipoAcargar) {
 	case "Robot" :
 		sprite2=cargarRobot();

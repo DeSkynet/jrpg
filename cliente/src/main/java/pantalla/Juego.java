@@ -33,6 +33,8 @@ public class Juego implements Runnable{
 		this.cliente=cliente;
 		//RECIBIR PERSONAJE
 		cliente.RecibePersonaje();
+		//RECIBE ENEMIGOS.
+		
 		hiloCliente = new HiloCliente(cliente,cliente.getSocket(),this);
 	    hiloCliente.start();
 	    cliente.setHiloCliente(hiloCliente);

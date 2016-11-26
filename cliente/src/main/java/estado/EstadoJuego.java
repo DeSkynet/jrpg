@@ -59,7 +59,6 @@ public class EstadoJuego extends Estado {
 			Iterator<OtrosPersonajes> it =otroPersonajes.values().iterator();
 			while(it.hasNext()){
 				OtrosPersonajes otro=it.next();
-				System.out.println(otro.getCoordX());
 				otro.graficar(g);
 				
 			}
@@ -82,8 +81,7 @@ public class EstadoJuego extends Estado {
 		}else{
 			otroPersonajes.put(per.getUsuario(), per);
 		}
-		System.out.println("per "+ per.getCoordX()+ per.getCoordY());
-		System.out.println("RECIBI LA POSICION DEL RIVAL:"+ coordX+ " "+coordY);
+
 		//DEBERIA REALIZAR LA ACTUALIZACION EN EL MAPA.	
 	}
 	

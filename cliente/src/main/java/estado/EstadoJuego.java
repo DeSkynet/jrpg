@@ -37,10 +37,9 @@ public class EstadoJuego extends Estado {
 		mapa.actualizar();
 		ente.actualizar();
 		if(!otroPersonajes.isEmpty()){
-			Iterator<String> key =otroPersonajes.keySet().iterator();
-			while(key.hasNext()){
-				String keey=key.next();
-				OtrosPersonajes otro=otroPersonajes.get(keey);
+			Iterator<OtrosPersonajes> it =otroPersonajes.values().iterator();
+			while(it.hasNext()){
+				OtrosPersonajes otro=it.next();
 				otro.actualizar();
 				
 			}
@@ -55,10 +54,9 @@ public class EstadoJuego extends Estado {
 		ente.graficar(g);
 		//grafico otros personajes
 		if(!otroPersonajes.isEmpty()){
-			Iterator<String> key =otroPersonajes.keySet().iterator();
-			while(key.hasNext()){
-				String keey=key.next();
-				OtrosPersonajes otro=otroPersonajes.get(keey);
+			Iterator<OtrosPersonajes> it =otroPersonajes.values().iterator();
+			while(it.hasNext()){
+				OtrosPersonajes otro=it.next();
 				System.out.println(otro.getCoordX());
 				otro.graficar(g);
 				
@@ -77,13 +75,22 @@ public class EstadoJuego extends Estado {
 		per.setAliado(false);
 		if(otroPersonajes.containsKey(usuario)){
 			OtrosPersonajes pers=otroPersonajes.get(per.getUsuario());
-			pers.setXYFinal(coordX,coordY);
+			pers.setPunto(new Point(coordX,coordY));
 		}else{
 			otroPersonajes.put(per.getUsuario(), per);
 		}
 		System.out.println("per "+ per.getCoordX()+ per.getCoordY());
 		System.out.println("RECIBI LA POSICION DEL RIVAL:"+ coordX+ " "+coordY);
 		//DEBERIA REALIZAR LA ACTUALIZACION EN EL MAPA.	
+	}
+	
+	public void quitarOtroPersonaje(String usuario){
+		otroPersonajes.remove(usuario);
+	}
+	
+	public HashMap<String, OtrosPersonajes> getOtroPersonajes(){
+		return otroPersonajes;
+		
 	}
 
 }

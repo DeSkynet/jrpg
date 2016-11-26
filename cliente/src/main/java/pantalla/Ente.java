@@ -3,10 +3,14 @@ package pantalla;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
+import java.util.Iterator;
 import java.util.LinkedList;
+
+import javax.swing.JOptionPane;
 
 import graficos.Animacion;
 import graficos.Mapa;
+import graficos.OtrosPersonajes;
 import herramientas.HerramientasGraficas;
 
 public class Ente {
@@ -168,7 +172,10 @@ public class Ente {
 		dy = 0;
 
 		if (enMovimiento && (punto.x != xFinal || punto.y != yFinal)) {
-
+			OtrosPersonajes per=this.ChequeaColicion(punto.x,punto.y);
+			if(per!=null){
+				JOptionPane.showConfirmDialog(null, "HAY COLICION con: "+per.getUsuario());
+			}
 			if (vertical) {
 				if (yFinal > punto.y) {
 					dy++;
@@ -212,7 +219,7 @@ public class Ente {
 				
 			}
 
-			System.out.println(xFinal+" "+ yFinal+" "+xInicial+" "+punto.x+" "+punto.y);
+			//System.out.println(xFinal+" "+ yFinal+" "+xInicial+" "+punto.x+" "+punto.y);
 			if (mapa.getCuadro(cuadro).noEsAtravesable()) {
 				xFinal = punto.x;
 				yFinal = punto.y;
@@ -317,4 +324,20 @@ public class Ente {
 		xFinal=x;
 		yFinal=y;
 	}
+	public OtrosPersonajes ChequeaColicion(int xActual,int yActual){
+		Point point = HerramientasGraficas.clickACuadro(new Point(xActual, yActual));
+			Iterator<OtrosPersonajes> it =this.juego.getEstadoJuego().getOtroPersonajes().values().iterator();
+			while(it.hasNext()){
+				OtrosPersonajes per=it.next();
+			Point poinOtro = HerramientasGraficas.clickACuadro(new Point(per.getPunto().x, per.getPunto().y));
+				if(point.x==poinOtro.x ){
+					if(point.y==poinOtro.y ){
+						return per;
+					}
+				}
+			
+		}
+	
+	return null;
+}
 }

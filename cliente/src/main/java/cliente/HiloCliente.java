@@ -40,9 +40,24 @@ public class HiloCliente extends Thread {
         		gson = new Gson();
         		mensajeRecuperado = gson.fromJson(mensaje, Mensaje.class);
         		if(mensajeRecuperado.getTipoMensaje().equals("MensajePosicionOtroPersonaje")){
-        			MensajePosicionOtroPersonaje movi=gson.fromJson(mensajeRecuperado.getObjeto().toString(), MensajePosicionOtroPersonaje.class);
-        			cargoOActualizoOtroJugadorAMiMapa(movi);
+        			
         		}
+        		
+        		switch (mensajeRecuperado.getTipoMensaje()) {
+					case "MensajePosicionOtroPersonaje":
+						MensajePosicionOtroPersonaje movi=gson.fromJson(mensajeRecuperado.getObjeto().toString(), MensajePosicionOtroPersonaje.class);
+						cargoOActualizoOtroJugadorAMiMapa(movi);
+					break;
+				
+					case "MensajequitarOtroPersonaje":
+						//MensajePosicionOtroPersonaje men=gson.fromJson(mensajeRecuperado.getObjeto().toString(), MensajePosicionOtroPersonaje.class);
+						 String personajeAQuitar=(String) mensajeRecuperado.getObjeto();
+						 juego.getEstadoJuego().quitarOtroPersonaje(personajeAQuitar);
+						 
+					break;
+				default:
+					break;
+				}
         		cliente.setMensaje(mensajeRecuperado);
         		cliente.setNuevoMensaje(true);
         		

@@ -166,10 +166,12 @@ public class HiloServidor extends Thread {
 
             Servidor.cantActualClientes--;
             jugadoresEnMapa.get(nombreMapa).remove(socket);	//No Existe mas EN el map..
+            distribuirSalgo(this.usuario);
         } catch (IOException e) {
             try {
                 Servidor.cantActualClientes--;
-//                jugadoresEnMapa.get(nombreMapa).remove(socket);	//Soluciona problema de parar servidor.
+                distribuirSalgo(this.usuario);
+                jugadoresEnMapa.get(nombreMapa).remove(socket);	//Soluciona problema de parar servidor.
                 socket.close();
             } catch (IOException e1) {
     			try {
@@ -191,8 +193,8 @@ public class HiloServidor extends Thread {
         }
     }
     
-    
-    private void agregoPersonajeAHash(String usuario2, Socket socket2) throws IOException {
+
+	private void agregoPersonajeAHash(String usuario2, Socket socket2) throws IOException {
     	String mapa=null;
     	try {
     		String[] perso=personaje.seleccionarUsuario(usuario2).split(" ");
@@ -278,6 +280,44 @@ public class HiloServidor extends Thread {
 		
 	}
 
+	
+	private void distribuirSalgo(String usuario2) throws IOException {
+		ArrayList<Socket> lista = jugadoresEnMapa.get(this.nombreMapa);
+		Iterator<Socket> iterador = lista.iterator();
+		
+		String[] dato;
+
+		Mensaje mensajeAEnviar = new Mensaje("MensajequitarOtroPersonaje", usuario2);
+		Gson gson = new Gson();
+		final String mensaje = gson.toJson(mensajeAEnviar, Mensaje.class);
+		
+		//Pido a la BD todos los que esten EN this.mapaActual Y Esten ACTIVOS.
+    	//CREO UN INTERADOR Y DE A UNO VOY HACIENDO EL WHILE.
+        while (iterador.hasNext()) {
+            Socket cliente = iterador.next(); //le pido un cliente de la coleccion.
+            try {
+
+                // si el socket extraido es distinto al socket del
+                // hilo
+                // se enviara el msg a todos los usuarios de la
+                // coleccion menos el que envio dicho msg.
+                if (!cliente.equals(this.socket)) {
+                    PrintStream ps = new PrintStream(
+                            cliente.getOutputStream());                              
+                    
+                    ps.println(mensaje);// envia el mensaje al
+                                    // correspondiente socket.
+                }
+            } catch (IOException e) {
+            	Log.crearLog("No se pudo distribuir un movimiento.");
+            }
+        }
+		
+
+	}
+
+
+	
 	// DISTRIBUYE A TODOS LOS JUGADORES DE UN PLANO ACTIVOS, LA NUEVA COORDENADA DE X e Y.
 	// TRAE EL ARRAYLIST DE JUGADORES CONECTADOS DE UN MAPA Y  LUEGO LO RECORRE PARA ENVIAR A TODOS LOS JUGADORES ACTIVOS...
 		private void distribuirMovimiento(String usuario, int cordX,int cordY) throws IOException {
@@ -293,7 +333,7 @@ public class HiloServidor extends Thread {
 				
 				//Pido a la BD todos los que esten EN this.mapaActual Y Esten ACTIVOS.
 		    	//CREO UN INTERADOR Y DE A UNO VOY HACIENDO EL WHILE.
-		        while (iterador .hasNext()) {
+		        while (iterador.hasNext()) {
 		            Socket cliente = iterador.next(); //le pido un cliente de la coleccion.
 		            try {
 

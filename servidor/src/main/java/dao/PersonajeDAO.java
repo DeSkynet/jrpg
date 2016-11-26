@@ -36,22 +36,22 @@ public class PersonajeDAO extends DAOPERSONAJE<Personaje>{
 	}
 	
 	@Override
-	public void insertar(String user, String raza, String casta) throws SQLException, IOException {
+	public void insertar(String user, Personaje obj) throws SQLException, IOException {
 		PreparedStatement statement=null;
 		try {
 			statement = conexion.prepareStatement(INSERTAR);
 			statement.setString(1, user);
-			statement.setInt(2, 0);	//CordenadaX
-			statement.setInt(3, 0);	//CordenadaY
-			statement.setInt(4, 0); //Experiencia
-			statement.setInt(5, 1); //Nivel
-			statement.setInt(6, 0);	//DESTREZA
-			statement.setInt(7, 0);	//Fuerza
-			statement.setInt(8, 0);	//Inteligencia
-			statement.setInt(9, 100);	//Energia
-			statement.setInt(10, 100);	//Salud
-			statement.setString(11, casta);	//Casta
-			statement.setString(12, raza);	//Raza	
+			statement.setInt(2, obj.getCoordenadaX());	//CordenadaX
+			statement.setInt(3, obj.getCoordenadaY());	//CordenadaY
+			statement.setInt(4, obj.getExperiencia()); //Experiencia
+			statement.setInt(5, obj.getNivel()); //Nivel
+			statement.setInt(6, obj.getDestreza());	//DESTREZA
+			statement.setInt(7, obj.getFuerza());	//Fuerza
+			statement.setInt(8, obj.getInteligencia());	//Inteligencia
+			statement.setInt(9, obj.getEnergia());	//Energia
+			statement.setInt(10, obj.getSalud());	//Salud
+			statement.setString(11, obj.getCasta().getCasta());	//Casta
+			statement.setString(12, obj.getPersonaje());	//Raza	
 			statement.setString(13, "");	//Raza	
 			statement.execute();
 		} catch (Exception e) {

@@ -44,5 +44,10 @@ public class Alien extends Personaje{
 				this.salud=100;
 		}
 	}
+	
+	@Override
+	public String getPersonaje() {
+		return Alien.class.getSimpleName();
+	}
 
 }

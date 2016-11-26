@@ -11,14 +11,17 @@ public class MainServidor {
 	
     @SuppressWarnings("rawtypes")
 	public static void main(String[] args) throws IOException {
-        Socket socket = null;
+        VentanaServidor ventanaServidor;
+    	Socket socket = null;
         Servidor servidor = null;
         int maximoConexiones = 1020;
         DAOJUGADOR daoJugador;
         DAOPERSONAJE daoPersonaje;
         
         servidor = new Servidor(maximoConexiones);
- 
+        ventanaServidor = new VentanaServidor(servidor);
+        ventanaServidor.setVisible(true);
+        
         daoJugador = new JugadorDAO();
         daoPersonaje = new PersonajeDAO();
         while (true) {

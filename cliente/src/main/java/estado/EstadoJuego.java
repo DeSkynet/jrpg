@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import javax.swing.JOptionPane;
+
 import graficos.Cuadro;
 import graficos.Mapa;
 import graficos.Sprite;
@@ -76,6 +78,7 @@ public class EstadoJuego extends Estado {
 		if(otroPersonajes.containsKey(usuario)){
 			OtrosPersonajes pers=otroPersonajes.get(per.getUsuario());
 			pers.setPunto(new Point(coordX,coordY));
+			
 		}else{
 			otroPersonajes.put(per.getUsuario(), per);
 		}

@@ -167,4 +167,8 @@ public class Juego implements Runnable{
 		return estado;
 	}
 	
+	public Cliente getCliente(){
+		return this.cliente;
+	}
+	
 }

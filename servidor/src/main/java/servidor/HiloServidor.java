@@ -136,7 +136,11 @@ public class HiloServidor extends Thread {
 	                    	}
 
 	                    	break;
+	                    case "MensajeColicion":
+	                    	MensajeColision colision=gson.fromJson(mensajeResivido.getObjeto().toString(), MensajeColision.class);
+	                    	distribuirColicion(new MensajeColision(colision.getUsuarioOrigen(), colision.getUsuarioDestino()));
 	                    	
+	                    	break;
 	                    case "MensajeAtaque":
 	                    	MensajeAtaque ataque=gson.fromJson(mensajeResivido.getObjeto().toString(), MensajeAtaque.class);
 	                    	//FALTA
@@ -247,6 +251,21 @@ public class HiloServidor extends Thread {
 		}
 		
 	}
+	
+	private void envioMensajee(Socket socket2, Mensaje men) throws IOException {
+    	Gson gson = new Gson();
+		String mensajeParaEnviar = gson.toJson(men);
+		PrintStream ps;
+    	
+    	try {
+			ps = new PrintStream(socket2.getOutputStream());
+			ps.println(mensajeParaEnviar);
+			
+		} catch (IOException e) {
+			Log.crearLog("Error: No se pudo enviar correctamente el mensaje." + e.getMessage());
+		}
+		
+	}
 
     private void envioPersonaje(Mensaje men) throws IOException {
     	Gson gson = new Gson();
@@ -312,11 +331,42 @@ public class HiloServidor extends Thread {
             	Log.crearLog("No se pudo distribuir un movimiento.");
             }
         }
-		
-
 	}
 
+	
+	private void distribuirColicion(MensajeColision men) throws IOException {
+		ArrayList<Socket> lista = jugadoresEnMapa.get(this.nombreMapa);
+		Iterator<Socket> iterador = lista.iterator();
+		
+		String[] dato;
 
+		Mensaje mensajeAEnviar = new Mensaje("MensajeColicion", men);
+		Gson gson = new Gson();
+		final String mensaje = gson.toJson(mensajeAEnviar, Mensaje.class);
+		
+		//Pido a la BD todos los que esten EN this.mapaActual Y Esten ACTIVOS.
+    	//CREO UN INTERADOR Y DE A UNO VOY HACIENDO EL WHILE.
+        while (iterador.hasNext()) {
+            Socket cliente = iterador.next(); //le pido un cliente de la coleccion.
+            try {
+
+                // si el socket extraido es distinto al socket del
+                // hilo
+                // se enviara el msg a todos los usuarios de la
+                // coleccion menos el que envio dicho msg.
+                if (!cliente.equals(this.socket)) {
+                    PrintStream ps = new PrintStream(
+                            cliente.getOutputStream());                              
+                    
+                    ps.println(mensaje);// envia el mensaje al
+                                    // correspondiente socket.
+                }
+            } catch (IOException e) {
+            	Log.crearLog("No se pudo distribuir un movimiento.");
+            }
+        }
+	
+	}
 	
 	// DISTRIBUYE A TODOS LOS JUGADORES DE UN PLANO ACTIVOS, LA NUEVA COORDENADA DE X e Y.
 	// TRAE EL ARRAYLIST DE JUGADORES CONECTADOS DE UN MAPA Y  LUEGO LO RECORRE PARA ENVIAR A TODOS LOS JUGADORES ACTIVOS...

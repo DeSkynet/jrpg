@@ -12,6 +12,7 @@ import graficos.Animacion;
 import graficos.Mapa;
 import graficos.OtrosPersonajes;
 import herramientas.HerramientasGraficas;
+import mensajes.MensajeColision;
 
 public class Ente {
 	protected Juego juego;
@@ -66,6 +67,7 @@ public class Ente {
 	protected final Animacion moverAbajoDerecha;
 	protected final Animacion moverAbajo;
 	protected final Animacion moverAbajoIzquierda;
+	protected boolean eleccion;
 
 	protected Mapa mapa;
 	
@@ -174,7 +176,13 @@ public class Ente {
 		if (enMovimiento && (punto.x != xFinal || punto.y != yFinal)) {
 			OtrosPersonajes per=this.ChequeaColicion(punto.x,punto.y);
 			if(per!=null){
+				if(eleccion==false){
+				eleccion=true;
+				enviaColicionAEnemigo(per.getUsuario());
 				JOptionPane.showConfirmDialog(null, "HAY COLICION con: "+per.getUsuario());
+				}
+			}else{
+				eleccion=false;
 			}
 			if (vertical) {
 				if (yFinal > punto.y) {
@@ -249,6 +257,11 @@ public class Ente {
 			}
 
 		}
+	}
+
+	private void enviaColicionAEnemigo(String usuario) {
+		juego.cliente.enviarMensaje("MensajeColicion", new MensajeColision(juego.cliente.getUsuario(),usuario));
+		
 	}
 
 	public void graficar(Graphics g) {

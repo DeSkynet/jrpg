@@ -5,9 +5,12 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
 
+import javax.swing.JOptionPane;
+
 import com.google.gson.Gson;
 
 import mensajes.Mensaje;
+import mensajes.MensajeColision;
 import mensajes.MensajePosicion;
 import mensajes.MensajePosicionOtroPersonaje;
 import pantalla.Juego;
@@ -53,7 +56,10 @@ public class HiloCliente extends Thread {
 						//MensajePosicionOtroPersonaje men=gson.fromJson(mensajeRecuperado.getObjeto().toString(), MensajePosicionOtroPersonaje.class);
 						 String personajeAQuitar=(String) mensajeRecuperado.getObjeto();
 						 juego.getEstadoJuego().quitarOtroPersonaje(personajeAQuitar);
-						 
+						 break;
+					case "MensajeColicion" :
+						MensajeColision colision=gson.fromJson(mensajeRecuperado.getObjeto().toString(), MensajeColision.class);
+						JOptionPane.showConfirmDialog(null, "Coliciono con: "+ colision.getUsuarioOrigen());
 					break;
 				default:
 					break;

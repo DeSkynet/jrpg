@@ -21,12 +21,14 @@ import log.Log;
 import mensajes.Mensaje;
 import mensajes.MensajeLogIn;
 import mensajes.MensajeNuevoJugador;
+import personaje.Personaje;
 
 public class Servidor {
 
     private ServerSocket servidor;
     private Socket cliente;
     public static int cantActualClientes;
+    private HashMap<String, Personaje> jugadores;
     private HashMap <String, ArrayList<Socket>> jugadoresEnMapa; //HashMap de jugadores en un mapa
     private HashMap<Socket, String> jugadoresConectados;	//HashMap de jugadoresConectados
     private int maxClientes;
@@ -57,6 +59,7 @@ public class Servidor {
         cantActualClientes = 0;
         jugadoresEnMapa=new HashMap<String,ArrayList<Socket>>(); //creo el map.
         jugadoresConectados = new HashMap<>();
+        jugadores = new HashMap<>();
 
         try {
             servidor = new ServerSocket(puerto);
@@ -127,6 +130,15 @@ public class Servidor {
     public HashMap<Socket, String> getJugadoresConectados() {
         return this.jugadoresConectados;  //le devuelve el array segun la sala.
     }
+    
+    public HashMap<String, Personaje> getJugadores() {
+		return jugadores;
+	}
+    
+    public void setJugadores(HashMap<String, Personaje> jugadores) {
+		this.jugadores = jugadores;
+	}
+
     
 	private static final String PATH_CONFIGURACION = "config/conexion.config";
 }

@@ -46,5 +46,9 @@ public class Robot extends Personaje{
 		this.contadorRevivir = contadorRevivir;
 	}
 	
+	@Override
+	public String getPersonaje() {
+		return Robot.class.getSimpleName();
+	}
 	
 }

@@ -39,5 +39,11 @@ public class NPC extends Personaje {
 	public int getSalud() {
 		return salud;
 	}
+	
+	@Override
+	public String getPersonaje() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

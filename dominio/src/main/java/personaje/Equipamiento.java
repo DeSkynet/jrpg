@@ -47,4 +47,10 @@ public class Equipamiento extends Personaje{
 		return this.equipamiento;
 	}
 	
+	@Override
+	public String getPersonaje() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 }

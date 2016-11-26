@@ -17,6 +17,14 @@ import dao.DAOJUGADOR;
 import dao.DAOPERSONAJE;
 import log.Log;
 import mensajes.*;
+import personaje.Alien;
+import personaje.Humano;
+import personaje.Personaje;
+import personaje.Robot;
+import personaje.SuperHeroe;
+import personaje.castas.Hechicero;
+import personaje.castas.Ladron;
+import personaje.castas.Luchador;
 
 public class HiloServidor extends Thread {
 	
@@ -26,17 +34,19 @@ public class HiloServidor extends Thread {
 	private DAOJUGADOR jugador;
     private DAOPERSONAJE personaje;
     private String usuario=null;
+    HashMap<String, Personaje> jugadores;
     HashMap<String, ArrayList<Socket>> jugadoresEnMapa; 	///jugadores por mapa
     HashMap<Socket, String> jugadoresConectados;			///jugadores online al juego...LO DEJE POR LAS DUDAS, SACAR SI ES UN POTUS...
 
     
-    public HiloServidor(Socket socket,HashMap<String, ArrayList<Socket>> jugadoresEnMapa, HashMap<Socket, String> jugadoresConectados, DAOJUGADOR jugador, DAOPERSONAJE personaje) {
+    public HiloServidor(Socket socket,HashMap<String, ArrayList<Socket>> jugadoresEnMapa, HashMap<Socket, String> jugadoresConectados,HashMap<String, Personaje> jugadores, DAOJUGADOR jugador, DAOPERSONAJE personaje) {
         super("ThreadServer");
         this.socket = socket;
         this.jugador = jugador;
         this.personaje=personaje;        
         this.jugadoresEnMapa = jugadoresEnMapa;
         this.jugadoresConectados = jugadoresConectados;
+        this.jugadores = jugadores;
     }
 
 
@@ -117,7 +127,8 @@ public class HiloServidor extends Thread {
 	                    	
 	                    	MensajeEleccionPersonaje persona=gson.fromJson(mensajeResivido.getObjeto().toString(), MensajeEleccionPersonaje.class);
 						try {
-							personaje.insertar(persona.getUsuario(), persona.getRaza(), persona.getCasta());
+							jugadores.put(persona.getUsuario(), crearPersonaje(persona.getRaza(), persona.getCasta()));
+							personaje.insertar(persona.getUsuario(), jugadores.get(persona.getUsuario()));
 						} catch (SQLException e) {
 							Log.crearLog("Error: No se pudo realizar operacion en la BBDD." + e.getMessage());
 						}
@@ -367,6 +378,75 @@ public class HiloServidor extends Thread {
         }
 	
 	}
+	
+private Personaje crearPersonaje(String raza, String casta) {
+		
+		if(raza.equals("Humano"))
+			return crearHumano(casta);
+		
+		if(raza.equals("Alien"))
+			return crearAlien(casta);
+		
+		if(raza.equals("Superheroe"))
+			return crearSuerheroe(casta);
+		
+		if(raza.equals("Robot"))
+			return crearRobot(casta);
+		
+		return null;
+	}
+
+	private Personaje crearSuerheroe(String casta) {
+		if(casta.equals("Hechicero"))
+			return new SuperHeroe(new Hechicero(), "");
+		
+		if(casta.equals("Luchador"))
+			return new SuperHeroe(new Luchador(), "");
+		
+		if(casta.equals("Ladron"))
+			return new SuperHeroe(new Ladron(), "");
+		return null;
+	}
+
+
+	private Personaje crearAlien(String casta) {
+		if(casta.equals("Hechicero"))
+			return new Alien(new Hechicero(), "");
+		
+		if(casta.equals("Luchador"))
+			return new Alien(new Luchador(), "");
+		
+		if(casta.equals("Ladron"))
+			return new Alien(new Ladron(), "");
+		return null;
+	}
+
+
+	private Personaje crearHumano(String casta) {
+		if(casta.equals("Hechicero"))
+			return new Humano(new Hechicero(), "");
+		
+		if(casta.equals("Luchador"))
+			return new Humano(new Luchador(), "");
+		
+		if(casta.equals("Ladron"))
+			return new Humano(new Ladron(), "");
+		return null;
+	}
+	
+	private Personaje crearRobot(String casta) {
+		if(casta.equals("Hechicero"))
+			return new Robot(new Hechicero(), "");
+		
+		if(casta.equals("Luchador"))
+			return new Robot(new Luchador(), "");
+		
+		if(casta.equals("Ladron"))
+			return new Robot(new Ladron(), "");
+		return null;
+	}
+
+	
 	
 	// DISTRIBUYE A TODOS LOS JUGADORES DE UN PLANO ACTIVOS, LA NUEVA COORDENADA DE X e Y.
 	// TRAE EL ARRAYLIST DE JUGADORES CONECTADOS DE UN MAPA Y  LUEGO LO RECORRE PARA ENVIAR A TODOS LOS JUGADORES ACTIVOS...

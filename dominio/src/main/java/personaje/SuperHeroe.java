@@ -39,5 +39,9 @@ public class SuperHeroe extends Personaje{
 	protected void despuesDeSerAtacado() {
 		cantidadDeAtaquesRecibidos++;
 	}
-
+	
+	@Override
+	public String getPersonaje() {
+		return SuperHeroe.class.getSimpleName();
+	}
 }

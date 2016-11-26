@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public abstract class DAOPERSONAJE<T> {
-	public abstract void insertar(String user, String raza, String casta) throws SQLException,IOException;
+	public abstract void insertar(String user, T obj) throws SQLException,IOException;
 	
 	public abstract void actualizarCordenadasXY(String usuario, int cordX, int cordY) throws SQLException, IOException;
 	public abstract void actualizarExperiencia(String usuario, int experiencia) throws SQLException, IOException;

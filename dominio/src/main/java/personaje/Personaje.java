@@ -74,6 +74,7 @@ public abstract class Personaje implements Atacable {
 	}
 	
 	/// GETTERS
+	public abstract String getPersonaje();
 	public int getDestreza() {
 		return destreza;
 	}
@@ -104,6 +105,30 @@ public abstract class Personaje implements Atacable {
 	
 	public Alianza getAlianza() {
 		return alianza;
+	}
+	
+	public int getEnergia() {
+		return energia;
+	}
+
+	public void setEnergia(int energia) {
+		this.energia = energia;
+	}
+	
+	public int getCoordenadaX() {
+		return coordenadaX;
+	}
+
+	public void setCoordenadaX(int coordenadaX) {
+		this.coordenadaX = coordenadaX;
+	}
+
+	public int getCoordenadaY() {
+		return coordenadaY;
+	}
+
+	public void setCoordenadaY(int coordenadaY) {
+		this.coordenadaY = coordenadaY;
 	}
 	
 	public String getMapa() {

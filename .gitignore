@@ -3,5 +3,6 @@
 **/.gradle
 **/bin
 **/build
+servidor/log.prop
 
 git log
